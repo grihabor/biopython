@@ -9,6 +9,7 @@ Welcome to biopython's documentation!
 .. toctree::
    :maxdepth: 2
 
+   install/Installation
    Tutorial
    Tutorial/chapter_introduction
    Tutorial/chapter_learning
