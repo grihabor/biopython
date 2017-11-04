@@ -10,6 +10,30 @@ Welcome to biopython's documentation!
    :maxdepth: 2
 
    Tutorial
+   Tutorial/chapter_introduction
+   Tutorial/chapter_learning
+   Tutorial/chapter_phenotype
+   Tutorial/chapter_seq_annot
+   Tutorial/chapter_advanced
+   Tutorial/chapter_popgen
+   Tutorial/chapter_kegg
+   Tutorial/chapter_searchio
+   Tutorial/chapter_entrez
+   Tutorial/chapter_uniprot
+   Tutorial/chapter_cookbook
+   Tutorial/chapter_motifs
+   Tutorial/chapter_testing
+   Tutorial/chapter_phylo
+   Tutorial/chapter_seq_objects
+   Tutorial/chapter_appendix
+   Tutorial/chapter_align
+   Tutorial/chapter_seqio
+   Tutorial/chapter_contributing
+   Tutorial/chapter_graphics
+   Tutorial/chapter_pdb
+   Tutorial/chapter_quick_start
+   Tutorial/chapter_blast
+   Tutorial/chapter_cluster
 
 Indices and tables
 ==================
