@@ -9,7 +9,7 @@ all:
 
 bash: build
 	docker run -it \
-		-v $(shell pwd):/documents \
+		-v $(shell pwd)/..:/documents \
 		$(DOC_IMAGE)
 
 build:
