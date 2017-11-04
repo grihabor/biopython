@@ -10,7 +10,7 @@ Welcome to biopython's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   Tutorial
+   tutorial
 
 Indices and tables
 ==================
