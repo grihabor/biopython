@@ -4,8 +4,7 @@ FILE_RST=$(FILE).rst
 DOC_IMAGE=doc_image
 
 
-all:
-	pandoc --from=latex --to=rst $(FILE_TEX) > $(FILE_RST)
+all: bash
 
 bash: build
 	docker run -it \
@@ -14,3 +13,5 @@ bash: build
 
 build:
 	docker build . -t $(DOC_IMAGE)
+
+.PHONY: all build bash
