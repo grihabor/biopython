@@ -10,12 +10,11 @@ Welcome to biopython's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   tutorial
+   Tutorial
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`tutorial`
 * :ref:`modindex`
 * :ref:`search`
