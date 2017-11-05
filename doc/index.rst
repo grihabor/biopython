@@ -6,10 +6,18 @@
 Welcome to biopython's documentation!
 =====================================
 
+Installation
+------------
 .. toctree::
    :maxdepth: 3
 
    install/Installation
+
+Tutorial
+--------
+.. toctree::
+   :maxdepth: 3
+
    Tutorial
    Tutorial/chapter_introduction
    Tutorial/chapter_learning
