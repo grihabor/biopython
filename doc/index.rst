@@ -45,6 +45,22 @@ Tutorial
    Tutorial/chapter_contributing
    Tutorial/chapter_appendix
 
+Cookbook
+--------
+.. toctree:
+   :maxdepth: 3
+
+   cookbook/Restriction/Restriction
+
+BioSQL
+------
+.. toctree:
+   :maxdepth: 3
+
+   biopdb_faq
+
+
+
 Indices and tables
 ==================
 
