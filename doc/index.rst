@@ -6,8 +6,6 @@
 Welcome to biopython's documentation!
 =====================================
 
-Installation
-------------
 .. toctree::
    :maxdepth: 3
    :caption: Installation
@@ -15,8 +13,6 @@ Installation
 
    install/Installation
 
-Tutorial
---------
 .. toctree::
    :maxdepth: 3
    :numbered:
@@ -48,16 +44,12 @@ Tutorial
    Tutorial/chapter_contributing
    Tutorial/chapter_appendix
 
-Cookbook
---------
 .. toctree:
    :maxdepth: 3
    :caption: Cookbook
 
    cookbook/Restriction/Restriction
 
-BioSQL
-------
 .. toctree:
    :maxdepth: 3
    :caption: BioSQL
