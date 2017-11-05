@@ -10,6 +10,8 @@ Installation
 ------------
 .. toctree::
    :maxdepth: 3
+   :caption: Installation
+   :numbered:
 
    install/Installation
 
@@ -18,6 +20,7 @@ Tutorial
 .. toctree::
    :maxdepth: 3
    :numbered:
+   :caption: Tutorial
 
    Tutorial
    Tutorial/chapter_introduction
@@ -49,6 +52,7 @@ Cookbook
 --------
 .. toctree:
    :maxdepth: 3
+   :caption: Cookbook
 
    cookbook/Restriction/Restriction
 
@@ -56,6 +60,7 @@ BioSQL
 ------
 .. toctree:
    :maxdepth: 3
+   :caption: BioSQL
 
    biopdb_faq
 
