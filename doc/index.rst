@@ -17,6 +17,7 @@ Tutorial
 --------
 .. toctree::
    :maxdepth: 3
+   :numbered:
 
    Tutorial
    Tutorial/chapter_introduction
