@@ -5,8 +5,7 @@ This chapter gives an overview of the functionality of the
 ``Bio.motifs`` package included in Biopython. It is intended for people
 who are involved in the analysis of sequence motifs, so I’ll assume that
 you are familiar with basic notions of motif analysis. In case something
-is unclear, please look at Section \ `10 <#sec:links>`__ for some
-relevant links.
+is unclear, please look at Section [sec:links] for some relevant links.
 
 Most of this chapter describes the new ``Bio.motifs`` package included
 in Biopython 1.61 onwards, which is replacing the older ``Bio.Motif``
@@ -20,8 +19,6 @@ interested in `TAMO <http://fraenkel.mit.edu/TAMO/>`__, another python
 library designed to deal with sequence motifs. It supports more
 *de-novo* motif finders, but it is not a part of Biopython and has some
 restrictions on commercial use.
-
-.. sec:object:
 
 Motif objects
 -------------
@@ -207,8 +204,6 @@ If we have internet access, we can create a
     >>> m.weblogo("mymotif.png")
 
 We should get our logo saved as a PNG in the specified file.
-
-.. sec:io:
 
 Reading motifs
 --------------
@@ -925,71 +920,71 @@ motif:
 
 TRANSFAC files are typically much more elaborate than this example,
 containing lots of additional information about the motif. Table
-`[table:transfaccodes] <#table:transfaccodes>`__ lists the two-letter
-field codes that are commonly found in TRANSFAC files:
+[table:transfaccodes] lists the two-letter field codes that are commonly
+found in TRANSFAC files:
 
 [table:transfaccodes]
 
-.. table:: Fields commonly found in TRANSFAC files
++----------+---------------------------------------------------+
+| ``AC``   | Accession number                                  |
++----------+---------------------------------------------------+
+| ``AS``   | Accession numbers, secondary                      |
++----------+---------------------------------------------------+
+| ``BA``   | Statistical basis                                 |
++----------+---------------------------------------------------+
+| ``BF``   | Binding factors                                   |
++----------+---------------------------------------------------+
+| ``BS``   | Factor binding sites underlying the matrix        |
++----------+---------------------------------------------------+
+| ``CC``   | Comments                                          |
++----------+---------------------------------------------------+
+| ``CO``   | Copyright notice                                  |
++----------+---------------------------------------------------+
+| ``DE``   | Short factor description                          |
++----------+---------------------------------------------------+
+| ``DR``   | External databases                                |
++----------+---------------------------------------------------+
+| ``DT``   | Date created/updated                              |
++----------+---------------------------------------------------+
+| ``HC``   | Subfamilies                                       |
++----------+---------------------------------------------------+
+| ``HP``   | Superfamilies                                     |
++----------+---------------------------------------------------+
+| ``ID``   | Identifier                                        |
++----------+---------------------------------------------------+
+| ``NA``   | Name of the binding factor                        |
++----------+---------------------------------------------------+
+| ``OC``   | Taxonomic classification                          |
++----------+---------------------------------------------------+
+| ``OS``   | Species/Taxon                                     |
++----------+---------------------------------------------------+
+| ``OV``   | Older version                                     |
++----------+---------------------------------------------------+
+| ``PV``   | Preferred version                                 |
++----------+---------------------------------------------------+
+| ``TY``   | Type                                              |
++----------+---------------------------------------------------+
+| ``XX``   | Empty line; these are not stored in the Record.   |
++----------+---------------------------------------------------+
 
-   +--------+-------------------------------------------------+
-   | ``AC`` | Accession number                                |
-   +--------+-------------------------------------------------+
-   | ``AS`` | Accession numbers, secondary                    |
-   +--------+-------------------------------------------------+
-   | ``BA`` | Statistical basis                               |
-   +--------+-------------------------------------------------+
-   | ``BF`` | Binding factors                                 |
-   +--------+-------------------------------------------------+
-   | ``BS`` | Factor binding sites underlying the matrix      |
-   +--------+-------------------------------------------------+
-   | ``CC`` | Comments                                        |
-   +--------+-------------------------------------------------+
-   | ``CO`` | Copyright notice                                |
-   +--------+-------------------------------------------------+
-   | ``DE`` | Short factor description                        |
-   +--------+-------------------------------------------------+
-   | ``DR`` | External databases                              |
-   +--------+-------------------------------------------------+
-   | ``DT`` | Date created/updated                            |
-   +--------+-------------------------------------------------+
-   | ``HC`` | Subfamilies                                     |
-   +--------+-------------------------------------------------+
-   | ``HP`` | Superfamilies                                   |
-   +--------+-------------------------------------------------+
-   | ``ID`` | Identifier                                      |
-   +--------+-------------------------------------------------+
-   | ``NA`` | Name of the binding factor                      |
-   +--------+-------------------------------------------------+
-   | ``OC`` | Taxonomic classification                        |
-   +--------+-------------------------------------------------+
-   | ``OS`` | Species/Taxon                                   |
-   +--------+-------------------------------------------------+
-   | ``OV`` | Older version                                   |
-   +--------+-------------------------------------------------+
-   | ``PV`` | Preferred version                               |
-   +--------+-------------------------------------------------+
-   | ``TY`` | Type                                            |
-   +--------+-------------------------------------------------+
-   | ``XX`` | Empty line; these are not stored in the Record. |
-   +--------+-------------------------------------------------+
+Table: Fields commonly found in TRANSFAC files
 
 Each motif also has an attribute ``.references`` containing the
 references associated with the motif, using these two-letter keys:
 
-.. table:: Fields used to store references in TRANSFAC files
++----------+---------------------+
+| ``RN``   | Reference number    |
++----------+---------------------+
+| ``RA``   | Reference authors   |
++----------+---------------------+
+| ``RL``   | Reference data      |
++----------+---------------------+
+| ``RT``   | Reference title     |
++----------+---------------------+
+| ``RX``   | PubMed ID           |
++----------+---------------------+
 
-   +--------+-------------------+
-   | ``RN`` | Reference number  |
-   +--------+-------------------+
-   | ``RA`` | Reference authors |
-   +--------+-------------------+
-   | ``RL`` | Reference data    |
-   +--------+-------------------+
-   | ``RT`` | Reference title   |
-   +--------+-------------------+
-   | ``RX`` | PubMed ID         |
-   +--------+-------------------+
+Table: Fields used to store references in TRANSFAC files
 
 Printing the motifs writes them out in their native TRANSFAC format:
 
@@ -1290,8 +1285,6 @@ log-odds scores, the information content has units of bits.
 The ``.reverse_complement``, ``.consensus``, ``.anticonsensus``, and
 ``.degenerate_consensus`` methods can be applied directly to PSSM
 objects.
-
-.. sec:search:
 
 Searching for instances
 -----------------------
@@ -1639,8 +1632,6 @@ the PWM or PSSM repeatedly, you can save them as a variable, as in
 
     >>> pssm = motif.pssm
 
-.. sec:comp:
-
 Comparing motifs
 ----------------
 
@@ -1719,8 +1710,6 @@ obtained with the following alignment:
 where ``b`` stands for background distribution. The PCC itself is
 roughly :math:`1-0.239=0.761`.
 
-.. sec:find:
-
 *De novo* motif finding
 -----------------------
 
@@ -1728,8 +1717,6 @@ Currently, Biopython has only limited support for *de novo* motif
 finding. Namely, we support running ``xxmotif`` and also parsing of
 MEME. Since the number of motif finding tools is growing rapidly,
 contributions of new parsers are welcome.
-
-.. sec:meme:
 
 MEME
 ~~~~
@@ -1784,8 +1771,6 @@ functionality, by adding additional information about the instances.
 
     >>> motifsM[0].instances[0].pvalue
     8.71e-07
-
-.. sec:links:
 
 Useful links
 ------------

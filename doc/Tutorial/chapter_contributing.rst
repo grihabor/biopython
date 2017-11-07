@@ -46,12 +46,9 @@ be able to help fill in any blanks.
 Contributing cookbook examples
 ------------------------------
 
-As explained in Chapter \ `[chapter:cookbook] <#chapter:cookbook>`__,
-Biopython now has a wiki collection of user contributed “cookbook”
-examples, http://biopython.org/wiki/Category:Cookbook – maybe you can
-add to this?
-
-.. sec:maintain_dist:
+As explained in Chapter [chapter:cookbook], Biopython now has a wiki
+collection of user contributed “cookbook” examples,
+http://biopython.org/wiki/Category:Cookbook – maybe you can add to this?
 
 Maintaining a distribution for a platform
 -----------------------------------------
@@ -130,8 +127,7 @@ Contributing Unit Tests
 
 Even if you don’t have any new functionality to add to Biopython, but
 you want to write some code, please consider extending our unit test
-coverage. We’ve devoted all of
-Chapter \ `[sec:regr_test] <#sec:regr_test>`__ to this topic.
+coverage. We’ve devoted all of Chapter [sec:regr\_test] to this topic.
 
 Contributing Code
 -----------------
@@ -149,14 +145,13 @@ to make it easier for users. You can read about some of (fairly
 informal) coding style guidelines we try to use in Biopython in the
 contributing documentation at http://biopython.org/wiki/Contributing. We
 also try to add code to the distribution along with tests (see
-Chapter \ `[sec:regr_test] <#sec:regr_test>`__ for more info on the
-regression testing framework) and documentation, so that everything can
-stay as workable and well documented as possible (including docstrings).
-This is, of course, the most ideal situation, under many situations
-you’ll be able to find other people on the list who will be willing to
-help add documentation or more tests for your code once you make it
-available. So, to end this paragraph like the last, feel free to start
-working!
+Chapter [sec:regr\_test] for more info on the regression testing
+framework) and documentation, so that everything can stay as workable
+and well documented as possible (including docstrings). This is, of
+course, the most ideal situation, under many situations you’ll be able
+to find other people on the list who will be willing to help add
+documentation or more tests for your code once you make it available.
+So, to end this paragraph like the last, feel free to start working!
 
 Please note that to make a code contribution you must have the legal
 right to contribute it and license it under the Biopython license. If

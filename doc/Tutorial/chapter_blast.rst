@@ -1,5 +1,3 @@
-.. chapter:blast:
-
 BLAST
 =====
 
@@ -28,16 +26,13 @@ running BLAST locally (on your own machine), and running BLAST remotely
 this chapter by invoking the NCBI online BLAST service from within a
 Python script.
 
-*NOTE*: The following
-Chapter \ `[chapter:searchio] <#chapter:searchio>`__ describes
+*NOTE*: The following Chapter [chapter:searchio] describes
 ``Bio.SearchIO``, an *experimental* module in Biopython. We intend this
 to ultimately replace the older ``Bio.Blast`` module, as it provides a
 more general framework handling other related sequence searching tools
 as well. However, until that is declared stable, for production code
 please continue to use the ``Bio.Blast`` module for dealing with NCBI
 BLAST.
-
-.. sec:running-www-blast:
 
 Running BLAST over the Internet
 -------------------------------
@@ -73,7 +68,7 @@ the BLAST web page. We’ll just highlight a few of them here:
    formats, which you can choose with the optional ``format_type``
    keyword: ``"HTML"``, ``"Text"``, ``"ASN.1"``, or ``"XML"``. The
    default is ``"XML"``, as that is the format expected by the parser,
-   described in section \ `3 <#sec:parsing-blast>`__ below.
+   described in section [sec:parsing-blast] below.
 
 -  The argument ``expect`` sets the expectation or e-value threshold.
 
@@ -134,16 +129,16 @@ include the existing identifier):
 
 This approach makes more sense if you have your sequence(s) in a
 non-FASTA file format which you can extract using ``Bio.SeqIO`` (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__).
+Chapter [chapter:Bio.SeqIO]).
 
 Whatever arguments you give the ``qblast()`` function, you should get
 back your results in a handle object (by default in XML format). The
 next step would be to parse the XML output into Python objects
-representing the search results (Section `3 <#sec:parsing-blast>`__),
-but you might want to save a local copy of the output file first. I find
-this especially useful when debugging my code that extracts info from
-the BLAST results (because re-running the online search is slow and
-wastes the NCBI computer time).
+representing the search results (Section [sec:parsing-blast]), but you
+might want to save a local copy of the output file first. I find this
+especially useful when debugging my code that extracts info from the
+BLAST results (because re-running the online search is slow and wastes
+the NCBI computer time).
 
 [sec:saving-blast-output]
 
@@ -161,8 +156,8 @@ returns an empty string.
 After doing this, the results are in the file ``my_blast.xml`` and the
 original handle has had all its data extracted (so we closed it).
 However, the ``parse`` function of the BLAST parser (described
-in \ `3 <#sec:parsing-blast>`__) takes a file-handle-like object, so we
-can just open the saved file for input:
+in [sec:parsing-blast]) takes a file-handle-like object, so we can just
+open the saved file for input:
 
 ::
 
@@ -170,10 +165,8 @@ can just open the saved file for input:
 
 Now that we’ve got the BLAST results back into a handle again, we are
 ready to do something with them, so this leads us right into the parsing
-section (see Section \ `3 <#sec:parsing-blast>`__ below). You may want
-to jump ahead to that now ….
-
-.. sec:running-local-blast:
+section (see Section [sec:parsing-blast] below). You may want to jump
+ahead to that now ….
 
 Running BLAST locally
 ---------------------
@@ -182,8 +175,7 @@ Introduction
 ~~~~~~~~~~~~
 
 Running BLAST locally (as opposed to over the internet, see
-Section \ `1 <#sec:running-www-blast>`__) has at least major two
-advantages:
+Section [sec:running-www-blast]) has at least major two advantages:
 
 -  Local BLAST may be faster than BLAST over the internet;
 
@@ -217,11 +209,10 @@ package (see below).
 
 This section will show briefly how to use these tools from within
 Python. If you have already read or tried the alignment tool examples in
-Section \ `[sec:alignment-tools] <#sec:alignment-tools>`__ this should
-all seem quite straightforward. First, we construct a command line
-string (as you would type in at the command line prompt if running
-standalone BLAST by hand). Then we can execute this command from within
-Python.
+Section [sec:alignment-tools] this should all seem quite
+straightforward. First, we construct a command line string (as you would
+type in at the command line prompt if running standalone BLAST by hand).
+Then we can execute this command from within Python.
 
 For example, taking a FASTA file of gene nucleotide sequences, you might
 want to run a BLASTX (translation) search against the non-redundant (NR)
@@ -264,7 +255,7 @@ As you may recall from earlier examples in the tutorial, the
 ``opuntia.fasta`` contains seven sequences, so the BLAST XML output
 should contain multiple results. Therefore use
 ``Bio.Blast.NCBIXML.parse()`` to parse it as described below in
-Section \ `3 <#sec:parsing-blast>`__.
+Section [sec:parsing-blast].
 
 Other versions of BLAST
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -288,8 +279,6 @@ command line tools ``wu-blastall`` and ``ab-blastall``, which mimicked
 currently provide wrappers for calling these tools, but should be able
 to parse any NCBI compatible output from them.
 
-.. sec:parsing-blast:
-
 Parsing BLAST output
 --------------------
 
@@ -299,9 +288,9 @@ BLAST plain text and HTML output, as these were the only output formats
 offered at the time. Unfortunately, the BLAST output in these formats
 kept changing, each time breaking the Biopython parsers. Our HTML BLAST
 parser has been removed, but the plain text BLAST parser is still
-available (see Section \ `5 <#sec:parsing-blast-deprecated>`__). Use it
-at your own risk, it may or may not work, depending on which BLAST
-version you’re using.
+available (see Section [sec:parsing-blast-deprecated]). Use it at your
+own risk, it may or may not work, depending on which BLAST version
+you’re using.
 
 As keeping up with changes in BLAST became a hopeless endeavor,
 especially with users running different BLAST versions, we now recommend
@@ -315,10 +304,10 @@ it doesn’t matter how the output was generated, as long as it is in the
 XML format.
 
 -  You can use Biopython to run BLAST over the internet, as described in
-   section \ `1 <#sec:running-www-blast>`__.
+   section [sec:running-www-blast].
 
 -  You can use Biopython to run BLAST locally, as described in
-   section \ `2 <#sec:running-local-blast>`__.
+   section [sec:running-local-blast].
 
 -  You can do the BLAST search yourself on the NCBI site through your
    web browser, and then save the results. You need to choose XML as the
@@ -371,8 +360,7 @@ or, if you have lots of results (i.e., multiple query sequences):
     >>> blast_records = NCBIXML.parse(result_handle)
 
 Just like ``Bio.SeqIO`` and ``Bio.AlignIO`` (see
-Chapters \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__
-and \ `[chapter:Bio.AlignIO] <#chapter:Bio.AlignIO>`__), we have a pair
+Chapters [chapter:Bio.SeqIO] and [chapter:Bio.AlignIO]), we have a pair
 of input functions, ``read`` and ``parse``, where ``read`` is for when
 you have exactly one object, and ``parse`` is an iterator for when you
 can have lots of objects – but instead of getting ``SeqRecord`` or
@@ -496,14 +484,9 @@ defined in ``Bio.Blast.Record`` and are quite complete.
 Here are my attempts at UML class diagrams for the ``Blast`` and
 ``PSIBlast`` record classes. If you are good at UML and see
 mistakes/improvements that can be made, please let me know. The Blast
-class diagram is shown in
-Figure \ `[fig:blastrecord] <#fig:blastrecord>`__.
+class diagram is shown in Figure [fig:blastrecord].
 
 [fig:blastrecord]
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/BlastRecord.png
    :alt: Class diagram for the Blast Record class representing all of
@@ -515,22 +498,15 @@ Figure \ `[fig:blastrecord] <#fig:blastrecord>`__.
 
 The PSIBlast record object is similar, but has support for the rounds
 that are used in the iteration steps of PSIBlast. The class diagram for
-PSIBlast is shown in
-Figure \ `[fig:psiblastrecord] <#fig:psiblastrecord>`__.
+PSIBlast is shown in Figure [fig:psiblastrecord].
 
 [fig:psiblastrecord]
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/PSIBlastRecord.png
    :alt: Class diagram for the PSIBlast Record class.
    :width: 80.0%
 
    Class diagram for the PSIBlast Record class.
-
-.. sec:parsing-blast-deprecated:
 
 Deprecated BLAST parsers
 ------------------------
@@ -540,8 +516,7 @@ or HTML format. Over the years, we discovered that it is very hard to
 maintain these parsers in working order. Basically, any small change to
 the BLAST output in newly released BLAST versions tends to cause the
 plain text and HTML parsers to break. We therefore recommend parsing
-BLAST output in XML format, as described in
-section \ `3 <#sec:parsing-blast>`__.
+BLAST output in XML format, as described in section [sec:parsing-blast].
 
 Depending on which BLAST versions or programs you’re using, our plain
 text BLAST parser may or may not work. Use it at your own risk!
@@ -591,11 +566,11 @@ value.
     ...             print(hsp.match[0:75] + '...')
     ...             print(hsp.sbjct[0:75] + '...')
 
-If you also read the section \ `3 <#sec:parsing-blast>`__ on parsing
-BLAST XML output, you’ll notice that the above code is identical to what
-is found in that section. Once you parse something into a record class
-you can deal with it independent of the format of the original BLAST
-info you were parsing. Pretty snazzy!
+If you also read the section [sec:parsing-blast] on parsing BLAST XML
+output, you’ll notice that the above code is identical to what is found
+in that section. Once you parse something into a record class you can
+deal with it independent of the format of the original BLAST info you
+were parsing. Pretty snazzy!
 
 Sure, parsing one record is great, but I’ve got a BLAST file with tons
 of records – how can I parse them all? Well, fear not, the answer lies

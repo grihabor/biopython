@@ -1,5 +1,3 @@
-.. sec:Phylo:
-
 Phylogenetics with Bio.Phylo
 ============================
 
@@ -101,23 +99,14 @@ exploration, in case better graphical tools aren’t available.
     <BLANKLINE>
 
 If you have **matplotlib** or **pylab** installed, you can create a
-graphic using the ``draw`` function (see Fig.
-`[fig:phylo-simple-draw] <#fig:phylo-simple-draw>`__):
+graphic using the ``draw`` function (see Fig. [fig:phylo-simple-draw]):
 
 ::
 
     >>> tree.rooted = True
     >>> Phylo.draw(tree)
 
-.. raw:: latex
-
-   \imgsrc[width=666, height=530]{images/phylo-simple-draw.png}
-
 [fig:phylo-simple-draw]
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/phylo-simple-draw.png
    :alt: A rooted tree drawn with Phylo.draw.
@@ -206,22 +195,13 @@ child of the first child of the root.
 
     >>> tree.clade[0, 1].color = "blue"
 
-Finally, show our work (see Fig.
-`[fig:phylo-color-draw] <#fig:phylo-color-draw>`__):
+Finally, show our work (see Fig. [fig:phylo-color-draw]):
 
 ::
 
     >>> Phylo.draw(tree)
 
-.. raw:: latex
-
-   \imgsrc[width=666, height=530]{images/phylo-color-draw.png}
-
 [fig:phylo-color-draw]
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/phylo-color-draw.png
    :alt: A colorized tree drawn with Phylo.draw.
@@ -379,15 +359,7 @@ accepts to customize the output.
     >>> tree = Phylo.read("example.xml", "phyloxml")
     >>> Phylo.draw(tree, branch_labels=lambda c: c.branch_length)
 
-.. raw:: latex
-
-   \imgsrc[width=701, height=465]{images/phylo-draw-example.png}
-
 [fig:phylo-draw-example]
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/phylo-draw-example.png
    :alt: A simple rooted tree plotted with the draw function.
@@ -399,7 +371,7 @@ accepts to customize the output.
 have Graphviz, PyDot or PyGraphviz, NetworkX, and matplotlib (or pylab)
 installed. Using the same example as above, and the ``dot`` program
 included with Graphviz, let’s draw a rooted tree (see
-Fig. \ `[fig:phylo-dot] <#fig:phylo-dot>`__):
+Fig. [fig:phylo-dot]):
 
 ::
 
@@ -409,22 +381,14 @@ Fig. \ `[fig:phylo-dot] <#fig:phylo-dot>`__):
     >>> pylab.show()                    # Displays the tree in an interactive viewer
     >>> pylab.savefig('phylo-dot.png')  # Creates a PNG file of the same graphic
 
-.. raw:: latex
-
-   \imgsrc[width=400, height=312]{images/phylo-dot.png}
-
 [fig:phylo-dot]
 
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/phylo-dot.png
-   :alt: A simple rooted tree drawn with draw_graphviz, using dot for
+   :alt: A simple rooted tree drawn with draw\_graphviz, using dot for
    node layout.
    :width: 50.0%
 
-   A simple rooted tree drawn with draw_graphviz, using dot for node
+   A simple rooted tree drawn with draw\_graphviz, using dot for node
    layout.
 
 (Tip: If you execute IPython with the ``-pylab`` option, calling
@@ -439,8 +403,7 @@ of those accepted by the NetworkX functions ``networkx.draw`` and
 
 The display is also affected by the ``rooted`` attribute of the given
 tree object. Rooted trees are shown with a “head” on each branch
-indicating direction (see
-Fig. \ `[fig:phylo-rooted] <#fig:phylo-rooted>`__):
+indicating direction (see Fig. [fig:phylo-rooted]):
 
 ::
 
@@ -448,53 +411,37 @@ Fig. \ `[fig:phylo-rooted] <#fig:phylo-rooted>`__):
     >>> tree.rooted = True
     >>> Phylo.draw_graphviz(tree)
 
-.. raw:: latex
-
-   \imgsrc[width=432, height=368]{images/phylo-rooted.png}
-
 [fig:phylo-rooted]
 
 The “prog” argument specifies the Graphviz engine used for layout. The
 default, ``twopi``, behaves well for any size tree, reliably avoiding
 crossed branches. The ``neato`` program may draw more attractive
 moderately-sized trees, but sometimes will cross branches (see
-Fig. \ `[fig:phylo-color] <#fig:phylo-color>`__). The ``dot`` program
-may be useful with small trees, but tends to do surprising things with
-the layout of larger trees.
-
-.. raw:: latex
-
-   \centering
+Fig. [fig:phylo-color]). The ``dot`` program may be useful with small
+trees, but tends to do surprising things with the layout of larger
+trees.
 
 .. figure:: images/phylo-rooted.png
-   :alt: A rooted tree drawn with draw_graphviz. Since we rooted the
+   :alt: A rooted tree drawn with draw\_graphviz. Since we rooted the
    tree, we can see the root must be along the branch with two
    directional “heads”.
    :width: 45.0%
 
-   A rooted tree drawn with draw_graphviz. Since we rooted the tree, we
+   A rooted tree drawn with draw\_graphviz. Since we rooted the tree, we
    can see the root must be along the branch with two directional
    “heads”. 
 
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/phylo-color.png
-   :alt: A colorized tree drawn with draw_graphviz, using neato for node
-   layout.
+   :alt: A colorized tree drawn with draw\_graphviz, using neato for
+   node layout.
    :width: 50.0%
 
-   A colorized tree drawn with draw_graphviz, using neato for node
+   A colorized tree drawn with draw\_graphviz, using neato for node
    layout.
 
 ::
 
     >>> Phylo.draw_graphviz(tree, prog="neato")
-
-.. raw:: latex
-
-   \imgsrc[width=499, height=348]{images/phylo-color.png}
 
 [fig:phylo-color]
 
@@ -502,37 +449,22 @@ This viewing mode is particularly handy for exploring larger trees,
 because the matplotlib viewer can zoom in on a selected region, thinning
 out a cluttered graphic.
 
-(See Figs. \ `[fig:phylo-apaf] <#fig:phylo-apaf>`__,
-`[fig:phylo-apaf-zoom] <#fig:phylo-apaf-zoom>`__).
+(See Figs. [fig:phylo-apaf], [fig:phylo-apaf-zoom]).
 
 ::
 
     >>> tree = Phylo.read("apaf.xml", "phyloxml")
     >>> Phylo.draw_graphviz(tree, prog="neato", node_size=0)
 
-.. raw:: latex
-
-   \imgsrc[width=519, height=400]{images/phylo-apaf.png}
-
 [fig:phylo-apaf] [fig:phylo-apaf-zoom]
-
-.. raw:: latex
-
-   \centering
 
 | |A larger tree, using neato for layout.|
 
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/phylo-apaf-zoom.png
-   :alt: A zoomed-in portion of the same tree as
-   Fig. \ `[fig:phylo-apaf] <#fig:phylo-apaf>`__.
+   :alt: A zoomed-in portion of the same tree as Fig. [fig:phylo-apaf].
    :width: 60.0%
 
-   A zoomed-in portion of the same tree as
-   Fig. \ `[fig:phylo-apaf] <#fig:phylo-apaf>`__.
+   A zoomed-in portion of the same tree as Fig. [fig:phylo-apaf].
 
 Note that branch lengths are not displayed accurately, because Graphviz
 ignores them when creating the node layouts. The branch lengths are
@@ -642,9 +574,9 @@ terminal
     lacking the ``is_terminal`` method.
 
 order
-    — Tree traversal order: ``"preorder"`` (default) is depth-first
-    search, ``"postorder"`` is DFS with child nodes preceding parents,
-    and ``"level"`` is breadth-first search.
+    — Tree traversal order: ``preorder`` (default) is depth-first
+    search, ``postorder`` is DFS with child nodes preceding parents, and
+    ``level`` is breadth-first search.
 
 Finally, the methods accept arbitrary keyword arguments which are
 treated the same way as a dictionary target specification: keys indicate
@@ -819,8 +751,6 @@ See the Phylo page on the Biopython wiki
 (http://biopython.org/wiki/Phylo) for more examples of using the
 available methods.
 
-.. sec:PhyloXML:
-
 Features of PhyloXML trees
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -830,8 +760,6 @@ additional data types and visual cues.
 See the PhyloXML page on the Biopython wiki
 (http://biopython.org/wiki/PhyloXML) for descriptions and examples of
 using the additional annotation features provided by PhyloXML.
-
-.. sec:PhyloApps:
 
 Running external applications
 -----------------------------
@@ -872,11 +800,8 @@ Biopython 1.62.
 Note that some popular Phylip programs, including ``dnaml`` and
 ``protml``, are already available through the EMBOSS wrappers in
 ``Bio.Emboss.Applications`` if you have the Phylip extensions to EMBOSS
-installed on your system. See
-Section \ `[sec:alignment-tools] <#sec:alignment-tools>`__ for some
+installed on your system. See Section [sec:alignment-tools] for some
 examples and clues on how to use programs like these.
-
-.. sec:PhyloPAML:
 
 PAML integration
 ----------------
@@ -933,8 +858,6 @@ function:
 Detailed documentation for this new module currently lives on the
 Biopython wiki: http://biopython.org/wiki/PAML
 
-.. sec:PhyloFuture:
-
 Future plans
 ------------
 
@@ -951,9 +874,9 @@ New methods
 Bio.Nexus port
     Much of this module was written during Google Summer of Code 2009,
     under the auspices of NESCent, as a project to implement Python
-    support for the phyloXML data format (see `4.4 <#sec:PhyloXML>`__).
-    Support for Newick and Nexus formats was added by porting part of
-    the existing Bio.Nexus module to the new classes used by Bio.Phylo.
+    support for the phyloXML data format (see [sec:PhyloXML]). Support
+    for Newick and Nexus formats was added by porting part of the
+    existing Bio.Nexus module to the new classes used by Bio.Phylo.
 
     Currently, Bio.Nexus contains some useful features that have not yet
     been ported to Bio.Phylo classes — notably, calculating a consensus

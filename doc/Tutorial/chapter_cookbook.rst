@@ -1,5 +1,3 @@
-.. chapter:cookbook:
-
 Cookbook – Cool things to do with it
 ====================================
 
@@ -17,14 +15,11 @@ could help you improve all your Python code.
 In the long term, we may end up moving all of the examples in this
 chapter to the wiki, or elsewhere within the tutorial.
 
-.. seq:cookbook-sequences:
-
 Working with sequence files
 ---------------------------
 
 This section shows some more examples of sequence input/output, using
-the ``Bio.SeqIO`` module described in
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__.
+the ``Bio.SeqIO`` module described in Chapter [chapter:Bio.SeqIO].
 
 Filtering a sequence file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,12 +54,10 @@ ID. Try something like this:
 Note that we use a Python ``set`` rather than a ``list``, this makes
 testing membership faster.
 
-As discussed in
-Section \ `[sec:low-level-fasta-fastq] <#sec:low-level-fasta-fastq>`__,
-for a large FASTA or FASTQ file for speed you would be better off not
-using the high-level ``SeqIO`` interface, but working directly with
-strings. This next example shows how to do this with FASTQ files – it is
-more complicated:
+As discussed in Section [sec:low-level-fasta-fastq], for a large FASTA
+or FASTQ file for speed you would be better off not using the high-level
+``SeqIO`` interface, but working directly with strings. This next
+example shows how to do this with FASTQ files – it is more complicated:
 
 ::
 
@@ -146,7 +139,7 @@ versions of the original sequence.
 
 This first version just uses a big for loop and writes out the records
 one by one (using the ``SeqRecord``\ ’s format method described in
-Section \ `[sec:Bio.SeqIO-and-StringIO] <#sec:Bio.SeqIO-and-StringIO>`__):
+Section [sec:Bio.SeqIO-and-StringIO]):
 
 ::
 
@@ -187,24 +180,20 @@ the record and a generator expression instead of the for loop:
                      for i in range(30))
     SeqIO.write(shuffled_recs, "shuffled.fasta", "fasta")
 
-.. sec:SeqIO-translate:
-
 Translating a FASTA file of CDS entries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Suppose you’ve got an input file of CDS entries for some organism, and
 you want to generate a new FASTA file containing their protein
 sequences. i.e. Take each nucleotide sequence from the original file,
-and translate it. Back in
-Section \ `[sec:translation] <#sec:translation>`__ we saw how to use the
-``Seq`` object’s ``translate method``, and the optional ``cds`` argument
-which enables correct translation of alternative start codons.
+and translate it. Back in Section [sec:translation] we saw how to use
+the ``Seq`` object’s ``translate method``, and the optional ``cds``
+argument which enables correct translation of alternative start codons.
 
 We can combine this with ``Bio.SeqIO`` as shown in the reverse
-complement example in
-Section \ `[sec:SeqIO-reverse-complement] <#sec:SeqIO-reverse-complement>`__.
-The key point is that for each nucleotide ``SeqRecord``, we need to
-create a protein ``SeqRecord`` - and take care of naming it.
+complement example in Section [sec:SeqIO-reverse-complement]. The key
+point is that for each nucleotide ``SeqRecord``, we need to create a
+protein ``SeqRecord`` - and take care of naming it.
 
 You can write you own function to do this, choosing suitable protein
 identifiers for your sequences, and the appropriate genetic code. In
@@ -266,8 +255,6 @@ comprehension) is this means only one record is kept in memory at a
 time. This can be really important if you are dealing with large files
 with millions of entries.
 
-.. sec:SeqIO-sort:
-
 Sorting a sequence file
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -326,8 +313,7 @@ These examples all use ``Bio.SeqIO`` to parse the records into
 if you want to sort a file format which ``Bio.SeqIO.write()`` doesn’t
 support, like the plain text SwissProt format? Here is an alternative
 solution using the ``get_raw()`` method added to ``Bio.SeqIO.index()``
-in Biopython 1.54 (see
-Section \ `[sec:seqio-index-getraw] <#sec:seqio-index-getraw>`__).
+in Biopython 1.54 (see Section [sec:seqio-index-getraw]).
 
 ::
 
@@ -368,8 +354,6 @@ low-level FASTA parser to get the record identifiers and lengths:
     with open("sorted.fasta", "wb") as out_handle:
         for id in ids:
             out_handle.write(record_index.get_raw(id))
-
-.. sec:FASTQ-filtering-example:
 
 Simple quality filtering for FASTQ files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -430,10 +414,8 @@ avoiding any memory limitations.
 
 Note that it would be faster to use the low-level
 ``FastqGeneralIterator`` parser here (see
-Section \ `[sec:low-level-fasta-fastq] <#sec:low-level-fasta-fastq>`__),
-but that does not turn the quality string into integer scores.
-
-.. sec:FASTQ-slicing-off-primer:
+Section [sec:low-level-fasta-fastq]), but that does not turn the quality
+string into integer scores.
 
 Trimming off primer sequences
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -448,7 +430,7 @@ By using the main ``Bio.SeqIO`` interface, the same approach would work
 with any other supported file format (e.g. FASTA files). However, for
 large FASTQ files it would be faster the low-level
 ``FastqGeneralIterator`` parser here (see the earlier example, and
-Section \ `[sec:low-level-fasta-fastq] <#sec:low-level-fasta-fastq>`__).
+Section [sec:low-level-fasta-fastq]).
 
 This code uses ``Bio.SeqIO`` with a generator expression (to avoid
 loading all the sequences into memory at once), and the ``Seq`` object’s
@@ -470,8 +452,8 @@ them to a new FASTQ file, ``with_primer.fastq``.
 Now suppose that instead you wanted to make a FASTQ file containing
 these reads but with the primer sequence removed? That’s just a small
 change as we can slice the ``SeqRecord`` (see
-Section \ `[sec:SeqRecord-slicing] <#sec:SeqRecord-slicing>`__) to
-remove the first eleven letters (the length of our primer):
+Section [sec:SeqRecord-slicing]) to remove the first eleven letters (the
+length of our primer):
 
 ::
 
@@ -534,8 +516,6 @@ rather than a generator expression.
 This form is more flexible if you want to do something more complicated
 where only some of the records are retained – as shown in the next
 example.
-
-.. sec:FASTQ-slicing-off-adaptor:
 
 Trimming off adaptor sequences
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -619,18 +599,15 @@ instead. This code also could be extended to do a fuzzy match instead of
 an exact match (maybe using a pairwise alignment, or taking into account
 the read quality scores), but that will be much slower.
 
-.. sec:SeqIO-fastq-conversion:
-
 Converting FASTQ files
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Back in Section \ `[sec:SeqIO-conversion] <#sec:SeqIO-conversion>`__ we
-showed how to use ``Bio.SeqIO`` to convert between two file formats.
-Here we’ll go into a little more detail regarding FASTQ files which are
-used in second generation DNA sequencing. Please refer to Cock *et al.*
-(2009) :raw-latex:`\cite{cock2010}` for a longer description. FASTQ
-files store both the DNA sequence (as a string) and the associated read
-qualities.
+Back in Section [sec:SeqIO-conversion] we showed how to use
+``Bio.SeqIO`` to convert between two file formats. Here we’ll go into a
+little more detail regarding FASTQ files which are used in second
+generation DNA sequencing. Please refer to Cock *et al.* (2009)
+:raw-latex:`\cite{cock2010}` for a longer description. FASTQ files store
+both the DNA sequence (as a string) and the associated read qualities.
 
 PHRED scores (used in most FASTQ files, and also in QUAL files, ACE
 files and SFF files) have become a *de facto* standard for representing
@@ -716,8 +693,6 @@ For more details, see the built in help (also
     >>> help(QualityIO)
     ...
 
-.. sec:SeqIO-fasta-qual-conversion:
-
 Converting FASTA and QUAL files into FASTQ files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -769,8 +744,6 @@ convert a pair of FASTA and QUAL files into a single FASTQ files:
         count = SeqIO.write(records, "temp.fastq", "fastq")
     print("Converted %i records" % count)
 
-.. sec:fastq-indexing:
-
 Indexing a FASTQ file
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -782,8 +755,7 @@ over the file looking at just one ``SeqRecord`` at a time.
 However, sometimes you can’t use a big loop or an iterator - you may
 need random access to the reads. Here the ``Bio.SeqIO.index()`` function
 may prove very helpful, as it allows you to access any read in the FASTQ
-file by its name (see
-Section \ `[sec:SeqIO-index] <#sec:SeqIO-index>`__).
+file by its name (see Section [sec:SeqIO-index]).
 
 Again we’ll use the ``SRR020192.fastq`` file from the ENA
 (ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR020/SRR020192/SRR020192.fastq.gz),
@@ -806,13 +778,11 @@ took about a minute, but record access was almost instant.
 
 The sister function ``Bio.SeqIO.index_db()`` lets you save the index to
 an SQLite3 database file for near instantaneous reuse - see
-Section \ `[sec:SeqIO-index] <#sec:SeqIO-index>`__ for more details.
+Section [sec:SeqIO-index] for more details.
 
-The example in Section \ `1.5 <#sec:SeqIO-sort>`__ show how you can use
-the ``Bio.SeqIO.index()`` function to sort a large FASTA file – this
-could also be used on FASTQ files.
-
-.. sec:SeqIO-sff-conversion:
+The example in Section [sec:SeqIO-sort] show how you can use the
+``Bio.SeqIO.index()`` function to sort a large FASTA file – this could
+also be used on FASTQ files.
 
 Converting SFF files
 ~~~~~~~~~~~~~~~~~~~~
@@ -824,8 +794,7 @@ original flow information.
 
 A common task is to convert from SFF to a pair of FASTA and QUAL files,
 or to a single FASTQ file. These operations are trivial using the
-``Bio.SeqIO.convert()`` function (see
-Section \ `[sec:SeqIO-conversion] <#sec:SeqIO-conversion>`__):
+``Bio.SeqIO.convert()`` function (see Section [sec:SeqIO-conversion]):
 
 ::
 
@@ -896,8 +865,7 @@ plasmid – although this time we’ll start with a plain FASTA file with no
 pre-marked genes:
 ```NC_005816.fna`` <https://raw.githubusercontent.com/biopython/biopython/master/Tests/GenBank/NC_005816.fna>`__.
 This is a bacterial sequence, so we’ll want to use NCBI codon table 11
-(see Section \ `[sec:translation] <#sec:translation>`__ about
-translation).
+(see Section [sec:translation] about translation).
 
 ::
 
@@ -1007,7 +975,7 @@ If you comment out the sort statement, then the protein sequences will
 be shown in the same order as before, so you can check this is doing the
 same thing. Here we have sorted them by location to make it easier to
 compare to the actual annotation in the GenBank file (as visualised in
-Section \ `[sec:gd_nice_example] <#sec:gd_nice_example>`__).
+Section [sec:gd\_nice\_example]).
 
 If however all you want to find are the locations of the open reading
 frames, then it is a waste of time to translate every possible codon,
@@ -1019,18 +987,16 @@ here (see the Python module ``re``). These are an extremely powerful
 supported in lots of programming languages and also command line tools
 like ``grep`` as well). You can find whole books about this topic!
 
-.. seq:sequence-parsing-plus-pylab:
-
 Sequence parsing plus simple plots
 ----------------------------------
 
 This section shows some more examples of sequence parsing, using the
-``Bio.SeqIO`` module described in
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__, plus the Python
-library matplotlib’s ``pylab`` plotting interface (see `the matplotlib
-website for a tutorial <http://matplotlib.sourceforge.net/>`__). Note
-that to follow these examples you will need matplotlib installed - but
-without it you can still try the data parsing bits.
+``Bio.SeqIO`` module described in Chapter [chapter:Bio.SeqIO], plus the
+Python library matplotlib’s ``pylab`` plotting interface (see `the
+matplotlib website for a
+tutorial <http://matplotlib.sourceforge.net/>`__). Note that to follow
+these examples you will need matplotlib installed - but without it you
+can still try the data parsing bits.
 
 Histogram of sequence lengths
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1039,7 +1005,7 @@ There are lots of times when you might want to visualise the
 distribution of sequence lengths in a dataset – for example the range of
 contig sizes in a genome assembly project. In this example we’ll reuse
 our orchid FASTA file
-`ls_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__
+`ls\_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__
 which has only 94 sequences.
 
 First of all, we will use ``Bio.SeqIO`` to parse the FASTA file and
@@ -1073,14 +1039,6 @@ we can use the matplotlib histogram function to display it.
 
 That should pop up a new window containing the following graph:
 
-.. raw:: latex
-
-   \imgsrc[width=600, height=450]{images/hist_plot.png}
-
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/hist_plot.png
    :alt: Histogram of orchid sequence lengths.
    :width: 80.0%
@@ -1088,7 +1046,7 @@ That should pop up a new window containing the following graph:
    Histogram of orchid sequence lengths.
 
 That should pop up a new window containing the graph shown in
-Figure \ `[fig:seq-len-hist] <#fig:seq-len-hist>`__.
+Figure [fig:seq-len-hist].
 
 Notice that most of these orchid sequences are about :math:`740` bp
 long, and there could be two distinct classes of sequence here with a
@@ -1106,7 +1064,7 @@ You might want to look at the GC% of all the genes in a bacterial genome
 for example, and investigate any outliers which could have been recently
 acquired by horizontal gene transfer. Again, for this example we’ll
 reuse our orchid FASTA file
-`ls_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__.
+`ls\_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__.
 
 First of all, we will use ``Bio.SeqIO`` to parse the FASTA file and
 compile a list of all the GC percentages. Again, you could do this with
@@ -1136,14 +1094,6 @@ and plot them with matplotlib:
 As in the previous example, that should pop up a new window containing a
 graph:
 
-.. raw:: latex
-
-   \imgsrc[width=600, height=450]{images/gc_plot.png}
-
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/gc_plot.png
    :alt: Histogram of orchid sequence lengths.
    :width: 80.0%
@@ -1151,7 +1101,7 @@ graph:
    Histogram of orchid sequence lengths.
 
 As in the previous example, that should pop up a new window with the
-graph shown in Figure \ `[fig:seq-gc-plot] <#fig:seq-gc-plot>`__.
+graph shown in Figure [fig:seq-gc-plot].
 
 If you tried this on the full set of genes from one organism, you’d
 probably get a much smoother plot than this.
@@ -1164,13 +1114,9 @@ similarity to each other. A sliding window is used to compare short
 sub-sequences to each other, often with a mis-match threshold. Here for
 simplicity we’ll only look for perfect matches (shown in black
 
-in Figure \ `[fig:nuc-dot-plot] <#fig:nuc-dot-plot>`__).
+in Figure [fig:nuc-dot-plot]).
 
 in the plot below).
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/dot_plot.png
    :alt: Nucleotide dot plot of two orchid sequence lengths (using
@@ -1182,7 +1128,7 @@ in the plot below).
 
 To start off, we’ll need two sequences. For the sake of argument, we’ll
 just take the first two from our orchid FASTA file
-`ls_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__:
+`ls\_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__:
 
 ::
 
@@ -1224,12 +1170,8 @@ and white:
 
 That should pop up a new window containing a graph like this:
 
-.. raw:: latex
-
-   \imgsrc[width=600, height=450]{images/dot_plot.png}
-
 That should pop up a new window showing the graph in
-Figure \ `[fig:nuc-dot-plot] <#fig:nuc-dot-plot>`__.
+Figure [fig:nuc-dot-plot].
 
 As you might have expected, these two sequences are very similar with a
 partial line of window sized matches along the diagonal. There are no
@@ -1298,16 +1240,8 @@ We are now ready to draw the revised dot plot as a scatter plot:
 
 That should pop up a new window containing a graph like this:
 
-.. raw:: latex
-
-   \imgsrc[width=600, height=450]{images/dot_plot_scatter.png}
-
 That should pop up a new window showing the graph in
-Figure \ `[fig:nuc-dot-plot-scatter] <#fig:nuc-dot-plot-scatter>`__.
-
-.. raw:: latex
-
-   \centering
+Figure [fig:nuc-dot-plot-scatter].
 
 .. figure:: images/dot_plot_scatter.png
    :alt: Nucleotide dot plot of two orchid sequence lengths (using
@@ -1334,12 +1268,10 @@ downloaded from the ENA sequence read archive FTP site
 and
 ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR001/SRR001666/SRR001666_2.fastq.gz),
 and are from *E. coli* – see
-http://www.ebi.ac.uk/ena/data/view/SRR001666 for details.
-
-In the following code the ``pylab.subplot(...)`` function is used in
-order to show the forward and reverse qualities on two subplots, side by
-side. There is also a little bit of code to only plot the first fifty
-reads.
+http://www.ebi.ac.uk/ena/data/view/SRR001666 for details. In the
+following code the ``pylab.subplot(...)`` function is used in order to
+show the forward and reverse qualities on two subplots, side by side.
+There is also a little bit of code to only plot the first fifty reads.
 
 ::
 
@@ -1367,32 +1299,21 @@ formats instead.
 This example uses the ``pylab.savefig(...)`` function instead of
 ``pylab.show(...)``, but as mentioned before both are useful.
 
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/SRR001666.png
    :alt: Quality plot for some paired end reads.
    :width: 80.0%
 
    Quality plot for some paired end reads.
 
-The result is shown in
-Figure \ `[fig:paired-end-qual-plot] <#fig:paired-end-qual-plot>`__.
+The result is shown in Figure [fig:paired-end-qual-plot].
 
 Here is the result:
-
-.. raw:: latex
-
-   \imgsrc[width=600, height=600]{images/SRR001666.png}
 
 Dealing with alignments
 -----------------------
 
 This section can been seen as a follow on to
-Chapter \ `[chapter:Bio.AlignIO] <#chapter:Bio.AlignIO>`__.
-
-.. sec:summary_info:
+Chapter [chapter:Bio.AlignIO].
 
 Calculating summary information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1406,8 +1327,8 @@ classes, which act on the alignment.
 Getting ready to calculate summary information about an object is quick
 to do. Let’s say we’ve got an alignment object called ``alignment``, for
 example read in using ``Bio.AlignIO.read(...)`` as described in
-Chapter \ `[chapter:Bio.AlignIO] <#chapter:Bio.AlignIO>`__. All we need
-to do to get an object that will calculate summary information is:
+Chapter [chapter:Bio.AlignIO]. All we need to do to get an object that
+will calculate summary information is:
 
 ::
 
@@ -1417,29 +1338,25 @@ to do to get an object that will calculate summary information is:
 The ``summary_align`` object is very useful, and will do the following
 neat things for you:
 
-#. Calculate a quick consensus sequence – see
-   section \ `3.2 <#sec:consensus>`__
+#. Calculate a quick consensus sequence – see section [sec:consensus]
 
 #. Get a position specific score matrix for the alignment – see
-   section \ `3.3 <#sec:pssm>`__
+   section [sec:pssm]
 
 #. Calculate the information content for the alignment – see
-   section \ `3.4 <#sec:getting_info_content>`__
+   section [sec:getting\_info\_content]
 
 #. Generate information on substitutions in the alignment –
-   section \ `4 <#sec:sub_matrix>`__ details using this to generate a
+   section [sec:sub\_matrix] details using this to generate a
    substitution matrix.
-
-.. sec:consensus:
 
 Calculating a quick consensus sequence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``SummaryInfo`` object, described in
-section \ `3.1 <#sec:summary_info>`__, provides functionality to
-calculate a quick consensus of an alignment. Assuming we’ve got a
-``SummaryInfo`` object called ``summary_align`` we can calculate a
-consensus by doing:
+The ``SummaryInfo`` object, described in section [sec:summary\_info],
+provides functionality to calculate a quick consensus of an alignment.
+Assuming we’ve got a ``SummaryInfo`` object called ``summary_align`` we
+can calculate a consensus by doing:
 
 ::
 
@@ -1474,8 +1391,6 @@ the consensus alphabet
     This is the alphabet to use for the consensus sequence. If an
     alphabet is not specified than we will try to guess the alphabet
     based on the alphabets of the sequences in the alignment.
-
-.. sec:pssm:
 
 Position Specific Score Matrices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1570,8 +1485,6 @@ you would do:
 The structure of the PSSM class hopefully makes it easy both to access
 elements and to pretty print the matrix.
 
-.. sec:getting_info_content:
-
 Information Content
 ~~~~~~~~~~~~~~~~~~~
 
@@ -1614,9 +1527,9 @@ region of the alignment.
 
 First, we need to use our alignment to get an alignment summary object,
 which we’ll assume is called ``summary_align`` (see
-section \ `3.1 <#sec:summary_info>`__) for instructions on how to get
-this. Once we’ve got this object, calculating the information content
-for a region is as easy as:
+section [sec:summary\_info]) for instructions on how to get this. Once
+we’ve got this object, calculating the information content for a region
+is as easy as:
 
 ::
 
@@ -1642,11 +1555,10 @@ by supplying the expected frequencies:
         'C' : .2}
 
 The expected should not be passed as a raw dictionary, but instead by
-passed as a ``SubsMat.FreqTable`` object (see
-section \ `[sec:freq_table] <#sec:freq_table>`__ for more information
-about FreqTables). The FreqTable object provides a standard for
-associating the dictionary with an Alphabet, similar to how the
-Biopython Seq class works.
+passed as a ``SubsMat.FreqTable`` object (see section [sec:freq\_table]
+for more information about FreqTables). The FreqTable object provides a
+standard for associating the dictionary with an Alphabet, similar to how
+the Biopython Seq class works.
 
 To create a FreqTable object, from the frequency dictionary you just
 need to do:
@@ -1711,8 +1623,6 @@ to dig into the literature on information content to get an idea of how
 it is used. Hopefully your digging won’t reveal any mistakes made in
 coding this function!
 
-.. sec:sub_matrix:
-
 Substitution Matrices
 ---------------------
 
@@ -1729,8 +1639,6 @@ provides functionality for creating your own substitution matrices.
 
 Using common substitution matrices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. sec:subs_mat_ex:
 
 Creating your own substitution matrix from an alignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1755,9 +1663,8 @@ contains the Clustalw alignment output.
     >>> c_align = AlignIO.read(filename, "clustal", alphabet=alpha)
     >>> summary_align = AlignInfo.SummaryInfo(c_align)
 
-Sections \ `[sec:align_clustal] <#sec:align_clustal>`__
-and \ `3.1 <#sec:summary_info>`__ contain more information on doing
-this.
+Sections [sec:align\_clustal] and [sec:summary\_info] contain more
+information on doing this.
 
 Now that we’ve got our ``summary_align`` object, we want to use it to
 find out the number of times different residues substitute for each
@@ -1836,8 +1743,6 @@ the function ``print_mat``. Doing this on our created matrix gives:
 
 Very nice. Now we’ve got our very own substitution matrix to play with!
 
-.. sec:BioSQL:
-
 BioSQL – storing sequences in a relational database
 ---------------------------------------------------
 
@@ -1848,7 +1753,7 @@ you could load a GenBank file into the database with BioPerl, then using
 Biopython extract this from the database as a record object with
 features - and get more or less the same thing as if you had loaded the
 GenBank file directly as a SeqRecord using ``Bio.SeqIO``
-(Chapter `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__).
+(Chapter [chapter:Bio.SeqIO]).
 
 Biopython’s BioSQL module is currently documented at
 http://biopython.org/wiki/BioSQL which is part of our wiki pages.

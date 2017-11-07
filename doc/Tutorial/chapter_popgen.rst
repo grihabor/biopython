@@ -41,7 +41,7 @@ rec, the record will be output again, in GenePop format.
 
 The most important information in rec will be the loci names and
 population information (but there is more – use help(GenePop.Record) to
-check the API documentation). Loci names can be found on rec.loci_list.
+check the API documentation). Loci names can be found on rec.loci\_list.
 Population information can be found on rec.populations. Populations is a
 list with one element per population. Each element is itself a list of
 individuals, each individual is a pair composed by individual name and a

@@ -1,6 +1,3 @@
-FILE=Tutorial
-FILE_TEX=$(FILE).tex
-FILE_RST=$(FILE).rst
 DOC_IMAGE=doc_image
 
 
@@ -14,4 +11,7 @@ bash: build
 build:
 	docker build . -t $(DOC_IMAGE)
 
-.PHONY: all build bash
+convert:
+	python3 convert.py ..
+
+.PHONY: all build bash convert

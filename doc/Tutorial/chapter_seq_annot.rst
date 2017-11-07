@@ -1,16 +1,13 @@
-.. chapter:SeqRecord:
-
 Sequence annotation objects
 ===========================
 
-Chapter \ `[chapter:Bio.Seq] <#chapter:Bio.Seq>`__ introduced the
-sequence classes. Immediately “above” the ``Seq`` class is the Sequence
-Record or ``SeqRecord`` class, defined in the ``Bio.SeqRecord`` module.
-This class allows higher level features such as identifiers and features
-(as ``SeqFeature`` objects) to be associated with the sequence, and is
-used throughout the sequence input/output interface ``Bio.SeqIO``
-described fully in
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__.
+Chapter [chapter:Bio.Seq] introduced the sequence classes. Immediately
+“above” the ``Seq`` class is the Sequence Record or ``SeqRecord`` class,
+defined in the ``Bio.SeqRecord`` module. This class allows higher level
+features such as identifiers and features (as ``SeqFeature`` objects) to
+be associated with the sequence, and is used throughout the sequence
+input/output interface ``Bio.SeqIO`` described fully in
+Chapter [chapter:Bio.SeqIO].
 
 If you are only going to be working with simple data like FASTA files,
 you can probably skip this chapter for now. If on the other hand you are
@@ -31,17 +28,15 @@ and
     >>> help(SeqRecord)
     ...
 
-.. sec:SeqRecord:
-
 The SeqRecord object
 --------------------
 
 The ``SeqRecord`` (Sequence Record) class is defined in the
 ``Bio.SeqRecord`` module. This class allows higher level features such
 as identifiers and features to be associated with a sequence (see
-Chapter \ `[chapter:Bio.Seq] <#chapter:Bio.Seq>`__), and is the basic
-data type for the ``Bio.SeqIO`` sequence input/output interface (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__).
+Chapter [chapter:Bio.Seq]), and is the basic data type for the
+``Bio.SeqIO`` sequence input/output interface (see
+Chapter [chapter:Bio.SeqIO]).
 
 The ``SeqRecord`` class itself is quite simple, and offers the following
 information as attributes:
@@ -63,16 +58,15 @@ information as attributes:
     – A human readable description or expressive name for the sequence –
     a string.
 
-.letter_annotations
+.letter\_annotations
     – Holds per-letter-annotations using a (restricted) dictionary of
     additional information about the letters in the sequence. The keys
     are the name of the information, and the information is contained in
     the value as a Python sequence (i.e. a list, tuple or string) with
     the same length as the sequence itself. This is often used for
-    quality scores (e.g.
-    Section \ `[sec:FASTQ-filtering-example] <#sec:FASTQ-filtering-example>`__)
-    or secondary structure information (e.g. from Stockholm/PFAM
-    alignment files).
+    quality scores (e.g. Section [sec:FASTQ-filtering-example]) or
+    secondary structure information (e.g. from Stockholm/PFAM alignment
+    files).
 
 .annotations
     – A dictionary of additional information about the sequence. The
@@ -84,7 +78,7 @@ information as attributes:
     – A list of ``SeqFeature`` objects with more structured information
     about the features on a sequence (e.g. position of genes on a
     genome, or domains on a protein sequence). The structure of sequence
-    features is described below in Section \ `3 <#sec:seq_features>`__.
+    features is described below in Section [sec:seq\_features].
 
 .dbxrefs
     - A list of database cross-references as strings.
@@ -95,9 +89,8 @@ Creating a SeqRecord
 Using a ``SeqRecord`` object is not very complicated, since all of the
 information is presented as attributes of the class. Usually you won’t
 create a ``SeqRecord`` “by hand”, but instead use ``Bio.SeqIO`` to read
-in a sequence file for you (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__ and the examples
-below). However, creating ``SeqRecord`` can be quite simple.
+in a sequence file for you (see Chapter [chapter:Bio.SeqIO] and the
+examples below). However, creating ``SeqRecord`` can be quite simple.
 
 SeqRecord objects from scratch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -187,12 +180,11 @@ present (i.e. only one line starting with a greater than symbol):
     TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGGGGGTAATCTGCTCTCC
     ...
 
-Back in Chapter \ `[chapter:quick-start] <#chapter:quick-start>`__ you
-will have seen the function ``Bio.SeqIO.parse(...)`` used to loop over
-all the records in a file as ``SeqRecord`` objects. The ``Bio.SeqIO``
-module has a sister function for use on files which contain just one
-record which we’ll use here (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__ for details):
+Back in Chapter [chapter:quick-start] you will have seen the function
+``Bio.SeqIO.parse(...)`` used to loop over all the records in a file as
+``SeqRecord`` objects. The ``Bio.SeqIO`` module has a sister function
+for use on files which contain just one record which we’ll use here (see
+Chapter [chapter:Bio.SeqIO] for details):
 
 ::
 
@@ -216,7 +208,7 @@ individually – starting with the ``seq`` attribute which gives you a
 Here ``Bio.SeqIO`` has defaulted to a generic alphabet, rather than
 guessing that this is DNA. If you know in advance what kind of sequence
 your FASTA file contains, you can tell ``Bio.SeqIO`` which alphabet to
-use (see Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__).
+use (see Chapter [chapter:Bio.SeqIO]).
 
 Next, the identifiers and description:
 
@@ -288,7 +280,7 @@ starts:
 
 Again, we’ll use ``Bio.SeqIO`` to read this file in, and the code is
 almost identical to that for used above for the FASTA file (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__ for details):
+Chapter [chapter:Bio.SeqIO] for details):
 
 ::
 
@@ -303,8 +295,7 @@ Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__ for details):
 You should be able to spot some differences already! But taking the
 attributes individually, the sequence string is the same as before, but
 this time ``Bio.SeqIO`` has been able to automatically assign a more
-specific alphabet (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__ for details):
+specific alphabet (see Chapter [chapter:Bio.SeqIO] for details):
 
 ::
 
@@ -357,9 +348,7 @@ objects in the ``features`` list.
     29
 
 We’ll talk about ``SeqFeature`` objects next, in
-Section \ `3 <#sec:seq_features>`__.
-
-.. sec:seq_features:
+Section [sec:seq\_features].
 
 Feature, location and position objects
 --------------------------------------
@@ -380,7 +369,7 @@ an easier time grasping the structure of the Biopython classes.
 The key idea about each ``SeqFeature`` object is to describe a region on
 a parent sequence, typically a ``SeqRecord`` object. That region is
 described with a location object, typically a range between two
-positions (see Section \ `3.2 <#sec:locations>`__ below).
+positions (see Section [sec:locations] below).
 
 The ``SeqFeature`` class has a number of attributes, so first we’ll list
 them and their general features, and then later in the chapter work
@@ -393,16 +382,16 @@ attributes of a SeqFeature are:
 
 .location
     – The location of the ``SeqFeature`` on the sequence that you are
-    dealing with, see Section \ `3.2 <#sec:locations>`__ below. The
-    ``SeqFeature`` delegates much of its functionality to the location
-    object, and includes a number of shortcut attributes for properties
-    of the location:
+    dealing with, see Section [sec:locations] below. The ``SeqFeature``
+    delegates much of its functionality to the location object, and
+    includes a number of shortcut attributes for properties of the
+    location:
 
     .ref
         – shorthand for ``.location.ref`` – any (different) reference
         sequence the location is referring to. Usually just None.
 
-    .ref_db
+    .ref\_db
         – shorthand for ``.location.ref_db`` – specifies the database
         any identifier in ``.ref`` refers to. Usually just None.
 
@@ -426,13 +415,11 @@ attributes of a SeqFeature are:
     list of strings (even when there is only one string). This is a
     reflection of the feature tables in GenBank/EMBL files.
 
-.sub_features
+.sub\_features
     – This used to be used to represent features with complicated
     locations like ‘joins’ in GenBank/EMBL files. This has been
     deprecated with the introduction of the ``CompoundLocation`` object,
     and should now be ignored.
-
-.. sec:locations:
 
 Positions and locations
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -495,15 +482,15 @@ ExactPosition
 BeforePosition
     – This class represents a fuzzy position that occurs prior to some
     specified site. In GenBank/EMBL notation, this is represented as
-    something like :literal:`\`<13'`, signifying that the real position
-    is located somewhere less than 13. To get the specified upper
-    boundary, look at the ``position`` attribute of the object.
+    something like ```<13'``, signifying that the real position is
+    located somewhere less than 13. To get the specified upper boundary,
+    look at the ``position`` attribute of the object.
 
 AfterPosition
     – Contrary to ``BeforePosition``, this class represents a position
     that occurs after some specified site. This is represented in
-    GenBank as :literal:`\`>13'`, and like ``BeforePosition``, you get
-    the boundary number by looking at the ``position`` attribute of the
+    GenBank as ```>13'``, and like ``BeforePosition``, you get the
+    boundary number by looking at the ``position`` attribute of the
     object.
 
 WithinPosition
@@ -646,11 +633,11 @@ Sequence described by a feature or location
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A ``SeqFeature`` or location object doesn’t directly contain a sequence,
-instead the location (see Section \ `3.2 <#sec:locations>`__) describes
-how to get this from the parent sequence. For example consider a (short)
-gene sequence with location 5:18 on the reverse strand, which in
-GenBank/EMBL notation using 1-based counting would be
-``complement(6..18)``, like this:
+instead the location (see Section [sec:locations]) describes how to get
+this from the parent sequence. For example consider a (short) gene
+sequence with location 5:18 on the reverse strand, which in GenBank/EMBL
+notation using 1-based counting would be ``complement(6..18)``, like
+this:
 
 ::
 
@@ -751,7 +738,7 @@ example the identifier and the sequence:
     True
 
 Beware that comparing complex objects quickly gets complicated (see also
-Section \ `[sec:seq-comparison] <#sec:seq-comparison>`__).
+Section [sec:seq-comparison]).
 
 References
 ----------
@@ -773,14 +760,12 @@ particular location on the sequence that the reference refers to. For
 instance, you might have a journal that is dealing with a particular
 gene located on a BAC, and want to specify that it only refers to this
 position exactly. The ``location`` is a potentially fuzzy location, as
-described in section \ `3.2 <#sec:locations>`__.
+described in section [sec:locations].
 
 Any reference objects are stored as a list in the ``SeqRecord`` object’s
 ``annotations`` dictionary under the key “references”. That’s all there
 is too it. References are meant to be easy to deal with, and hopefully
 general enough to cover lots of usage cases.
-
-.. sec:SeqRecord-format:
 
 The format method
 -----------------
@@ -816,13 +801,10 @@ which should give:
 
 This ``format`` method takes a single mandatory argument, a lower case
 string which is supported by ``Bio.SeqIO`` as an output format (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__). However, some
-of the file formats ``Bio.SeqIO`` can write to *require* more than one
-record (typically the case for multiple sequence alignment formats), and
-thus won’t work via this ``format()`` method. See also
-Section \ `[sec:Bio.SeqIO-and-StringIO] <#sec:Bio.SeqIO-and-StringIO>`__.
-
-.. sec:SeqRecord-slicing:
+Chapter [chapter:Bio.SeqIO]). However, some of the file formats
+``Bio.SeqIO`` can write to *require* more than one record (typically the
+case for multiple sequence alignment formats), and thus won’t work via
+this ``format()`` method. See also Section [sec:Bio.SeqIO-and-StringIO].
 
 Slicing a SeqRecord
 -------------------
@@ -973,8 +955,7 @@ The same point could be made about the record ``id``, ``name`` and
 This illustrates the problem nicely though, our new sub-record is *not*
 the complete sequence of the plasmid, so the description is wrong! Let’s
 fix this and then view the sub-record as a reduced GenBank file using
-the ``format`` method described above in
-Section \ `6 <#sec:SeqRecord-format>`__:
+the ``format`` method described above in Section [sec:SeqRecord-format]:
 
 ::
 
@@ -982,13 +963,9 @@ Section \ `6 <#sec:SeqRecord-format>`__:
     >>> print(sub_record.format("genbank"))
     ...
 
-See
-Sections \ `[sec:FASTQ-slicing-off-primer] <#sec:FASTQ-slicing-off-primer>`__
-and \ `[sec:FASTQ-slicing-off-adaptor] <#sec:FASTQ-slicing-off-adaptor>`__
-for some FASTQ examples where the per-letter annotations (the read
-quality scores) are also sliced.
-
-.. sec:SeqRecord-addition:
+See Sections [sec:FASTQ-slicing-off-primer]
+and [sec:FASTQ-slicing-off-adaptor] for some FASTQ examples where the
+per-letter annotations (the read quality scores) are also sliced.
 
 Adding SeqRecord objects
 ------------------------
@@ -1000,8 +977,8 @@ adjusted), and any other common annotation is also kept (like the id,
 name and description).
 
 For an example with per-letter annotation, we’ll use the first record in
-a FASTQ file. Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__
-will explain the ``SeqIO`` functions:
+a FASTQ file. Chapter [chapter:Bio.SeqIO] will explain the ``SeqIO``
+functions:
 
 ::
 
@@ -1139,8 +1116,6 @@ the annotations dictionary, this must be done explicitly:
 Also note that in an example like this, you should probably change the
 record identifiers since the NCBI references refer to the *original*
 unmodified sequence.
-
-.. sec:SeqRecord-reverse-complement:
 
 Reverse-complementing SeqRecord objects
 ---------------------------------------

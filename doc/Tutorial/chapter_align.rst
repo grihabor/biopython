@@ -1,5 +1,3 @@
-.. chapter:Bio.AlignIO:
-
 Multiple Sequence Alignment objects
 ===================================
 
@@ -44,9 +42,7 @@ only a single alignment. In this case, you should use the
 Both functions expect two mandatory arguments:
 
 #. The first argument is a *handle* to read the data from, typically an
-   open file (see
-   Section \ `[sec:appendix-handles] <#sec:appendix-handles>`__), or a
-   filename.
+   open file (see Section [sec:appendix-handles]), or a filename.
 
 #. The second argument is a lower case string specifying the alignment
    format. As in ``Bio.SeqIO`` we don’t try and guess the file format
@@ -54,8 +50,8 @@ Both functions expect two mandatory arguments:
    supported formats.
 
 There is also an optional ``seq_count`` argument which is discussed in
-Section \ `1.3 <#sec:AlignIO-count-argument>`__ below for dealing with
-ambiguous file formats which may contain more than one alignment.
+Section [sec:AlignIO-count-argument] below for dealing with ambiguous
+file formats which may contain more than one alignment.
 
 A further optional ``alphabet`` argument allowing you to specify the
 expected alphabet. This can be useful as many alignment file formats do
@@ -98,10 +94,10 @@ in the PFAM or Stockholm file format:
     #=GC seq_cons                 AEssss...AptAhDSLpspAT-hIu.sWshVsslVsAsluIKLFKKFsSKA
     //
 
-This is the seed alignment for the Phage_Coat_Gp8 (PF05371) PFAM entry,
-downloaded from a now out of date release of PFAM from
+This is the seed alignment for the Phage\_Coat\_Gp8 (PF05371) PFAM
+entry, downloaded from a now out of date release of PFAM from
 http://pfam.xfam.org/. We can load this file as follows (assuming it has
-been saved to disk as “PF05371_seed.sth” in the current working
+been saved to disk as “PF05371\_seed.sth” in the current working
 directory):
 
 ::
@@ -144,8 +140,8 @@ iterating over the rows as ``SeqRecord`` objects:
     FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVSRA - COATB_BPIF1/22-73
 
 You could also use the alignment object’s ``format`` method to show it
-in a particular file format – see
-Section \ `2.2 <#sec:alignment-format-method>`__ for details.
+in a particular file format – see Section [sec:alignment-format-method]
+for details.
 
 Did you notice in the raw file above that several of the sequences
 include database cross-references to the PDB and the associated known
@@ -192,7 +188,7 @@ looks like in the FASTA file format:
 
 Note the website should have an option about showing gaps as periods
 (dots) or dashes, we’ve shown dashes above. Assuming you download and
-save this as file “PF05371_seed.faa” then you can load it with almost
+save this as file “PF05371\_seed.faa” then you can load it with almost
 exactly the same code:
 
 ::
@@ -332,8 +328,6 @@ order, then turn the iterator into a list:
     alignments = list(AlignIO.parse("resampled.phy", "phylip"))
     last_align = alignments[-1]
     first_align = alignments[0]
-
-.. sec:AlignIO-count-argument:
 
 Ambiguous Alignments
 ~~~~~~~~~~~~~~~~~~~~
@@ -550,18 +544,15 @@ function returns the number of alignments written to the file.
 file that already exists, the old file will be overwritten without any
 warning.
 
-.. sec:converting-alignments:
-
 Converting between sequence alignment file formats
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Converting between sequence alignment file formats with ``Bio.AlignIO``
 works in the same way as converting between sequence file formats with
-``Bio.SeqIO``
-(Section `[sec:SeqIO-conversion] <#sec:SeqIO-conversion>`__). We load
-generally the alignment(s) using ``Bio.AlignIO.parse()`` and then save
-them using the ``Bio.AlignIO.write()`` – or just use the
-``Bio.AlignIO.convert()`` helper function.
+``Bio.SeqIO`` (Section [sec:SeqIO-conversion]). We load generally the
+alignment(s) using ``Bio.AlignIO.parse()`` and then save them using the
+``Bio.AlignIO.write()`` – or just use the ``Bio.AlignIO.convert()``
+helper function.
 
 For this example, we’ll load the PFAM/Stockholm format file used earlier
 and save it as a Clustal W format file:
@@ -596,7 +587,7 @@ pass this alignment to ``Bio.AlignIO.write()`` as a single element list:
     AlignIO.write([alignment], "PF05371_seed.aln", "clustal")
 
 Either way, you should end up with the same new Clustal W format file
-“PF05371_seed.aln” with the following content:
+“PF05371\_seed.aln” with the following content:
 
 ::
 
@@ -620,7 +611,7 @@ Either way, you should end up with the same new Clustal W format file
     COATB_BPIF1/22-73                   RA
 
 Alternatively, you could make a PHYLIP format file which we’ll name
-“PF05371_seed.phy”:
+“PF05371\_seed.phy”:
 
 ::
 
@@ -731,8 +722,6 @@ PHYLIP file formats shouldn’t be your first choice. Using the
 PFAM/Stockholm format on the other hand allows you to record a lot of
 additional annotation too.
 
-.. sec:alignment-format-method:
-
 Getting your alignment objects as formatted strings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -749,10 +738,8 @@ which is supported by ``Bio.AlignIO`` as an output format. For example:
     alignment = AlignIO.read("PF05371_seed.sth", "stockholm")
     print(alignment.format("clustal"))
 
-As described in
-Section \ `[sec:SeqRecord-format] <#sec:SeqRecord-format>`__, the
-``SeqRecord`` object has a similar method using output formats supported
-by ``Bio.SeqIO``.
+As described in Section [sec:SeqRecord-format], the ``SeqRecord`` object
+has a similar method using output formats supported by ``Bio.SeqIO``.
 
 Internally the ``format()`` method is using the ``StringIO`` string
 based handle and calling ``Bio.AlignIO.write()``. You can do this in
@@ -771,8 +758,6 @@ Biopython:
     clustal_data = out_handle.getvalue()
 
     print(clustal_data)
-
-.. sec:manipulating-alignments:
 
 Manipulating Alignments
 -----------------------
@@ -924,10 +909,9 @@ by column. This lets you do this as a way to remove a block of columns:
 
 Another common use of alignment addition would be to combine alignments
 for several different genes into a meta-alignment. Watch out though -
-the identifiers need to match up (see
-Section \ `[sec:SeqRecord-addition] <#sec:SeqRecord-addition>`__ for how
-adding ``SeqRecord`` objects works). You may find it helpful to first
-sort the alignment rows alphabetically by id:
+the identifiers need to match up (see Section [sec:SeqRecord-addition]
+for how adding ``SeqRecord`` objects works). You may find it helpful to
+first sort the alignment rows alphabetically by id:
 
 ::
 
@@ -973,8 +957,6 @@ Note that this leaves the original Biopython alignment object and the
 NumPy array in memory as separate objects - editing one will not update
 the other!
 
-.. sec:alignment-tools:
-
 Alignment Tools
 ---------------
 
@@ -982,14 +964,14 @@ There are *lots* of algorithms out there for aligning sequences, both
 pairwise alignments and multiple sequence alignments. These calculations
 are relatively slow, and you generally wouldn’t want to write such an
 algorithm in Python. For pairwise alignments Biopython contains the
-``Bio.pairwise2`` module (see Section \ `4.6 <#sec:pairwise2>`__), which
-is supplemented by functions written in C for speed enhancements. In
+``Bio.pairwise2`` module (see Section [sec:pairwise2]), which is
+supplemented by functions written in C for speed enhancements. In
 addition, you can use Biopython to invoke a command line tool on your
 behalf. Normally you would:
 
 #. Prepare an input file of your unaligned sequences, typically this
    will be a FASTA file which you might create using ``Bio.SeqIO`` (see
-   Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__).
+   Chapter [chapter:Bio.SeqIO]).
 
 #. Call the command line tool to process this input file, typically via
    one of Biopython’s command line wrappers (which we’ll discuss here).
@@ -1018,13 +1000,11 @@ module:
 meaning in Python.) The module ``Bio.Emboss.Applications`` has wrappers
 for some of the `EMBOSS suite <http://emboss.sourceforge.net/>`__,
 including ``needle`` and ``water``, which are described below in
-Section \ `4.5 <#seq:emboss-needle-water>`__, and wrappers for the
-EMBOSS packaged versions of the PHYLIP tools (which EMBOSS refer to as
-one of their EMBASSY packages - third party tools with an EMBOSS style
-interface). We won’t explore all these alignment tools here in the
-section, just a sample, but the same principles apply.
-
-.. sec:align_clustal:
+Section [seq:emboss-needle-water], and wrappers for the EMBOSS packaged
+versions of the PHYLIP tools (which EMBOSS refer to as one of their
+EMBASSY packages - third party tools with an EMBOSS style interface). We
+won’t explore all these alignment tools here in the section, just a
+sample, but the same principles apply.
 
 ClustalW
 ~~~~~~~~
@@ -1161,8 +1141,8 @@ standard Newick tree file, and ``Bio.Phylo`` can parse these:
          | gi|6273284|gb|AF191658.1|AF191658
     <BLANKLINE>
 
-Chapter `[sec:Phylo] <#sec:Phylo>`__ covers Biopython’s support for
-phylogenetic trees in more depth.
+Chapter [sec:Phylo] covers Biopython’s support for phylogenetic trees in
+more depth.
 
 MUSCLE
 ~~~~~~
@@ -1199,7 +1179,7 @@ because “in” is a reserved word in Python.
 
 By default MUSCLE will output the alignment as a FASTA file (using
 gapped sequences). The ``Bio.AlignIO`` module should be able to read
-this alignment using ``format="fasta"``. You can also ask for
+this alignment using ``format=fasta``. You can also ask for
 ClustalW-like output:
 
 ::
@@ -1220,7 +1200,7 @@ used for maximum compatibility:
     muscle -in opuntia.fasta -out opuntia.aln -clwstrict
 
 The ``Bio.AlignIO`` module should be able to read these alignments using
-``format="clustal"``.
+``format=clustal``.
 
 MUSCLE can also output in GCG MSF format (using the ``msf`` argument),
 but Biopython can’t currently parse that, or using HTML which would give
@@ -1386,7 +1366,7 @@ is an alternative. If you execute the tool with ``muscle_cline()`` you
 can supply any standard input as a big string,
 ``muscle_cline(stdin=...)``. So, provided your data isn’t very big, you
 can prepare the FASTA input in memory as a string using ``StringIO``
-(see Section \ `[sec:appendix-handles] <#sec:appendix-handles>`__):
+(see Section [sec:appendix-handles]):
 
 ::
 
@@ -1416,8 +1396,6 @@ You can then run the tool and parse the alignment as follows:
 
 You might find this easier, but it does require more memory (RAM) for
 the strings used for the input FASTA and output Clustal formatted data.
-
-.. seq:emboss-needle-water:
 
 EMBOSS needle and water
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1536,15 +1514,13 @@ In this example, we told EMBOSS to write the output to a file, but you
 *can* tell it to write the output to stdout instead (useful if you don’t
 want a temporary output file to get rid of – use ``stdout=True`` rather
 than the ``outfile`` argument), and also to read *one* of the one of the
-inputs from stdin (e.g. ``asequence="stdin"``, much like in the MUSCLE
+inputs from stdin (e.g. ``asequence=stdin``, much like in the MUSCLE
 example in the section above).
 
 This has only scratched the surface of what you can do with ``needle``
 and ``water``. One useful trick is that the second file can contain
 multiple sequences (say five), and then EMBOSS will do five pairwise
 alignments.
-
-.. sec:pairwise2:
 
 Biopython’s pairwise2
 ~~~~~~~~~~~~~~~~~~~~~

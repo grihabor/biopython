@@ -1,16 +1,12 @@
-.. chapter:Bio.Seq:
-
 Sequence objects
 ================
 
 Biological sequences are arguably the central object in Bioinformatics,
 and in this chapter we’ll introduce the Biopython mechanism for dealing
-with sequences, the ``Seq`` object.
-Chapter \ `[chapter:SeqRecord] <#chapter:SeqRecord>`__ will introduce
-the related ``SeqRecord`` object, which combines the sequence
+with sequences, the ``Seq`` object. Chapter [chapter:SeqRecord] will
+introduce the related ``SeqRecord`` object, which combines the sequence
 information with any annotation, used again in
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__ for Sequence
-Input/Output.
+Chapter [chapter:Bio.SeqIO] for Sequence Input/Output.
 
 Sequences are essentially strings of letters like ``AGTACACTGGT``, which
 seems very natural since this is the most common way that sequences are
@@ -176,9 +172,8 @@ means G or C.
 
 Also note that just like a normal Python string, the ``Seq`` object is
 in some ways “read-only”. If you need to edit your sequence, for example
-simulating a point mutation, look at the
-Section \ `12 <#sec:mutable-seq>`__ below which talks about the
-``MutableSeq`` object.
+simulating a point mutation, look at the Section [sec:mutable-seq] below
+which talks about the ``MutableSeq`` object.
 
 Slicing a sequence
 ------------------
@@ -228,8 +223,6 @@ object too:
     >>> my_seq[::-1]
     Seq('CGCTAAAAGCTAGGATATATCCGGGTAGCTAG', IUPACUnambiguousDNA())
 
-.. sec:seq-to-string:
-
 Turning Seq objects into strings
 --------------------------------
 
@@ -264,12 +257,10 @@ when using the Python string formatting or interpolation operator
     <BLANKLINE>
 
 This line of code constructs a simple FASTA format record (without
-worrying about line wrapping).
-Section \ `[sec:SeqRecord-format] <#sec:SeqRecord-format>`__ describes a
-neat way to get a FASTA formatted string from a ``SeqRecord`` object,
+worrying about line wrapping). Section [sec:SeqRecord-format] describes
+a neat way to get a FASTA formatted string from a ``SeqRecord`` object,
 while the more general topic of reading and writing FASTA format
-sequence files is covered in
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__.
+sequence files is covered in Chapter [chapter:Bio.SeqIO].
 
 ::
 
@@ -394,8 +385,6 @@ sequences only, thus:
     >>> dna_seq.lower()
     Seq('acgt', DNAAlphabet())
 
-.. sec:seq-reverse-complement:
-
 Nucleotide sequences and (reverse) complements
 ----------------------------------------------
 
@@ -436,10 +425,9 @@ like take the (reverse)complement of a protein sequence:
     ...
     ValueError: Proteins do not have complements!
 
-The example in
-Section \ `[sec:SeqIO-reverse-complement] <#sec:SeqIO-reverse-complement>`__
-combines the ``Seq`` object’s reverse complement method with
-``Bio.SeqIO`` for sequence input/output.
+The example in Section [sec:SeqIO-reverse-complement] combines the
+``Seq`` object’s reverse complement method with ``Bio.SeqIO`` for
+sequence input/output.
 
 Transcription
 -------------
@@ -448,33 +436,17 @@ Before talking about transcription, I want to try to clarify the strand
 issue. Consider the following (made up) stretch of double stranded DNA
 which encodes a short peptide:
 
-+----+------------------------------------------------------------+----+
-|    | DNA coding strand (aka Crick strand, strand :math:`+1`)    |    |
-+----+------------------------------------------------------------+----+
-| 5’ | ``ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG``                | 3’ |
-+----+------------------------------------------------------------+----+
-|    | ``|||||||||||||||||||||||||||||||||||||||``                |    |
-+----+------------------------------------------------------------+----+
-| 3’ | ``TACCGGTAACATTACCCGGCGACTTTCCCACGGGCTATC``                | 5’ |
-+----+------------------------------------------------------------+----+
-|    | DNA template strand (aka Watson strand, strand :math:`-1`) |    |
-+----+------------------------------------------------------------+----+
-|    |                                                            |    |
-+----+------------------------------------------------------------+----+
-|    | :math:`|`                                                  |    |
-+----+------------------------------------------------------------+----+
-|    | Transcription                                              |    |
-+----+------------------------------------------------------------+----+
-|    | :math:`\downarrow`                                         |    |
-+----+------------------------------------------------------------+----+
-|    |                                                            |    |
-+----+------------------------------------------------------------+----+
-| 5’ | ``AUGGCCAUUGUAAUGGGCCGCUGAAAGGGUGCCCGAUAG``                | 3’ |
-+----+------------------------------------------------------------+----+
-|    | Single stranded messenger RNA                              |    |
-+----+------------------------------------------------------------+----+
-|    |                                                            |    |
-+----+------------------------------------------------------------+----+
+| rcl
+| & DNA coding strand (aka Crick strand, strand :math:`+1`) &
+| 5’ & ``ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG`` & 3’
+| & ``|||||||||||||||||||||||||||||||||||||||`` &
+| 3’ & ``TACCGGTAACATTACCCGGCGACTTTCCCACGGGCTATC`` & 5’
+| & DNA template strand (aka Watson strand, strand :math:`-1`) &
+| & :math:`|` &
+| & Transcription &
+| & :math:`\downarrow` &
+| 5’ & ``AUGGCCAUUGUAAUGGGCCGCUGAAAGGGUGCCCGAUAG`` & 3’
+| & Single stranded messenger RNA &
 
 The actual biological transcription process works from the template
 strand, doing a reverse complement (TCAG :math:`\rightarrow` CUGA) to
@@ -540,9 +512,7 @@ from the mRNA to the coding strand of the DNA. Again, this is a simple U
 *Note:* The ``Seq`` object’s ``transcribe`` and ``back_transcribe``
 methods were added in Biopython 1.49. For older releases you would have
 to use the ``Bio.Seq`` module’s functions instead, see
-Section \ `14 <#sec:seq-module-functions>`__.
-
-.. sec:translation:
+Section [sec:seq-module-functions].
 
 Translation
 -----------
@@ -668,18 +638,16 @@ In addition to telling Biopython to translate an alternative start codon
 as methionine, using this option also makes sure your sequence really is
 a valid CDS (you’ll get an exception if not).
 
-The example in
-Section \ `[sec:SeqIO-translate] <#sec:SeqIO-translate>`__ combines the
-``Seq`` object’s translate method with ``Bio.SeqIO`` for sequence
-input/output.
+The example in Section [sec:SeqIO-translate] combines the ``Seq``
+object’s translate method with ``Bio.SeqIO`` for sequence input/output.
 
 Translation Tables
 ------------------
 
 In the previous sections we talked about the ``Seq`` object translation
 method (and mentioned the equivalent function in the ``Bio.Seq`` module
-– see Section \ `14 <#sec:seq-module-functions>`__). Internally these
-use codon table objects derived from the NCBI information at
+– see Section [sec:seq-module-functions]). Internally these use codon
+table objects derived from the NCBI information at
 ftp://ftp.ncbi.nlm.nih.gov/entrez/misc/data/gc.prt, also shown on
 http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi in a much more
 readable layout.
@@ -774,8 +742,6 @@ trying to do your own gene finding:
     >>> mito_table.forward_table["ACG"]
     'T'
 
-.. sec:seq-comparison:
-
 Comparing Seq objects
 ---------------------
 
@@ -788,21 +754,20 @@ this information - so comparing two ``Seq`` objects could mean
 considering both the sequence strings *and* the alphabets.
 
 For example, you might argue that the two DNA ``Seq`` objects
-``Seq("ACGT", IUPAC.unambiguous_dna)`` and
-``Seq("ACGT", IUPAC.ambiguous_dna)`` should be equal, even though they
-do have different alphabets. Depending on the context this could be
+``Seq(ACGT, IUPAC.unambiguous_dna)`` and
+``Seq(ACGT, IUPAC.ambiguous_dna)`` should be equal, even though they do
+have different alphabets. Depending on the context this could be
 important.
 
-This gets worse – suppose you think
-``Seq("ACGT", IUPAC.unambiguous_dna)`` and ``Seq("ACGT")`` (i.e. the
-default generic alphabet) should be equal. Then, logically,
-``Seq("ACGT", IUPAC.protein)`` and ``Seq("ACGT")`` should also be equal.
-Now, in logic if :math:`A=B` and :math:`B=C`, by transitivity we expect
-:math:`A=C`. So for logical consistency we’d require
-``Seq("ACGT", IUPAC.unambiguous_dna)`` and
-``Seq("ACGT", IUPAC.protein)`` to be equal – which most people would
-agree is just not right. This transitivity also has implications for
-using ``Seq`` objects as Python dictionary keys.
+This gets worse – suppose you think ``Seq(ACGT, IUPAC.unambiguous_dna)``
+and ``Seq(ACGT)`` (i.e. the default generic alphabet) should be equal.
+Then, logically, ``Seq(ACGT, IUPAC.protein)`` and ``Seq(ACGT)`` should
+also be equal. Now, in logic if :math:`A=B` and :math:`B=C`, by
+transitivity we expect :math:`A=C`. So for logical consistency we’d
+require ``Seq(ACGT, IUPAC.unambiguous_dna)`` and
+``Seq(ACGT, IUPAC.protein)`` to be equal – which most people would agree
+is just not right. This transitivity also has implications for using
+``Seq`` objects as Python dictionary keys.
 
 Now, in everyday use, your sequences will probably all have the same
 alphabet, or at least all be the same type of sequence (all DNA, all
@@ -833,7 +798,7 @@ alphabet:
 
 As an extension to this, using sequence objects as keys in a Python
 dictionary is now equivalent to using the sequence as a plain string for
-the key. See also Section \ `4 <#sec:seq-to-string>`__.
+the key. See also Section [sec:seq-to-string].
 
 Note if you compare sequences with incompatible alphabets (e.g. DNA vs
 RNA, or nucleotide versus protein), then you will get a warning but for
@@ -856,8 +821,6 @@ need to support scripts on both old and new versions of Biopython. Here
 make the comparison explicit by wrapping your sequence objects with
 either ``str(...)`` for string based comparison or ``id(...)`` for
 object instance based comparison.
-
-.. sec:mutable-seq:
 
 MutableSeq objects
 ------------------
@@ -935,7 +898,7 @@ to get back to a read-only ``Seq`` object should you need to:
     Seq('AGCCCGTGGGAAAGTCGCCGGGTAATGCACCG', IUPACUnambiguousDNA())
 
 You can also get a string from a ``MutableSeq`` object just like from a
-``Seq`` object (Section `4 <#sec:seq-to-string>`__).
+``Seq`` object (Section [sec:seq-to-string]).
 
 UnknownSeq objects
 ------------------
@@ -996,15 +959,12 @@ expect:
 You may be able to find a use for the ``UnknownSeq`` object in your own
 code, but it is more likely that you will first come across them in a
 ``SeqRecord`` object created by ``Bio.SeqIO`` (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__). Some sequence
-file formats don’t always include the actual sequence, for example
-GenBank and EMBL files may include a list of features but for the
-sequence just present the contig information. Alternatively, the QUAL
-files used in sequencing work hold quality scores but they *never*
-contain a sequence – instead there is a partner FASTA file which *does*
-have the sequence.
-
-.. sec:seq-module-functions:
+Chapter [chapter:Bio.SeqIO]). Some sequence file formats don’t always
+include the actual sequence, for example GenBank and EMBL files may
+include a list of features but for the sequence just present the contig
+information. Alternatively, the QUAL files used in sequencing work hold
+quality scores but they *never* contain a sequence – instead there is a
+partner FASTA file which *does* have the sequence.
 
 Working with strings directly
 -----------------------------

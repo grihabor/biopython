@@ -1,5 +1,3 @@
-.. chapter:swiss_prot:
-
 Swiss-Prot and ExPASy
 =====================
 
@@ -15,11 +13,10 @@ XML file format.
 Parsing Swiss-Prot records
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In
-Section \ `[sec:SeqIO_ExPASy_and_SwissProt] <#sec:SeqIO_ExPASy_and_SwissProt>`__,
-we described how to extract the sequence of a Swiss-Prot record as a
-``SeqRecord`` object. Alternatively, you can store the Swiss-Prot record
-in a ``Bio.SwissProt.Record`` object, which in fact stores the complete
+In Section [sec:SeqIO\_ExPASy\_and\_SwissProt], we described how to
+extract the sequence of a Swiss-Prot record as a ``SeqRecord`` object.
+Alternatively, you can store the Swiss-Prot record in a
+``Bio.SwissProt.Record`` object, which in fact stores the complete
 information contained in the Swiss-Prot record. In this section, we
 describe how to extract ``Bio.SwissProt.Record`` objects from a
 Swiss-Prot file.
@@ -61,7 +58,7 @@ Swiss-Prot record is stored:
        >>> handle = urlopen("https://raw.githubusercontent.com/biopython/biopython/master/Tests/SwissProt/F2CXE6.txt")
 
 -  Open a Swiss-Prot file over the internet from the ExPASy database
-   (see section `5.1 <#subsec:expasy_swissprot>`__):
+   (see section [subsec:expasy\_swissprot]):
 
    ::
 
@@ -72,10 +69,10 @@ The key point is that for the parser, it doesn’t matter how the handle
 was created, as long as it points to data in the Swiss-Prot format.
 
 We can use ``Bio.SeqIO`` as described in
-Section \ `[sec:SeqIO_ExPASy_and_SwissProt] <#sec:SeqIO_ExPASy_and_SwissProt>`__
-to get file format agnostic ``SeqRecord`` objects. Alternatively, we can
-use ``Bio.SwissProt`` get ``Bio.SwissProt.Record`` objects, which are a
-much closer match to the underlying file format.
+Section [sec:SeqIO\_ExPASy\_and\_SwissProt] to get file format agnostic
+``SeqRecord`` objects. Alternatively, we can use ``Bio.SwissProt`` get
+``Bio.SwissProt.Record`` objects, which are a much closer match to the
+underlying file format.
 
 To read one Swiss-Prot record from the handle, we use the function
 ``read()``:
@@ -372,11 +369,11 @@ nomenclature. A typical Enzyme record looks as follows:
 
 In this example, the first line shows the EC (Enzyme Commission) number
 of lipoprotein lipase (second line). Alternative names of lipoprotein
-lipase are "clearing factor lipase", "diacylglycerol lipase", and
-"diglyceride lipase" (lines 3 through 5). The line starting with "CA"
+lipase are “clearing factor lipase”, “diacylglycerol lipase”, and
+“diglyceride lipase” (lines 3 through 5). The line starting with “CA”
 shows the catalytic activity of this enzyme. Comment lines start with
-"CC". The "PR" line shows references to the Prosite Documentation
-records, and the "DR" lines show references to Swiss-Prot records. Not
+“CC”. The “PR” line shows references to the Prosite Documentation
+records, and the “DR” lines show references to Swiss-Prot records. Not
 of these entries are necessarily present in an Enzyme record.
 
 In Biopython, an Enzyme record is represented by the
@@ -443,37 +440,35 @@ Swiss-Prot, Prosite, and Prosite documentation records can be downloaded
 from the ExPASy web server at http://www.expasy.org. Six kinds of
 queries are available from ExPASy:
 
-get_prodoc_entry
+get\_prodoc\_entry
     To download a Prosite documentation record in HTML format
 
-get_prosite_entry
+get\_prosite\_entry
     To download a Prosite record in HTML format
 
-get_prosite_raw
+get\_prosite\_raw
     To download a Prosite or Prosite documentation record in raw format
 
-get_sprot_raw
+get\_sprot\_raw
     To download a Swiss-Prot record in raw format
 
-sprot_search_ful
+sprot\_search\_ful
     To search for a Swiss-Prot record
 
-sprot_search_de
+sprot\_search\_de
     To search for a Swiss-Prot record
 
 To access this web server from a Python script, we use the
 ``Bio.ExPASy`` module.
 
-.. subsec:expasy_swissprot:
-
 Retrieving a Swiss-Prot record
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let’s say we are looking at chalcone synthases for Orchids (see
-section \ `[sec:orchids] <#sec:orchids>`__ for some justification for
-looking for interesting things about orchids). Chalcone synthase is
-involved in flavanoid biosynthesis in plants, and flavanoids make lots
-of cool things like pigment colors and UV protectants.
+section [sec:orchids] for some justification for looking for interesting
+things about orchids). Chalcone synthase is involved in flavanoid
+biosynthesis in plants, and flavanoids make lots of cool things like
+pigment colors and UV protectants.
 
 If you do a search on Swiss-Prot, you can find three orchid proteins for
 Chalcone Synthase, id numbers O23729, O23730, O23731. Now, let’s write a

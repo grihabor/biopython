@@ -1,8 +1,8 @@
-FROM conoria/alpine-pandoc:latest
+FROM ubuntu:latest
 MAINTAINER Borodin Gregory <grihabor@mail.ru>
 
-RUN apk update \
- && apk add python3 py3-pip \
+RUN apt update \
+ && apt install -y pandoc make python3 python3-pip \
  && pip3 install sphinx
 
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]

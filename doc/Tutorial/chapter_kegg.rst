@@ -1,5 +1,3 @@
-.. chap:kegg:
-
 KEGG
 ====
 
@@ -80,7 +78,7 @@ querying the KEGG API. This will demonstrate how to extract a unique set
 of all human pathway gene symbols which relate to DNA repair. The steps
 that need to be taken to do so are as follows. First, we need to get a
 list of all human pathways. Secondly, we need to filter those for ones
-which relate to "repair". Lastly, we need to get a list of all the gene
+which relate to “repair”. Lastly, we need to get a list of all the gene
 symbols in all repair pathways.
 
 ::
