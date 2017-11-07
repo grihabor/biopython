@@ -1,5 +1,3 @@
-.. chapter:graphics:
-
 Graphics including GenomeDiagram
 ================================
 
@@ -11,8 +9,6 @@ further dependencies such as the `Python Imaging Library
 (PIL) <http://www.pythonware.com/products/pil/>`__ are installed,
 ReportLab can also output bitmap images (including JPEG, PNG, GIF, BMP
 and PICT formats).
-
-.. sec:genomediagram:
 
 GenomeDiagram
 -------------
@@ -27,23 +23,21 @@ publication by Pritchard et al. (2006)
 :raw-latex:`\cite{pritchard2006}`, which includes some examples images.
 There is a PDF copy of the old manual here,
 http://biopython.org/DIST/docs/GenomeDiagram/userguide.pdf which has
-some more examples.
-
-As the name might suggest, GenomeDiagram was designed for drawing whole
-genomes, in particular prokaryotic genomes, either as linear diagrams
-(optionally broken up into fragments to fit better) or as circular wheel
-diagrams. Have a look at Figure 2 in Toth *et al.* (2006)
-:raw-latex:`\cite{toth2006}` for a good example. It proved also well
-suited to drawing quite detailed figures for smaller genomes such as
-phage, plasmids or mitochrondia, for example see Figures 1 and 2 in Van
-der Auwera *et al.* (2009) :raw-latex:`\cite{vanderauwera2009}` (shown
-with additional manual editing).
+some more examples. As the name might suggest, GenomeDiagram was
+designed for drawing whole genomes, in particular prokaryotic genomes,
+either as linear diagrams (optionally broken up into fragments to fit
+better) or as circular wheel diagrams. Have a look at Figure 2 in Toth
+*et al.* (2006) :raw-latex:`\cite{toth2006}` for a good example. It
+proved also well suited to drawing quite detailed figures for smaller
+genomes such as phage, plasmids or mitochrondia, for example see Figures
+1 and 2 in Van der Auwera *et al.* (2009)
+:raw-latex:`\cite{vanderauwera2009}` (shown with additional manual
+editing).
 
 This module is easiest to use if you have your genome loaded as a
 ``SeqRecord`` object containing lots of ``SeqFeature`` objects - for
-example as loaded from a GenBank file (see
-Chapters \ `[chapter:SeqRecord] <#chapter:SeqRecord>`__
-and \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__).
+example as loaded from a GenBank file (see Chapters [chapter:SeqRecord]
+and [chapter:Bio.SeqIO]).
 
 Diagrams, tracks, feature-sets and features
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,7 +49,6 @@ shown stacked vertically (or radially on circular diagrams). These will
 typically all have the same length and represent the same sequence
 region. You might use one track to show the gene locations, another to
 show regulatory regions, and a third track to show the GC percentage.
-
 The most commonly used type of track will contain features, bundled
 together in feature-sets. You might choose to use one feature-set for
 all your CDS features, and another for tRNA features. This isn’t
@@ -70,16 +63,13 @@ and use their methods to add the features. Secondly, you can create the
 individual objects separately (in whatever order suits your code), and
 then combine them.
 
-.. sec:gd_top_down:
-
 A top down example
 ~~~~~~~~~~~~~~~~~~
 
 We’re going to draw a whole genome from a ``SeqRecord`` object read in
-from a GenBank file (see
-Chapter \ `[chapter:Bio.SeqIO] <#chapter:Bio.SeqIO>`__). This example
-uses the pPCP1 plasmid from *Yersinia pestis biovar Microtus*, the file
-is included with the Biopython unit tests under the GenBank folder, or
+from a GenBank file (see Chapter [chapter:Bio.SeqIO]). This example uses
+the pPCP1 plasmid from *Yersinia pestis biovar Microtus*, the file is
+included with the Biopython unit tests under the GenBank folder, or
 online
 ```NC_005816.gb`` <https://raw.githubusercontent.com/biopython/biopython/master/Tests/GenBank/NC_005816.gb>`__
 from our website.
@@ -140,16 +130,7 @@ bitmaps, for example:
 
     gd_diagram.write("plasmid_linear.png", "PNG")
 
-.. raw:: latex
-
-   \imgsrc[width=550, height=400]{images/plasmid_linear.png}
-
-The expected output is shown in
-Figure \ `[fig:plasmid_linear] <#fig:plasmid_linear>`__.
-
-.. raw:: latex
-
-   \centering
+The expected output is shown in Figure [fig:plasmid\_linear].
 
 .. figure:: images/plasmid_linear.png
    :alt: Simple linear diagram for *Yersinia pestis biovar Microtus*
@@ -158,8 +139,6 @@ Figure \ `[fig:plasmid_linear] <#fig:plasmid_linear>`__.
 
    Simple linear diagram for *Yersinia pestis biovar Microtus* plasmid
    pPCP1.
-
-[fig:plasmid_linear]
 
 Notice that the ``fragments`` argument which we set to four controls how
 many pieces the genome gets broken up into.
@@ -172,27 +151,16 @@ If you want to do a circular figure, then try this:
                     start=0, end=len(record), circle_core=0.7)
     gd_diagram.write("plasmid_circular.pdf", "PDF")
 
-.. raw:: latex
-
-   \imgsrc[width=400, height=400]{images/plasmid_circular.png}
-
-The expected output is shown in
-Figure \ `[fig:plasmid_circular] <#fig:plasmid_circular>`__.
-
-.. raw:: latex
-
-   \centering
+The expected output is shown in Figure [fig:plasmid\_circular].
 
 .. figure:: images/plasmid_circular.png
    :alt: Simple circular diagram for *Yersinia pestis biovar Microtus*
    plasmid pPCP1.
-   :width: 8cm
-   :height: 8cm
+   :width: 8.00000cm
+   :height: 8.00000cm
 
    Simple circular diagram for *Yersinia pestis biovar Microtus* plasmid
    pPCP1.
-
-[fig:plasmid_circular]
 
 These figures are not very exciting, but we’ve only just got started.
 
@@ -236,15 +204,12 @@ You can now call the ``draw`` and ``write`` methods as before to produce
 a linear or circular diagram, using the code at the end of the top-down
 example above. The figures should be identical.
 
-.. sec:gd_features_without_seqfeatures:
-
 Features without a SeqFeature
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the above example we used a ``SeqRecord``\ ’s ``SeqFeature`` objects
-to build our diagram (see also
-Section \ `[sec:seq_features] <#sec:seq_features>`__). Sometimes you
-won’t have ``SeqFeature`` objects, but just the coordinates for a
+to build our diagram (see also Section [sec:seq\_features]). Sometimes
+you won’t have ``SeqFeature`` objects, but just the coordinates for a
 feature you want to draw. You have to create minimal ``SeqFeature``
 object, but this is easy:
 
@@ -280,15 +245,12 @@ strand, and ``None`` for both. Here is a short self contained example:
 
 The top part of the image in the next subsection shows the output
 
-The output is shown at the top of
-Figure \ `[fig:gd_sigil_labels] <#fig:gd_sigil_labels>`__
+The output is shown at the top of Figure [fig:gd\_sigil\_labels]
 
 (in the default feature color, pale green).
 
 Notice that we have used the ``name`` argument here to specify the
 caption text for these features. This is discussed in more detail next.
-
-.. sec:gd_feature_captions:
 
 Feature captions
 ~~~~~~~~~~~~~~~~
@@ -336,42 +298,30 @@ previous section should give something like
 
 this:
 
-.. raw:: latex
+[fig:gd\_sigil\_labels]
 
-   \imgsrc[width=600, height=700]{images/GD_sigil_labels.png}
-
-[fig:gd_sigil_labels]
-
-the tracks in Figure \ `[fig:gd_sigil_labels] <#fig:gd_sigil_labels>`__.
-
-.. raw:: latex
-
-   \centering
+the tracks in Figure [fig:gd\_sigil\_labels].
 
 .. figure:: images/GD_sigil_labels.png
    :alt: Simple GenomeDiagram showing label options. The top plot in
    pale green shows the default label settings (see
-   Section \ `1.5 <#sec:gd_features_without_seqfeatures>`__) while the
-   rest show variations in the label size, position and orientation (see
-   Section \ `1.6 <#sec:gd_feature_captions>`__).
+   Section [sec:gd\_features\_without\_seqfeatures]) while the rest show
+   variations in the label size, position and orientation (see
+   Section [sec:gd\_feature\_captions]).
    :width: 80.0%
 
    Simple GenomeDiagram showing label options. The top plot in pale
    green shows the default label settings (see
-   Section \ `1.5 <#sec:gd_features_without_seqfeatures>`__) while the
-   rest show variations in the label size, position and orientation (see
-   Section \ `1.6 <#sec:gd_feature_captions>`__). 
-
-[fig:gd_sigil_labels]
+   Section [sec:gd\_features\_without\_seqfeatures]) while the rest show
+   variations in the label size, position and orientation (see
+   Section [sec:gd\_feature\_captions]). 
 
 We’ve not shown it here, but you can also set ``label_color`` to control
-the label’s color (used in Section \ `1.9 <#sec:gd_nice_example>`__).
+the label’s color (used in Section [sec:gd\_nice\_example]).
 
 You’ll notice the default font is quite small - this makes sense because
 you will usually be drawing many (small) features on a page, not just a
 few large ones as shown here.
-
-.. sec:gd_sigils:
 
 Feature sigils
 ~~~~~~~~~~~~~~
@@ -409,7 +359,7 @@ These are shown
 
 below.
 
-in Figure \ `[fig:gd_sigils] <#fig:gd_sigils>`__.
+in Figure [fig:gd\_sigils].
 
 Most sigils fit into a bounding box (as given by the default BOX sigil),
 either above or below the axis for the forward or reverse strand, or
@@ -417,25 +367,13 @@ straddling it (double the height) for strand-less features. The BIGARROW
 sigil is different, always straddling the axis with the direction taken
 from the feature’s stand.
 
-.. raw:: latex
-
-   \imgsrc[width=425, height=600]{images/GD_sigils.png}
-
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/GD_sigils.png
    :alt: Simple GenomeDiagram showing different sigils (see
-   Section \ `1.7 <#sec:gd_sigils>`__)
+   Section [sec:gd\_sigils])
    :width: 80.0%
 
    Simple GenomeDiagram showing different sigils (see
-   Section \ `1.7 <#sec:gd_sigils>`__)
-
-[fig:gd_sigils]
-
-.. sec:gd_arrow_sigils:
+   Section [sec:gd\_sigils])
 
 Arrow sigils
 ~~~~~~~~~~~~
@@ -459,26 +397,15 @@ bounding box:
 
 The results are shown below:
 
-.. raw:: latex
-
-   \imgsrc[width=600, height=700]{images/GD_sigil_arrow_shafts.png}
-
-The results are shown in
-Figure \ `[fig:gd_sigil_arrow_shafts] <#fig:gd_sigil_arrow_shafts>`__.
-
-.. raw:: latex
-
-   \centering
+The results are shown in Figure [fig:gd\_sigil\_arrow\_shafts].
 
 .. figure:: images/GD_sigil_arrow_shafts.png
    :alt: Simple GenomeDiagram showing arrow shaft options (see
-   Section \ `1.8 <#sec:gd_arrow_sigils>`__)
+   Section [sec:gd\_arrow\_sigils])
    :width: 80.0%
 
    Simple GenomeDiagram showing arrow shaft options (see
-   Section \ `1.8 <#sec:gd_arrow_sigils>`__)
-
-[fig:gd_sigil_arrow_shafts]
+   Section [sec:gd\_arrow\_sigils])
 
 Secondly, the length of the arrow head - given as a proportion of the
 height of the bounding box (defaulting to :math:`0.5`, or :math:`50\%`):
@@ -497,26 +424,15 @@ height of the bounding box (defaulting to :math:`0.5`, or :math:`50\%`):
 
 The results are shown below:
 
-.. raw:: latex
-
-   \imgsrc[width=600, height=700]{images/GD_sigil_arrow_heads.png}
-
-The results are shown in
-Figure \ `[fig:gd_sigil_arrow_heads] <#fig:gd_sigil_arrow_heads>`__.
-
-.. raw:: latex
-
-   \centering
+The results are shown in Figure [fig:gd\_sigil\_arrow\_heads].
 
 .. figure:: images/GD_sigil_arrow_heads.png
    :alt: Simple GenomeDiagram showing arrow head options (see
-   Section \ `1.8 <#sec:gd_arrow_sigils>`__)
+   Section [sec:gd\_arrow\_sigils])
    :width: 80.0%
 
    Simple GenomeDiagram showing arrow head options (see
-   Section \ `1.8 <#sec:gd_arrow_sigils>`__)
-
-[fig:gd_sigil_arrow_heads]
+   Section [sec:gd\_arrow\_sigils])
 
 Biopython 1.61 adds a new ``BIGARROW`` sigil which always stradles the
 axis, pointing left for the reverse strand or right otherwise:
@@ -529,16 +445,14 @@ axis, pointing left for the reverse strand or right otherwise:
 All the shaft and arrow head options shown above for the ``ARROW`` sigil
 can be used for the ``BIGARROW`` sigil too.
 
-.. sec:gd_nice_example:
-
 A nice example
 ~~~~~~~~~~~~~~
 
 Now let’s return to the pPCP1 plasmid from *Yersinia pestis biovar
 Microtus*, and the top down approach used in
-Section \ `1.3 <#sec:gd_top_down>`__, but take advantage of the sigil
-options we’ve now discussed. This time we’ll use arrows for the genes,
-and overlay them with strand-less features (as plain boxes) showing the
+Section [sec:gd\_top\_down], but take advantage of the sigil options
+we’ve now discussed. This time we’ll use arrows for the genes, and
+overlay them with strand-less features (as plain boxes) showing the
 position of some restriction digest sites.
 
 ::
@@ -597,51 +511,28 @@ position of some restriction digest sites.
 
 And the output:
 
-.. raw:: latex
-
-   \imgsrc[width=550, height=400]{images/plasmid_linear_nice.png}
-
-.. raw:: latex
-
-   \imgsrc[width=591, height=591]{images/plasmid_circular_nice.png}
-
-The expected output is shown in
-Figures \ `[fig:plasmid_linear_nice] <#fig:plasmid_linear_nice>`__
-and \ `[fig:plasmid_circular_nice] <#fig:plasmid_circular_nice>`__.
-
-.. raw:: latex
-
-   \centering
+The expected output is shown in Figures [fig:plasmid\_linear\_nice]
+and [fig:plasmid\_circular\_nice].
 
 .. figure:: images/plasmid_linear_nice.png
    :alt: Linear diagram for *Yersinia pestis biovar Microtus* plasmid
    pPCP1 showing selected restriction digest sites (see
-   Section \ `1.9 <#sec:gd_nice_example>`__).
+   Section [sec:gd\_nice\_example]).
    :width: 80.0%
 
    Linear diagram for *Yersinia pestis biovar Microtus* plasmid pPCP1
    showing selected restriction digest sites (see
-   Section \ `1.9 <#sec:gd_nice_example>`__).
-
-[fig:plasmid_linear_nice]
-
-.. raw:: latex
-
-   \centering
+   Section [sec:gd\_nice\_example]).
 
 .. figure:: images/plasmid_circular_nice.png
    :alt: Circular diagram for *Yersinia pestis biovar Microtus* plasmid
    pPCP1 showing selected restriction digest sites (see
-   Section \ `1.9 <#sec:gd_nice_example>`__).
+   Section [sec:gd\_nice\_example]).
    :width: 80.0%
 
    Circular diagram for *Yersinia pestis biovar Microtus* plasmid pPCP1
    showing selected restriction digest sites (see
-   Section \ `1.9 <#sec:gd_nice_example>`__).
-
-[fig:plasmid_circular_nice]
-
-.. sec:gd_multiple_tracks:
+   Section [sec:gd\_nice\_example]).
 
 Multiple tracks
 ~~~~~~~~~~~~~~~
@@ -664,13 +555,12 @@ following three phage:
    length).
 
 You can download these using Entrez if you like, see
-Section \ `[sec:efetch] <#sec:efetch>`__ for more details. For the third
-record we’ve worked out where the phage is integrated into the genome,
-and slice the record to extract it (with the features preserved, see
-Section \ `[sec:SeqRecord-slicing] <#sec:SeqRecord-slicing>`__), and
-must also reverse complement to match the orientation of the first two
-phage (again preserving the features, see
-Section \ `[sec:SeqRecord-reverse-complement] <#sec:SeqRecord-reverse-complement>`__):
+Section [sec:efetch] for more details. For the third record we’ve worked
+out where the phage is integrated into the genome, and slice the record
+to extract it (with the features preserved, see
+Section [sec:SeqRecord-slicing]), and must also reverse complement to
+match the orientation of the first two phage (again preserving the
+features, see Section [sec:SeqRecord-reverse-complement]):
 
 ::
 
@@ -741,29 +631,18 @@ different lengths (this requires Biopython 1.59 or later).
 
 The result:
 
-.. raw:: latex
-
-   \imgsrc[width=565, height=400]{images/three_track_simple.png}
-
-The expected output is shown in
-Figure \ `[fig:three_track_simple] <#fig:three_track_simple>`__.
-
-.. raw:: latex
-
-   \centering
+The expected output is shown in Figure [fig:three\_track\_simple].
 
 .. figure:: images/three_track_simple.png
    :alt: Linear diagram with three tracks for Lactococcus phage Tuc2009
-   (NC_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
-   *Listeria innocua* Clip11262 (NC_003212) (see
-   Section \ `1.10 <#sec:gd_multiple_tracks>`__).
+   (NC\_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
+   *Listeria innocua* Clip11262 (NC\_003212) (see
+   Section [sec:gd\_multiple\_tracks]).
 
    Linear diagram with three tracks for Lactococcus phage Tuc2009
-   (NC_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
-   *Listeria innocua* Clip11262 (NC_003212) (see
-   Section \ `1.10 <#sec:gd_multiple_tracks>`__).
-
-[fig:three_track_simple]
+   (NC\_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
+   *Listeria innocua* Clip11262 (NC\_003212) (see
+   Section [sec:gd\_multiple\_tracks]).
 
 I did wonder why in the original manuscript there were no red or orange
 genes marked in the bottom phage. Another important point is here the
@@ -773,8 +652,6 @@ drawn to the same scale (they *are* different lengths).
 The key difference from the published figure is they have color-coded
 links between similar proteins – which is what we will do in the next
 section.
-
-.. sec:gd_cross_links:
 
 Cross-Links between tracks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -868,7 +745,7 @@ We can now turn those list of identifier pairs into SeqFeature pairs,
 and thus find their location co-ordinates. We can now add all that code
 and the following snippet to the previous example (just before the
 ``gd_diagram.draw(...)`` line – see the finished example script
-`Proux_et_al_2002_Figure_6.py <https://github.com/biopython/biopython/blob/master/Doc/examples/Proux_et_al_2002_Figure_6.py>`__
+`Proux\_et\_al\_2002\_Figure\_6.py <https://github.com/biopython/biopython/blob/master/Doc/examples/Proux_et_al_2002_Figure_6.py>`__
 included in the ``Doc/examples`` folder of the Biopython source code) to
 add cross links to the figure:
 
@@ -908,31 +785,18 @@ would be difficult to interpret.
 
 The result:
 
-.. raw:: latex
-
-   \imgsrc[width=565, height=400]{images/three_track_cl.png}
-
-The expected output is shown in
-Figure \ `[fig:three_track_cl] <#fig:three_track_cl>`__.
-
-.. raw:: latex
-
-   \centering
+The expected output is shown in Figure [fig:three\_track\_cl].
 
 .. figure:: images/three_track_cl.png
    :alt: Linear diagram with three tracks for Lactococcus phage Tuc2009
-   (NC_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
-   *Listeria innocua* Clip11262 (NC_003212) plus basic cross-links
-   shaded by percentage identity (see
-   Section \ `1.11 <#sec:gd_cross_links>`__).
+   (NC\_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
+   *Listeria innocua* Clip11262 (NC\_003212) plus basic cross-links
+   shaded by percentage identity (see Section [sec:gd\_cross\_links]).
 
    Linear diagram with three tracks for Lactococcus phage Tuc2009
-   (NC_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
-   *Listeria innocua* Clip11262 (NC_003212) plus basic cross-links
-   shaded by percentage identity (see
-   Section \ `1.11 <#sec:gd_cross_links>`__).
-
-[fig:three_track_cl]
+   (NC\_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
+   *Listeria innocua* Clip11262 (NC\_003212) plus basic cross-links
+   shaded by percentage identity (see Section [sec:gd\_cross\_links]).
 
 There is still a lot more that can be done within Biopython to help
 improve this figure. First of all, the cross links in this case are
@@ -945,34 +809,23 @@ Furthermore, in cases like this where there are no large gene overlaps,
 we can use the axis-straddling ``BIGARROW`` sigil, which allows us to
 further reduce the vertical space needed for the track. These
 improvements are demonstrated in the example script
-`Proux_et_al_2002_Figure_6.py <https://github.com/biopython/biopython/blob/master/Doc/examples/Proux_et_al_2002_Figure_6.py>`__
+`Proux\_et\_al\_2002\_Figure\_6.py <https://github.com/biopython/biopython/blob/master/Doc/examples/Proux_et_al_2002_Figure_6.py>`__
 included in the ``Doc/examples`` folder of the Biopython source code.
 
 The result:
 
-.. raw:: latex
-
-   \imgsrc[width=565, height=400]{images/three_track_cl2a.png}
-
-The expected output is shown in
-Figure \ `[fig:three_track_cl2] <#fig:three_track_cl2>`__.
-
-.. raw:: latex
-
-   \centering
+The expected output is shown in Figure [fig:three\_track\_cl2].
 
 .. figure:: images/three_track_cl2a.png
    :alt: Linear diagram with three tracks for Lactococcus phage Tuc2009
-   (NC_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
-   *Listeria innocua* Clip11262 (NC_003212) plus cross-links shaded by
-   percentage identity (see Section \ `1.11 <#sec:gd_cross_links>`__).
+   (NC\_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
+   *Listeria innocua* Clip11262 (NC\_003212) plus cross-links shaded by
+   percentage identity (see Section [sec:gd\_cross\_links]).
 
    Linear diagram with three tracks for Lactococcus phage Tuc2009
-   (NC_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
-   *Listeria innocua* Clip11262 (NC_003212) plus cross-links shaded by
-   percentage identity (see Section \ `1.11 <#sec:gd_cross_links>`__).
-
-[fig:three_track_cl2]
+   (NC\_002703), bacteriophage bIL285 (AF323668), and prophage 5 from
+   *Listeria innocua* Clip11262 (NC\_003212) plus cross-links shaded by
+   percentage identity (see Section [sec:gd\_cross\_links]).
 
 Beyond that, finishing touches you might want to do manually in a vector
 image editor include fine tuning the placement of gene labels, and
@@ -1066,18 +919,10 @@ Simple Chromosomes
 Here is a very simple example - for which we’ll use *Arabidopsis
 thaliana*.
 
-.. raw:: latex
-
-   \centering
-
 .. figure:: images/simple_chrom.pdf
    :alt: Simple chromosome diagram for *Arabidopsis thaliana*.
 
    Simple chromosome diagram for *Arabidopsis thaliana*.
-
-.. raw:: latex
-
-   \centering
 
 .. figure:: images/tRNA_chrom.pdf
    :alt: Chromosome diagram for *Arabidopsis thaliana* showing tRNA
@@ -1155,11 +1000,7 @@ This should create a very simple PDF file, shown
 
 here:
 
-.. raw:: latex
-
-   \imgsrc[width=650, height=460]{images/simple_chrom.png}
-
-in Figure \ `[fig:simplechromosome] <#fig:simplechromosome>`__.
+in Figure [fig:simplechromosome].
 
 This example is deliberately short and sweet. The next example shows the
 location of features of interest.
@@ -1232,8 +1073,4 @@ create a colorful PDF file, shown
 
 here:
 
-.. raw:: latex
-
-   \imgsrc[width=650, height=460]{images/tRNA_chrom.png}
-
-in Figure \ `[fig:simplechromosome] <#fig:simplechromosome>`__.
+in Figure [fig:simplechromosome].

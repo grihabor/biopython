@@ -1,5 +1,3 @@
-.. chapter:phenotype:
-
 Bio.phenotype: analyse phenotypic data
 ======================================
 
@@ -11,8 +9,6 @@ package is focused on the analysis of high-throughput phenotypic
 experiments produced by the `Phenotype Microarray
 technology <https://en.wikipedia.org/wiki/Phenotype_microarray>`__, but
 future developments may include other platforms and formats.
-
-.. sec:phenotypemicroarrays:
 
 Phenotype Microarrays
 ---------------------
@@ -216,7 +212,7 @@ The parameters that can be extracted from the curve are:
 
 -  Minimum (**min**) and maximum (**max**) signal;
 
--  Average height (**average_height**);
+-  Average height (**average\_height**);
 
 -  Area under the curve (**area**);
 
@@ -226,7 +222,7 @@ The parameters that can be extracted from the curve are:
 
 -  Curve lag time (**lag**).
 
-All the parameters (except **min**, **max** and **average_height**)
+All the parameters (except **min**, **max** and **average\_height**)
 require the `scipy library <http://www.scipy.org/>`__ to be installed.
 
 The fit function uses three sigmoid functions:

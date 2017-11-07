@@ -1,14 +1,11 @@
-.. chapter:Bio.SeqIO:
-
 Sequence Input/Output
 =====================
 
 In this chapter we’ll discuss in more detail the ``Bio.SeqIO`` module,
-which was briefly introduced in
-Chapter \ `[chapter:quick-start] <#chapter:quick-start>`__ and also used
-in Chapter \ `[chapter:SeqRecord] <#chapter:SeqRecord>`__. This aims to
-provide a simple interface for working with assorted sequence file
-formats in a uniform way. See also the ``Bio.SeqIO`` wiki page
+which was briefly introduced in Chapter [chapter:quick-start] and also
+used in Chapter [chapter:SeqRecord]. This aims to provide a simple
+interface for working with assorted sequence file formats in a uniform
+way. See also the ``Bio.SeqIO`` wiki page
 (http://biopython.org/wiki/SeqIO), and the built in documentation (also
 `online <http://biopython.org/DIST/docs/api/Bio.SeqIO-module.html>`__):
 
@@ -19,16 +16,13 @@ formats in a uniform way. See also the ``Bio.SeqIO`` wiki page
     ...
 
 The “catch” is that you have to work with ``SeqRecord`` objects (see
-Chapter \ `[chapter:SeqRecord] <#chapter:SeqRecord>`__), which contain a
-``Seq`` object (see Chapter \ `[chapter:Bio.Seq] <#chapter:Bio.Seq>`__)
-plus annotation like an identifier and description. Note that when
-dealing with very large FASTA or FASTQ files, the overhead of working
-with all these objects can make scripts too slow. In this case consider
-the low-level ``SimpleFastaParser`` and ``FastqGeneralIterator`` parsers
-which return just a tuple of strings for each record (see
-Section \ `6 <#sec:low-level-fasta-fastq>`__).
-
-.. sec:Bio.SeqIO-input:
+Chapter [chapter:SeqRecord]), which contain a ``Seq`` object (see
+Chapter [chapter:Bio.Seq]) plus annotation like an identifier and
+description. Note that when dealing with very large FASTA or FASTQ
+files, the overhead of working with all these objects can make scripts
+too slow. In this case consider the low-level ``SimpleFastaParser`` and
+``FastqGeneralIterator`` parsers which return just a tuple of strings
+for each record (see Section [sec:low-level-fasta-fastq]).
 
 Parsing or Reading Sequences
 ----------------------------
@@ -39,9 +33,8 @@ data as SeqRecord objects. This function expects two arguments:
 #. The first argument is a *handle* to read the data from, or a
    filename. A handle is typically a file opened for reading, but could
    be the output from a command line program, or data downloaded from
-   the internet (see Section \ `3 <#sec:SeqIO_Online>`__). See
-   Section \ `[sec:appendix-handles] <#sec:appendix-handles>`__ for more
-   about handles.
+   the internet (see Section [sec:SeqIO\_Online]). See
+   Section [sec:appendix-handles] for more about handles.
 
 #. The second argument is a lower case string specifying sequence format
    – we don’t try and guess the file format for you! See
@@ -77,11 +70,11 @@ In general ``Bio.SeqIO.parse()`` is used to read in sequence files as
         print(len(seq_record))
 
 The above example is repeated from the introduction in
-Section \ `[sec:sequence-parsing] <#sec:sequence-parsing>`__, and will
-load the orchid DNA sequences in the FASTA format file
-`ls_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__.
+Section [sec:sequence-parsing], and will load the orchid DNA sequences
+in the FASTA format file
+`ls\_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__.
 If instead you wanted to load a GenBank format file like
-`ls_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__
+`ls\_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__
 then all you need to do is change the filename and the format string:
 
 ::
@@ -113,9 +106,8 @@ can easily do this with the following list comprehension:
     ['Z78533.1', 'Z78532.1', 'Z78531.1', 'Z78530.1', 'Z78529.1', 'Z78527.1', ..., 'Z78439.1']
 
 There are more examples using ``SeqIO.parse()`` in a list comprehension
-like this in
-Section \ `[seq:sequence-parsing-plus-pylab] <#seq:sequence-parsing-plus-pylab>`__
-(e.g. for plotting sequence lengths or GC%).
+like this in Section [seq:sequence-parsing-plus-pylab] (e.g. for
+plotting sequence lengths or GC%).
 
 Iterating over the records in a sequence file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,10 +210,10 @@ Extracting data
 ~~~~~~~~~~~~~~~
 
 The ``SeqRecord`` object and its annotation structures are described
-more fully in Chapter \ `[chapter:SeqRecord] <#chapter:SeqRecord>`__. As
-an example of how annotations are stored, we’ll look at the output from
-parsing the first record in the GenBank file
-`ls_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__.
+more fully in Chapter [chapter:SeqRecord]. As an example of how
+annotations are stored, we’ll look at the output from parsing the first
+record in the GenBank file
+`ls\_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__.
 
 ::
 
@@ -277,7 +269,7 @@ special case is any references in the file get stored as reference
 objects.
 
 Suppose you wanted to extract a list of the species from the
-`ls_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__
+`ls\_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__
 GenBank file. The information we want, *Cypripedium irapeanum*, is held
 in the annotations dictionary under ‘source’ and ‘organism’, which we
 can access like this:
@@ -333,7 +325,7 @@ FASTA file, rather than the GenBank file. The bad news is you will have
 to write some code to extract the data you want from the record’s
 description line - if the information is in the file in the first place!
 Our example FASTA format file
-`ls_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__
+`ls\_orchid.fasta <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta>`__
 starts like this:
 
 ::
@@ -377,15 +369,13 @@ not very nice. If you can get your sequences in a well annotated file
 format like GenBank or EMBL, then this sort of annotation information is
 much easier to deal with.
 
-.. sec:SeqIO_compressed:
-
 Parsing sequences from compressed files
 ---------------------------------------
 
 In the previous section, we looked at parsing sequence data from a file.
 Instead of using a filename, you can give ``Bio.SeqIO`` a handle (see
-Section \ `[sec:appendix-handles] <#sec:appendix-handles>`__), and in
-this section we’ll use handles to parse sequence from compressed files.
+Section [sec:appendix-handles]), and in this section we’ll use handles
+to parse sequence from compressed files.
 
 As you’ll have seen above, we can use ``Bio.SeqIO.read()`` or
 ``Bio.SeqIO.parse()`` with a filename - for instance this quick example
@@ -451,9 +441,7 @@ isn’t quite as consistent under Python 2):
 There is a gzip (GNU Zip) variant called BGZF (Blocked GNU Zip Format),
 which can be treated like an ordinary gzip file for reading, but has
 advantages for random access later which we’ll talk about later in
-Section \ `4.4 <#sec:SeqIO-index-bgzf>`__.
-
-.. sec:SeqIO_Online:
+Section [sec:SeqIO-index-bgzf].
 
 Parsing sequences from the net
 ------------------------------
@@ -468,15 +456,12 @@ into a ``SeqRecord`` object in one go doesn’t mean this is a good idea.
 In general, you should probably download sequences *once* and save them
 to a file for reuse.
 
-.. sec:SeqIO_GenBank_Online:
-
 Parsing GenBank records from the net
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Section \ `[sec:efetch] <#sec:efetch>`__ talks about the Entrez EFetch
-interface in more detail, but for now let’s just connect to the NCBI and
-get a few *Opuntia* (prickly-pear) sequences from GenBank using their GI
-numbers.
+Section [sec:efetch] talks about the Entrez EFetch interface in more
+detail, but for now let’s just connect to the NCBI and get a few
+*Opuntia* (prickly-pear) sequences from GenBank using their GI numbers.
 
 First of all, let’s fetch just one record. If you don’t care about the
 annotations and features downloading a FASTA file is a good choice as
@@ -550,21 +535,17 @@ That should give the following output:
     AF191663.1 Opuntia bradtiana rpl16 gene; chloroplast gene for...
     Sequence length 899, 3 features, from: chloroplast Opuntia bradtianaa
 
-See Chapter \ `[chapter:entrez] <#chapter:entrez>`__ for more about the
-``Bio.Entrez`` module, and make sure to read about the NCBI guidelines
-for using Entrez
-(Section `[sec:entrez-guidelines] <#sec:entrez-guidelines>`__).
-
-.. sec:SeqIO_ExPASy_and_SwissProt:
+See Chapter [chapter:entrez] for more about the ``Bio.Entrez`` module,
+and make sure to read about the NCBI guidelines for using Entrez
+(Section [sec:entrez-guidelines]).
 
 Parsing SwissProt sequences from the net
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now let’s use a handle to download a SwissProt file from ExPASy,
-something covered in more depth in
-Chapter \ `[chapter:swiss_prot] <#chapter:swiss_prot>`__. As mentioned
-above, when you expect the handle to contain one and only one record,
-use the ``Bio.SeqIO.read()`` function:
+something covered in more depth in Chapter [chapter:swiss\_prot]. As
+mentioned above, when you expect the handle to contain one and only one
+record, use the ``Bio.SeqIO.read()`` function:
 
 ::
 
@@ -599,25 +580,22 @@ multi-sequence file. There is a trade off here between flexibility and
 memory usage. In summary:
 
 -  ``Bio.SeqIO.to_dict()`` is the most flexible but also the most memory
-   demanding option (see Section \ `4.1 <#SeqIO:to_dict>`__). This is
-   basically a helper function to build a normal Python ``dictionary``
-   with each entry held as a ``SeqRecord`` object in memory, allowing
-   you to modify the records.
+   demanding option (see Section [SeqIO:to\_dict]). This is basically a
+   helper function to build a normal Python ``dictionary`` with each
+   entry held as a ``SeqRecord`` object in memory, allowing you to
+   modify the records.
 
 -  ``Bio.SeqIO.index()`` is a useful middle ground, acting like a read
    only dictionary and parsing sequences into ``SeqRecord`` objects on
-   demand (see Section \ `4.2 <#sec:SeqIO-index>`__).
+   demand (see Section [sec:SeqIO-index]).
 
 -  ``Bio.SeqIO.index_db()`` also acts like a read only dictionary but
    stores the identifiers and file offsets in a file on disk (as an
    SQLite3 database), meaning it has very low memory requirements (see
-   Section \ `4.3 <#sec:SeqIO-index-db>`__), but will be a little bit
-   slower.
+   Section [sec:SeqIO-index-db]), but will be a little bit slower.
 
 See the discussion for an broad overview
-(Section `4.5 <#sec:SeqIO-indexing-discussion>`__).
-
-.. SeqIO:to_dict:
+(Section [sec:SeqIO-indexing-discussion]).
 
 Sequence files as Dictionaries – In memory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -628,7 +606,7 @@ how to index them and access them like a database using the Python
 moderately large files where you only need to access certain elements of
 the file, and makes for a nice quick ’n dirty database. For dealing with
 larger files where memory becomes a problem, see
-Section \ `4.2 <#sec:SeqIO-index>`__ below.
+Section [sec:SeqIO-index] below.
 
 You can use the function ``Bio.SeqIO.to_dict()`` to make a SeqRecord
 dictionary (in memory). By default this will use each record’s
@@ -689,8 +667,6 @@ dictionary construction methods will not deal with the case of repeated
 keys very nicely. Using the ``Bio.SeqIO.to_dict()`` will explicitly
 check for duplicate keys, and raise an exception if any are found.
 
-.. seq:seqio-todict-functionkey:
-
 Specifying the dictionary keys
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -710,11 +686,11 @@ This time the keys are:
      ..., 'gi|2765613|emb|Z78488.1|PTZ78488', 'gi|2765583|emb|Z78458.1|PHZ78458']
 
 You should recognise these strings from when we parsed the FASTA file
-earlier in Section \ `[sec:fasta-parsing] <#sec:fasta-parsing>`__.
-Suppose you would rather have something else as the keys - like the
-accession numbers. This brings us nicely to ``SeqIO.to_dict()``\ ’s
-optional argument ``key_function``, which lets you define what to use as
-the dictionary key for your records.
+earlier in Section [sec:fasta-parsing]. Suppose you would rather have
+something else as the keys - like the accession numbers. This brings us
+nicely to ``SeqIO.to_dict()``\ ’s optional argument ``key_function``,
+which lets you define what to use as the dictionary key for your
+records.
 
 First you must write your own function to return the key you want (as a
 string) when given a ``SeqRecord`` object. In general, the details of
@@ -800,8 +776,6 @@ given a ``Seq`` object (or a string). However, we can use Python’s
 That should have retrieved the record Z78532.1, the second entry in the
 file.
 
-.. sec:SeqIO-index:
-
 Sequence files as Dictionaries – Indexed files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -845,9 +819,9 @@ filename. There are good reasons for this, but it is a little technical.
 The second argument is the file format (a lower case string as used in
 the other ``Bio.SeqIO`` functions). You can use many other simple file
 formats, including FASTA and FASTQ files (see the example in
-Section \ `[sec:fastq-indexing] <#sec:fastq-indexing>`__). However,
-alignment formats like PHYLIP or Clustal are not supported. Finally as
-an optional argument you can supply an alphabet, or a key function.
+Section [sec:fastq-indexing]). However, alignment formats like PHYLIP or
+Clustal are not supported. Finally as an optional argument you can
+supply an alphabet, or a key function.
 
 Here is the same example using the FASTA file - all we change is the
 filename and the format name:
@@ -862,16 +836,14 @@ filename and the format name:
     ['gi|2765596|emb|Z78471.1|PDZ78471', 'gi|2765646|emb|Z78521.1|CCZ78521', ...
      ..., 'gi|2765613|emb|Z78488.1|PTZ78488', 'gi|2765583|emb|Z78458.1|PHZ78458']
 
-.. seq:seqio-index-functionkey:
-
 Specifying the dictionary keys
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Suppose you want to use the same keys as before? Much like with the
 ``Bio.SeqIO.to_dict()`` example in
-Section \ `4.1.1 <#seq:seqio-todict-functionkey>`__, you’ll need to
-write a tiny function to map from the FASTA identifier (as a string) to
-the key you want:
+Section [seq:seqio-todict-functionkey], you’ll need to write a tiny
+function to map from the FASTA identifier (as a string) to the key you
+want:
 
 ::
 
@@ -895,8 +867,6 @@ use in building the dictionary:
     ['Z78484.1', 'Z78464.1', 'Z78455.1', 'Z78442.1', 'Z78532.1', 'Z78453.1', ..., 'Z78471.1']
 
 Easy when you know how?
-
-.. sec:seqio-index-getraw:
 
 Getting the raw data for a record
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -932,12 +902,9 @@ extract just a few records from it:
 Note with Python 3 onwards, we have to open the file for writing in
 binary mode because the ``get_raw()`` method returns bytes strings.
 
-There is a longer example in
-Section \ `[sec:SeqIO-sort] <#sec:SeqIO-sort>`__ using the
+There is a longer example in Section [sec:SeqIO-sort] using the
 ``SeqIO.index()`` function to sort a large sequence file (without
 loading everything into memory at once).
-
-.. sec:SeqIO-index-db:
 
 Sequence files as Dictionaries – Database indexed files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1022,8 +989,8 @@ Getting the raw data for a record
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Just as with the ``Bio.SeqIO.index()`` function discussed above in
-Section \ `4.2.2 <#sec:seqio-index-getraw>`__, the dictionary like
-object also lets you get at the raw bytes of each record:
+Section [sec:seqio-index-getraw], the dictionary like object also lets
+you get at the raw bytes of each record:
 
 ::
 
@@ -1033,8 +1000,6 @@ object also lets you get at the raw bytes of each record:
     ACCESSION   AB811634
     ...
     //
-
-.. sec:SeqIO-index-bgzf:
 
 Indexing compressed files
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1097,8 +1062,6 @@ or:
 The ``SeqIO`` indexing automatically detects the BGZF compression. Note
 that you can’t use the same index file for the uncompressed and
 compressed files.
-
-.. sec:SeqIO-indexing-discussion:
 
 Discussion
 ~~~~~~~~~~
@@ -1269,11 +1232,9 @@ that Biopython does not (yet) preserve every last bit of annotation
 (e.g. GenBank and EMBL).
 
 Occasionally preserving the original layout (with any quirks it may
-have) is important. See Section \ `4.2.2 <#sec:seqio-index-getraw>`__
-about the ``get_raw()`` method of the ``Bio.SeqIO.index()``
-dictionary-like object for one potential solution.
-
-.. sec:SeqIO-conversion:
+have) is important. See Section [sec:seqio-index-getraw] about the
+``get_raw()`` method of the ``Bio.SeqIO.index()`` dictionary-like object
+for one potential solution.
 
 Converting between sequence file formats
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1284,7 +1245,7 @@ the ``Bio.SeqIO.write()`` function, but it will also accept a
 lets us do file conversion by combining these two functions.
 
 For this example we’ll read in the GenBank format file
-`ls_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__
+`ls\_orchid.gbk <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk>`__
 and write it out in FASTA format:
 
 ::
@@ -1319,18 +1280,14 @@ code could be used to convert between any file formats available in
 Biopython. However, writing some formats requires information (e.g.
 quality scores) which other files formats don’t contain. For example,
 while you can turn a FASTQ file into a FASTA file, you can’t do the
-reverse. See also
-Sections \ `[sec:SeqIO-fastq-conversion] <#sec:SeqIO-fastq-conversion>`__
-and \ `[sec:SeqIO-fasta-qual-conversion] <#sec:SeqIO-fasta-qual-conversion>`__
-in the cookbook chapter which looks at inter-converting between
-different FASTQ formats.
+reverse. See also Sections [sec:SeqIO-fastq-conversion]
+and [sec:SeqIO-fasta-qual-conversion] in the cookbook chapter which
+looks at inter-converting between different FASTQ formats.
 
 Finally, as an added incentive for using the ``Bio.SeqIO.convert()``
 function (on top of the fact your code will be shorter), doing it this
 way may also be faster! The reason for this is the convert function can
 take advantage of several file format specific optimisations and tricks.
-
-.. sec:SeqIO-reverse-complement:
 
 Converting a file of sequences to their reverse complements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1344,7 +1301,7 @@ output file.
 To start with, we’ll use ``Bio.SeqIO.parse()`` to load some nucleotide
 sequences from a file, then print out their reverse complements using
 the ``Seq`` object’s built in ``.reverse_complement()`` method (see
-Section \ `[sec:seq-reverse-complement] <#sec:seq-reverse-complement>`__):
+Section [sec:seq-reverse-complement]):
 
 ::
 
@@ -1356,8 +1313,8 @@ Section \ `[sec:seq-reverse-complement] <#sec:seq-reverse-complement>`__):
 Now, if we want to save these reverse complements to a file, we’ll need
 to make ``SeqRecord`` objects. We can use the ``SeqRecord`` object’s
 built in ``.reverse_complement()`` method (see
-Section \ `[sec:SeqRecord-reverse-complement] <#sec:SeqRecord-reverse-complement>`__)
-but we must decide how to name our new records.
+Section [sec:SeqRecord-reverse-complement]) but we must decide how to
+name our new records.
 
 This is an excellent place to demonstrate the power of list
 comprehensions which make a list in memory:
@@ -1400,11 +1357,8 @@ As a complete example:
     >>> SeqIO.write(records, "rev_comp.fasta", "fasta")
     18
 
-There is a related example in
-Section \ `[sec:SeqIO-translate] <#sec:SeqIO-translate>`__, translating
+There is a related example in Section [sec:SeqIO-translate], translating
 each record in a FASTA file from nucleotides to amino acids.
-
-.. sec:Bio.SeqIO-and-StringIO:
 
 Getting your SeqRecord objects as formatted strings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1433,7 +1387,7 @@ This isn’t entirely straightforward the first time you see it! On the
 bright side, for the special case where you would like a string
 containing a *single* record in a particular file format, use the the
 ``SeqRecord`` class’ ``format()`` method (see
-Section \ `[sec:SeqRecord-format] <#sec:SeqRecord-format>`__).
+Section [sec:SeqRecord-format]).
 
 Note that although we don’t encourage it, you *can* use the ``format()``
 method to write to a file, for example something like this:
@@ -1459,8 +1413,6 @@ recommend using ``Bio.SeqIO.write()``, as in the following example:
 
 Making a single call to ``SeqIO.write(...)`` is also much quicker than
 multiple calls to the ``SeqRecord.format(...)`` method.
-
-.. sec:low-level-fasta-fastq:
 
 Low level FASTA and FASTQ parsers
 ---------------------------------
@@ -1520,8 +1472,8 @@ them as ASCII strings this is ideal:
     3 records with total sequence length 75
 
 There are more examples of this in the Cookbook
-(Chapter `[chapter:cookbook] <#chapter:cookbook>`__), including how to
-output FASTQ efficiently from strings using this code snippet:
+(Chapter [chapter:cookbook]), including how to output FASTQ efficiently
+from strings using this code snippet:
 
 ::
 

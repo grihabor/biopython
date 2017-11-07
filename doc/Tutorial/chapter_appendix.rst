@@ -1,5 +1,3 @@
-.. sec:appendix:
-
 Appendix: Useful stuff about Python
 ===================================
 
@@ -9,8 +7,6 @@ itself. This section tries to present some ideas and code that come up
 often (at least for us!) while using the Biopython libraries. If you
 have any suggestions for useful pointers that could go here, please
 contribute!
-
-.. sec:appendix-handles:
 
 What the heck is a handle?
 --------------------------
@@ -41,10 +37,10 @@ function ``write()`` is regularly used.
 
 The most common usage for handles is reading information from a file,
 which is done using the built-in Python function ``open``. Here, we
-handle to the file m_cold.fasta which you can download
+handle to the file m\_cold.fasta which you can download
 `here <https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/m_cold.fasta>`__
 (or find included in the Biopython source code as
-Doc/examples/m_cold.fasta).
+Doc/examples/m\_cold.fasta).
 
 ::
 
@@ -88,8 +84,8 @@ compressed FASTA file you want to parse:
 With our parsers for plain text files, under Python 3 it is essential to
 use gzip in text mode.
 
-See Section \ `[sec:SeqIO_compressed] <#sec:SeqIO_compressed>`__ for
-more examples like this, including reading bzip2 compressed files.
+See Section [sec:SeqIO\_compressed] for more examples like this,
+including reading bzip2 compressed files.
 
 Creating a handle from a string
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,5 +1,3 @@
-.. chapter:searchio:
-
 BLAST and other sequence search tools (*experimental code*)
 ===========================================================
 
@@ -10,7 +8,7 @@ and refinement before we declare it stable. Until then the details will
 probably change, and any scripts using the current ``Bio.SearchIO``
 would need to be updated. Please keep this in mind! For stable code
 working with NCBI BLAST, please continue to use Bio.Blast described in
-the preceding Chapter \ `[chapter:blast] <#chapter:blast>`__.
+the preceding Chapter [chapter:blast].
 
 Biological sequence identification is an integral part of
 bioinformatics. Several tools are available for this, each with their
@@ -63,8 +61,6 @@ functions in ``Bio.SearchIO`` that you may often use.
 
 Now that we’re all set, let’s go to the first step: introducing the core
 object model.
-
-.. sec:searchio-model:
 
 The SearchIO object model
 -------------------------
@@ -128,8 +124,6 @@ counterparts:
 With that settled, let’s start probing each ``Bio.SearchIO`` object,
 beginning with ``QueryResult``.
 
-.. sec:searchio-qresult:
-
 QueryResult
 ~~~~~~~~~~~
 
@@ -191,9 +185,9 @@ on the ``QueryResult`` object, you can see:
 -  The program name and version (blastn version 2.2.27+)
 
 -  The query ID, description, and its sequence length (ID is 42291,
-   description is ‘mystery_seq’, and it is 61 nucleotides long)
+   description is ‘mystery\_seq’, and it is 61 nucleotides long)
 
--  The target database to search against (refseq_rna)
+-  The target database to search against (refseq\_rna)
 
 -  A quick overview of the resulting hits. For our query sequence, there
    are 100 potential hits (numbered 0–99 in the table). For each hit, we
@@ -227,7 +221,7 @@ between our BLAST and BLAT searches:
 
 -  The query ID, description, and its sequence length. Notice here that
    these details are slightly different from the ones we saw in BLAST.
-   The ID is ‘mystery_seq’ instead of 42991, there is no known
+   The ID is ‘mystery\_seq’ instead of 42991, there is no known
    description, but the query length is still 61. This is actually a
    difference introduced by the file formats themselves. BLAST sometimes
    creates its own query IDs and uses your original ID as the sequence
@@ -484,8 +478,6 @@ IDs:
 Again, ``hsp_map`` works the same as ``hit_map``, but on ``HSP`` objects
 instead of ``Hit`` objects.
 
-.. sec:searchio-hit:
-
 Hit
 ~~~
 
@@ -635,8 +627,6 @@ objects only have one variant of ``filter`` (``Hit.filter``) and one
 variant of ``map`` (``Hit.map``). Both of ``Hit.filter`` and ``Hit.map``
 work on the ``HSP`` objects a ``Hit`` has.
 
-.. sec:searchio-hsp:
-
 HSP
 ~~~
 
@@ -751,9 +741,9 @@ of our HSP are not just regular strings:
     SeqRecord(seq=Seq('CCCTCTACAGGGAAGCGCTTTCTGTTGTCTGAAAGAAAAGAAAGTGCTTCCTTT...GGG', DNAAlphabet()), id='gi|262205317|ref|NR_030195.1|', name='aligned hit sequence', description='Homo sapiens microRNA 520b (MIR520B), microRNA', dbxrefs=[])
 
 They are ``SeqRecord`` objects you saw earlier in
-Section \ `[chapter:SeqRecord] <#chapter:SeqRecord>`__! This means that
-you can do all sorts of interesting things you can do with ``SeqRecord``
-objects on ``HSP.query`` and/or ``HSP.hit``.
+Section [chapter:SeqRecord]! This means that you can do all sorts of
+interesting things you can do with ``SeqRecord`` objects on
+``HSP.query`` and/or ``HSP.hit``.
 
 It should not surprise you now that the ``HSP`` object has an
 ``alignment`` property which is a ``MultipleSeqAlignment`` object:
@@ -918,8 +908,6 @@ notation on ``HSP`` objects, just like ``QueryResult`` or ``Hit``
 objects. When you use this notation, you’ll get an ``HSPFragment``
 object in return, the last component of the object model.
 
-.. sec:searchio-hspfragment:
-
 HSPFragment
 ~~~~~~~~~~~
 
@@ -980,8 +968,6 @@ notation. Some examples:
     >>> blast_frag.hit              # hit sequence, as a SeqRecord object
     SeqRecord(seq=Seq('CCCTCTACAGGGAAGCGCTTTCTGTTGTCTGAAAGAAAAGAAAGTGCTTCCTTT...GGG', DNAAlphabet()), id='gi|262205317|ref|NR_030195.1|', name='aligned hit sequence', description='Homo sapiens microRNA 520b (MIR520B), microRNA', dbxrefs=[])
 
-.. sec:searchio-standards:
-
 A note about standards and conventions
 --------------------------------------
 
@@ -1002,7 +988,7 @@ create a common, easy to use interface to deal with various search
 output files. This means creating standards that extend beyond the
 object model you just saw.
 
-Now, you might complain, "Not another standard!". Well, eventually we
+Now, you might complain, “Not another standard!”. Well, eventually we
 have to choose one convention or the other, so this is necessary. Plus,
 we’re not creating something entirely new here; just adopting a standard
 we think is best for a Python programmer (it is Biopython, after all).
@@ -1033,8 +1019,6 @@ Note that these standards only exist in ``Bio.SearchIO`` objects. If you
 write ``Bio.SearchIO`` objects into an output format, ``Bio.SearchIO``
 will use the format’s standard for the output. It does not force its
 standard over to your output file.
-
-.. sec:searchio-input:
 
 Reading search output files
 ---------------------------
@@ -1093,8 +1077,6 @@ arguments:
     gi|16080617|ref|NP_391444.1|
     gi|11464971:4-101
 
-.. sec:searchio-index:
-
 Dealing with large search output files with indexing
 ----------------------------------------------------
 
@@ -1108,9 +1090,9 @@ query of interest.
 In this case, the ideal choice would be to index the file using
 ``Bio.SearchIO.index`` or ``Bio.SearchIO.index_db``. If the names sound
 familiar, it’s because you’ve seen them before in
-Section \ `[sec:SeqIO-index] <#sec:SeqIO-index>`__. These functions also
-behave similarly to their ``Bio.SeqIO`` counterparts, with the addition
-of format-specific keyword arguments.
+Section [sec:SeqIO-index]. These functions also behave similarly to
+their ``Bio.SeqIO`` counterparts, with the addition of format-specific
+keyword arguments.
 
 Here are some examples. You can use ``index`` with just the filename and
 format name:
@@ -1150,8 +1132,6 @@ Or with the ``key_function`` argument, as in ``Bio.SeqIO``:
 
 ``Bio.SearchIO.index_db`` works like as ``index``, only it writes the
 query offsets into an SQLite database file.
-
-.. sec:searchio-write:
 
 Writing and converting search output files
 ------------------------------------------

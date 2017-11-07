@@ -1,5 +1,3 @@
-.. sec:regr_test:
-
 The Biopython testing framework
 ===============================
 
@@ -53,8 +51,7 @@ can also just type:
 
     python run_tests.py test_SeqIO test_AlignIO
 
-To run the docstring tests (see section `3 <#section:doctest>`__), you
-can use
+To run the docstring tests (see section [section:doctest]), you can use
 
 ::
 
@@ -440,10 +437,10 @@ These are the key points of ``unittest``-based tests:
 
        OK
 
-If your module contains docstring tests (see section
-`3 <#section:doctest>`__), you *may* want to include those in the tests
-to be run. You can do so as follows by modifying the code under
-``if __name__ == "__main__":`` to look like this:
+If your module contains docstring tests (see section [section:doctest]),
+you *may* want to include those in the tests to be run. You can do so as
+follows by modifying the code under ``if __name__ == "__main__":`` to
+look like this:
 
 ::
 
@@ -460,8 +457,6 @@ dependency checking.
 
 In general instead include the docstring tests by adding them to the
 ``run_tests.py`` as explained below.
-
-.. section:doctest:
 
 Writing doctests
 ----------------
@@ -519,8 +514,6 @@ To run the docstring tests only, use
 Note that the doctest system is fragile and care is needed to ensure
 your output will match on all the different versions of Python that
 Biopython supports (e.g. differences in floating point numbers).
-
-.. section:doctest-tutorial:
 
 Writing doctests in the Tutorial
 --------------------------------

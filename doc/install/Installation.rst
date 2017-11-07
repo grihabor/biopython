@@ -1,11 +1,3 @@
-.. raw:: latex
-
-   \maketitle
-
-.. raw:: latex
-
-   \tableofcontents
-
 Purpose and Assumptions
 =======================
 
@@ -58,7 +50,7 @@ Windows
 
 We recommend you install Biopython and its dependencies using the
 provided pre-compiled Windows Installers. i.e. You don’t *need* a C
-compiler. See Section \ `5.4 <#sec:windows_install>`__ for more details.
+compiler. See Section [sec:windows\_install] for more details.
 
 Installing Python
 =================
@@ -157,7 +149,7 @@ the very latest version.
 However, there is one general point which it is important to remember
 when installing from any of these systems: you need to download and
 install the development packages for python. A number of distributions
-contain a "basic" python which contains libraries and enough stuff to
+contain a “basic” python which contains libraries and enough stuff to
 run simple python programs. However, they do not contain the python
 libraries necessary to build third-party python applications (like
 Biopython and it’s dependencies). You’ll need to install these libraries
@@ -280,8 +272,6 @@ If you want to generate bitmap images, you will also need the ReportLab
 module renderPM. This in turn requires the `Python Imaging Library
 (PIL) <http://www.pythonware.com/products/pil/>`__.
 
-.. unix-and-mac-os-x-systems-1:
-
 UNIX and Mac OS X systems
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -310,14 +300,10 @@ Now become root, and install it:
 
     $ python setup.py install
 
-.. windows-systems-1:
-
 Windows systems
 ~~~~~~~~~~~~~~~
 
 ReportLab now has graphical windows installers. Nice and easy.
-
-.. making-sure-it-installed-correctly-1:
 
 Making sure it installed correctly
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -389,8 +375,6 @@ Based on which way you choose, you’ll need to follow one of the
 following installation options. Read on for the platform you are working
 on.
 
-.. sec:unix_install:
-
 Installing on UNIX and Mac OS X
 -------------------------------
 
@@ -406,12 +390,12 @@ Now that we’ve got what we need, let’s get into the installation:
 
 #. First you need to unpack the distribution. If you got the git
    version, you are all set to go and can skip on ahead. Otherwise,
-   you’ll need to unpack it. On UN*X machines, a tar.gz package is
+   you’ll need to unpack it. On UN\*X machines, a tar.gz package is
    provided, which you can unpack with
    ``tar -xzvpf biopython-X.X.tar.gz``. A zip file is also provided for
    other platforms.
 
-#. Now that everything is unpacked, move into the ``biopython*``
+#. Now that everything is unpacked, move into the `` biopython*``
    directory (this will just be ``biopython`` for git users, and will be
    ``biopython-X.X`` for those using a packaged download).
 
@@ -446,7 +430,7 @@ Now that we’ve got what we need, let’s get into the installation:
 
 #. That’s it! Biopython is installed. Wasn’t that easy? Now let’s check
    and make sure it worked properly. Skip on ahead to
-   section \ `6 <#sec:is_working>`__.
+   section [sec:is\_working].
 
 Using the Python package index
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -531,17 +515,14 @@ code, so it is probably also a good idea to download the zip file
 containing this so you can test your installation and learn how to use
 it.
 
-.. sec:windows_install:
-
 Installing from source on Windows
 ---------------------------------
 
 This section deals with installing the source (i. e. from git or from a
 source zip file) on a Windows machine. Much of the information from the
 UNIX install applies here, so it would be good to read
-section \ `5.2 <#sec:unix_install>`__ before starting. You will need a
-suitable C compiler. What you choose may depend on your version of
-Python.
+section [sec:unix\_install] before starting. You will need a suitable C
+compiler. What you choose may depend on your version of Python.
 
 For Python 2.6 we currently use Microsoft’s free VC++ 2008 Express
 Edition from , installation of this is pretty simple. Then go to the
@@ -567,9 +548,7 @@ Previously (back on Python 2.0), Brad has also managed to use Borland’s
 free C++ compiler (available from ), but this required extra work.
 
 Now that you’ve got everything installed, carry on ahead to
-section \ `6 <#sec:is_working>`__ to make sure everything worked.
-
-.. sec:is_working:
+section [sec:is\_working] to make sure everything worked.
 
 Making sure everything worked
 =============================
@@ -578,7 +557,7 @@ First, we’ll just do a quick test to make sure Biopython is installed
 correctly. The most important thing is that python can find the
 biopython installation. Biopython installs into top level ``Bio`` and
 ``BioSQL`` directories, so you’ll want to make sure these directories
-are located in a directory specified in your\ ``$PYTHONPATH``
+are located in a directory specified in your\ `` $PYTHONPATH``
 environmental variable. If you used the default install, this shouldn’t
 be a problem, but if not, you’ll need to set the ``PYTHONPATH`` with
 something like

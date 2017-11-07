@@ -4,8 +4,6 @@ Supervised learning methods
 Note the supervised learning methods described in this chapter all
 require Numerical Python (numpy) to be installed.
 
-.. sec:LogisticRegression:
-
 The Logistic Regression Model
 -----------------------------
 
@@ -86,63 +84,58 @@ classes OP and NOP, we can write this as
 the same operon (class OP) or to different operons (class NOP), we can
 calculate the weights :math:`\beta_0`, :math:`\beta_1`, :math:`\beta_2`
 by maximizing the log-likelihood corresponding to the probability
-functions (`[eq:OP] <#eq:OP>`__) and (`[eq:NOP] <#eq:NOP>`__).
-
-.. subsec:LogisticRegressionTraining:
+functions ([eq:OP]) and ([eq:NOP]).
 
 Training the logistic regression model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. table:: Adjacent gene pairs known to belong to the same operon (class
-OP) or to different operons (class NOP). Intergene distances are
-negative if the two genes overlap.
++---------------------+------------------------------------+---------------------------------------+---------+
+| Gene pair           | Intergene distance (:math:`x_1`)   | Gene expression score (:math:`x_2`)   | Class   |
++=====================+====================================+=======================================+=========+
+| *cotJA* — *cotJB*   | -53                                | -200.78                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yesK* — *yesL*     | 117                                | -267.14                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *lplA* — *lplB*     | 57                                 | -163.47                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *lplB* — *lplC*     | 16                                 | -190.30                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *lplC* — *lplD*     | 11                                 | -220.94                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *lplD* — *yetF*     | 85                                 | -193.94                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yfmT* — *yfmS*     | 16                                 | -182.71                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yfmF* — *yfmE*     | 15                                 | -180.41                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *citS* — *citT*     | -26                                | -181.73                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *citM* — *yflN*     | 58                                 | -259.87                               | OP      |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yfiI* — *yfiJ*     | 126                                | -414.53                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *lipB* — *yfiQ*     | 191                                | -249.57                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yfiU* — *yfiV*     | 113                                | -265.28                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yfhH* — *yfhI*     | 145                                | -312.99                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *cotY* — *cotX*     | 154                                | -213.83                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *yjoB* — *rapA*     | 147                                | -380.85                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
+| *ptsI* — *splA*     | 93                                 | -291.13                               | NOP     |
++---------------------+------------------------------------+---------------------------------------+---------+
 
-   +-----------------+-----------------+-----------------+-----------------+
-   | Gene pair       | Intergene       | Gene expression | Class           |
-   |                 | distance        | score           |                 |
-   |                 | (:math:`x_1`)   | (:math:`x_2`)   |                 |
-   +=================+=================+=================+=================+
-   | *cotJA* —       | -53             | -200.78         | OP              |
-   | *cotJB*         |                 |                 |                 |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yesK* — *yesL* | 117             | -267.14         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *lplA* — *lplB* | 57              | -163.47         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *lplB* — *lplC* | 16              | -190.30         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *lplC* — *lplD* | 11              | -220.94         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *lplD* — *yetF* | 85              | -193.94         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yfmT* — *yfmS* | 16              | -182.71         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yfmF* — *yfmE* | 15              | -180.41         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *citS* — *citT* | -26             | -181.73         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *citM* — *yflN* | 58              | -259.87         | OP              |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yfiI* — *yfiJ* | 126             | -414.53         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *lipB* — *yfiQ* | 191             | -249.57         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yfiU* — *yfiV* | 113             | -265.28         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yfhH* — *yfhI* | 145             | -312.99         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *cotY* — *cotX* | 154             | -213.83         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *yjoB* — *rapA* | 147             | -380.85         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
-   | *ptsI* — *splA* | 93              | -291.13         | NOP             |
-   +-----------------+-----------------+-----------------+-----------------+
+Table: Adjacent gene pairs known to belong to the same operon (class OP)
+or to different operons (class NOP). Intergene distances are negative if
+the two genes overlap.
 
 [table:training]
 
-Table `[table:training] <#table:training>`__ lists some of the *Bacillus
-subtilis* gene pairs for which the operon structure is known. Let’s
-calculate the logistic regression model from these data:
+Table [table:training] lists some of the *Bacillus subtilis* gene pairs
+for which the operon structure is known. Let’s calculate the logistic
+regression model from these data:
 
 ::
 
@@ -280,16 +273,15 @@ a logistic regression model and the values for :math:`x_1` and
 and class NOP, respectively. For example, let’s consider the gene pairs
 *yxcE*, *yxcD* and *yxiB*, *yxiA*:
 
-.. table:: Adjacent gene pairs of unknown operon status.
++-------------------+----------------------------------+-------------------------------------+
+| Gene pair         | Intergene distance :math:`x_1`   | Gene expression score :math:`x_2`   |
++===================+==================================+=====================================+
+| *yxcE* — *yxcD*   | 6                                | -173.143442352                      |
++-------------------+----------------------------------+-------------------------------------+
+| *yxiB* — *yxiA*   | 309                              | -271.005880394                      |
++-------------------+----------------------------------+-------------------------------------+
 
-   +-----------------------+-----------------------+-----------------------+
-   | Gene pair             | Intergene distance    | Gene expression score |
-   |                       | :math:`x_1`           | :math:`x_2`           |
-   +=======================+=======================+=======================+
-   | *yxcE* — *yxcD*       | 6                     | -173.143442352        |
-   +-----------------------+-----------------------+-----------------------+
-   | *yxiB* — *yxiA*       | 309                   | -271.005880394        |
-   +-----------------------+-----------------------+-----------------------+
+Table: Adjacent gene pairs of unknown operon status.
 
 The logistic regression model classifies *yxcE*, *yxcD* as belonging to
 the same operon (class OP), while *yxiB*, *yxiA* are predicted to belong
@@ -306,8 +298,7 @@ to different operons:
 
 To find out how confident we can be in these predictions, we can call
 the ``calculate`` function to obtain the probabilities (equations
-(`[eq:OP] <#eq:OP>`__) and `[eq:NOP] <#eq:NOP>`__) for class OP and NOP.
-For *yxcE*, *yxcD* we find
+([eq:OP]) and [eq:NOP]) for class OP and NOP. For *yxcE*, *yxcD* we find
 
 ::
 
@@ -385,10 +376,10 @@ Logistic Regression, Linear Discriminant Analysis, and Support Vector Machines
 
 The logistic regression model is similar to linear discriminant
 analysis. In linear discriminant analysis, the class probabilities also
-follow equations (`[eq:OP] <#eq:OP>`__) and (`[eq:NOP] <#eq:NOP>`__).
-However, instead of estimating the coefficients :math:`\beta` directly,
-we first fit a normal distribution to the predictor variables :math:`x`.
-The coefficients :math:`\beta` are then calculated from the means and
+follow equations ([eq:OP]) and ([eq:NOP]). However, instead of
+estimating the coefficients :math:`\beta` directly, we first fit a
+normal distribution to the predictor variables :math:`x`. The
+coefficients :math:`\beta` are then calculated from the means and
 covariances of the normal distribution. If the distribution of :math:`x`
 is indeed normal, then we expect linear discriminant analysis to perform
 better than the logistic regression model. The logistic regression
@@ -398,11 +389,11 @@ Another similar approach is a support vector machine with a linear
 kernel. Such an SVM also uses a linear combination of the predictors,
 but estimates the coefficients :math:`\beta` from the predictor
 variables :math:`x` near the boundary region between the classes. If the
-logistic regression model (equations (`[eq:OP] <#eq:OP>`__) and
-(`[eq:NOP] <#eq:NOP>`__)) is a good description for :math:`x` away from
-the boundary region, we expect the logistic regression model to perform
-better than an SVM with a linear kernel, as it relies on more data. If
-not, an SVM with a linear kernel may perform better.
+logistic regression model (equations ([eq:OP]) and ([eq:NOP])) is a good
+description for :math:`x` away from the boundary region, we expect the
+logistic regression model to perform better than an SVM with a linear
+kernel, as it relies on more data. If not, an SVM with a linear kernel
+may perform better.
 
 Trevor Hastie, Robert Tibshirani, and Jerome Friedman: *The Elements of
 Statistical Learning. Data Mining, Inference, and Prediction*. Springer
@@ -410,8 +401,6 @@ Series in Statistics, 2001. Chapter 4.4.
 
 :math:`k`-Nearest Neighbors
 ---------------------------
-
-.. background-and-purpose-1:
 
 Background and purpose
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -424,13 +413,13 @@ the training data set.
 In Biopython, the :math:`k`-nearest neighbors method is available in
 ``Bio.kNN``. To illustrate the use of the :math:`k`-nearest neighbor
 method in Biopython, we will use the same operon data set as in section
-`1 <#sec:LogisticRegression>`__.
+[sec:LogisticRegression].
 
 Initializing a :math:`k`-nearest neighbors model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the data in Table `[table:training] <#table:training>`__, we
-create and initialize a :math:`k`-nearest neighbors model as follows:
+Using the data in Table [table:training], we create and initialize a
+:math:`k`-nearest neighbors model as follows:
 
 ::
 
@@ -439,12 +428,12 @@ create and initialize a :math:`k`-nearest neighbors model as follows:
     >>> model = kNN.train(xs, ys, k)
 
 where ``xs`` and ``ys`` are the same as in Section
-`1.2 <#subsec:LogisticRegressionTraining>`__. Here, ``k`` is the number
-of neighbors :math:`k` that will be considered for the classification.
-For classification into two classes, choosing an odd number for
-:math:`k` lets you avoid tied votes. The function name ``train`` is a
-bit of a misnomer, since no model training is done: this function simply
-stores ``xs``, ``ys``, and ``k`` in ``model``.
+[subsec:LogisticRegressionTraining]. Here, ``k`` is the number of
+neighbors :math:`k` that will be considered for the classification. For
+classification into two classes, choosing an odd number for :math:`k`
+lets you avoid tied votes. The function name ``train`` is a bit of a
+misnomer, since no model training is done: this function simply stores
+``xs``, ``ys``, and ``k`` in ``model``.
 
 Using a :math:`k`-nearest neighbors model for classification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

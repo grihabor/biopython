@@ -22,10 +22,10 @@ First we create a ``PDBParser`` object:
     >>> parser = PDBParser(PERMISSIVE=1)
 
 The PERMISSIVE flag indicates that a number of common problems (see
-`[problem structures] <#problem structures>`__) associated with PDB
-files will be ignored (but note that some atoms and/or residues will be
-missing). If the flag is not present a PDBConstructionException will be
-generated if any problems are detected during the parse operation.
+[problem structures]) associated with PDB files will be ignored (but
+note that some atoms and/or residues will be missing). If the flag is
+not present a PDBConstructionException will be generated if any problems
+are detected during the parse operation.
 
 The Structure object is then produced by letting the ``PDBParser``
 object parse a PDB file (the PDB file in this case is called
@@ -38,7 +38,7 @@ object parse a PDB file (the PDB file in this case is called
     >>> structure = parser.get_structure(structure_id, filename)
 
 You can extract the header and trailer (simple lists of strings) of the
-PDB file from the PDBParser object with the get_header and get_trailer
+PDB file from the PDBParser object with the get\_header and get\_trailer
 methods. Note however that many PDB files contain headers with
 incomplete or erroneous information. Many of the errors have been fixed
 in the equivalent mmCIF files. *Hence, if you are interested in the
@@ -241,26 +241,17 @@ This is the way many structural biologists/bioinformaticians think about
 structure, and provides a simple but efficient way to deal with
 structure. Additional stuff is essentially added when needed. A UML
 diagram of the ``Structure`` object (forget about the ``Disordered``
-classes for now) is shown in Fig. `[fig:smcra] <#fig:smcra>`__. Such a
-data structure is not necessarily best suited for the representation of
-the macromolecular content of a structure, but it is absolutely
-necessary for a good interpretation of the data present in a file that
-describes the structure (typically a PDB or MMCIF file). If this
-hierarchy cannot represent the contents of a structure file, it is
-fairly certain that the file contains an error or at least does not
-describe the structure unambiguously. If a SMCRA data structure cannot
-be generated, there is reason to suspect a problem. Parsing a PDB file
-can thus be used to detect likely problems. We will give several
-examples of this in section
-`[problem structures] <#problem structures>`__.
-
-.. raw:: latex
-
-   \imgsrc[width=650, height=750]{images/smcra.png}
-
-.. raw:: latex
-
-   \centering
+classes for now) is shown in Fig. [fig:smcra]. Such a data structure is
+not necessarily best suited for the representation of the macromolecular
+content of a structure, but it is absolutely necessary for a good
+interpretation of the data present in a file that describes the
+structure (typically a PDB or MMCIF file). If this hierarchy cannot
+represent the contents of a structure file, it is fairly certain that
+the file contains an error or at least does not describe the structure
+unambiguously. If a SMCRA data structure cannot be generated, there is
+reason to suspect a problem. Parsing a PDB file can thus be used to
+detect likely problems. We will give several examples of this in section
+[problem structures].
 
 .. figure:: images/smcra.png
    :alt: UML diagram of SMCRA architecture of the ``Structure`` class
@@ -326,17 +317,17 @@ e.g. is something like:
 
 This corresponds to:
 
--  The Structure with id ‘̈1abc‘̈
+-  The Structure with id ‘"1abc‘"
 
 -  The Model with id 0
 
--  The Chain with id ‘̈A‘̈
+-  The Chain with id ‘"A‘"
 
--  The Residue with id (‘̈ ‘̈, 10, ‘̈A‘̈).
+-  The Residue with id (‘" ‘", 10, ‘"A‘").
 
 The Residue id indicates that the residue is not a hetero-residue (nor a
 water) because it has a blank hetero field, that its sequence identifier
-is 10 and that its insertion code is ‘̈A‘̈.
+is 10 and that its insertion code is ‘"A‘".
 
 To get the entity’s id, use the ``get_id`` method:
 
@@ -421,8 +412,8 @@ A residue id is a tuple with three elements:
 
    -  blank for standard amino and nucleic acids.
 
-   This scheme is adopted for reasons described in section
-   `[hetero problems] <#hetero problems>`__.
+   This scheme is adopted for reasons described in section [hetero
+   problems].
 
 -  The **sequence identifier** (resseq), an integer describing the
    position of the residue in the chain (e.g., 100);
@@ -458,8 +449,8 @@ used in the construction of the SMCRA data structure).
 Let’s look at some examples. Asn 10 with a blank insertion code would
 have residue id (’ ’, 10, ’ ’). Water 10 would have residue id (’W’, 10,
 ’ ’). A glucose molecule (a hetero residue with residue name GLC) with
-sequence identifier 10 would have residue id (’H_GLC’, 10, ’ ’). In this
-way, the three residues (with the same insertion code and sequence
+sequence identifier 10 would have residue id (’H\_GLC’, 10, ’ ’). In
+this way, the three residues (with the same insertion code and sequence
 identifier) can be part of the same chain because their residue id’s are
 distinct.
 
@@ -476,7 +467,7 @@ shortcut for the full id:
 
 Each Residue object in a Chain object should have a unique id. However,
 disordered residues are dealt with in a special way, as described in
-section `[point mutations] <#point mutations>`__.
+section [point mutations].
 
 A Residue object has a number of additional methods:
 
@@ -497,7 +488,7 @@ The Atom object stores the data associated with an atom, and has no
 children. The id of an atom is its atom name (e.g. “OG” for the side
 chain oxygen of a Ser residue). An Atom id needs to be unique in a
 Residue. Again, an exception is made for disordered atoms, as described
-in section `[disordered atoms] <#disordered atoms>`__.
+in section [disordered atoms].
 
 The atom id is simply the atom name (eg. ``’CA’``). In practice, the
 atom name is created by stripping all spaces from the atom name in the
@@ -511,7 +502,7 @@ stripping the spaces would create problems (ie. two atoms called
 
 In a PDB file, an atom name consists of 4 chars, typically with leading
 and trailing spaces. Often these spaces can be removed for ease of use
-(e.g. an amino acid C\ :math:`\alpha` atom is labeled “.CA.” in a PDB
+(e.g. an amino acid C\ :math:` \alpha  ` atom is labeled “.CA.” in a PDB
 file, where the dots represent spaces). To generate an atom name (and
 thus an atom id) the spaces are removed, unless this would result in a
 name collision in a Residue (i.e. two Atom objects with the same atom
@@ -631,15 +622,15 @@ Disordered atoms[disordered atoms]
 
 Disordered atoms are represented by ordinary ``Atom`` objects, but all
 ``Atom`` objects that represent the same physical atom are stored in a
-``DisorderedAtom`` object (see Fig. `[fig:smcra] <#fig:smcra>`__). Each
-``Atom`` object in a ``DisorderedAtom`` object can be uniquely indexed
-using its altloc specifier. The ``DisorderedAtom`` object forwards all
-uncaught method calls to the selected Atom object, by default the one
-that represents the atom with the highest occupancy. The user can of
-course change the selected ``Atom`` object, making use of its altloc
-specifier. In this way atom disorder is represented correctly without
-much additional complexity. In other words, if you are not interested in
-atom disorder, you will not be bothered by it.
+``DisorderedAtom`` object (see Fig. [fig:smcra]). Each ``Atom`` object
+in a ``DisorderedAtom`` object can be uniquely indexed using its altloc
+specifier. The ``DisorderedAtom`` object forwards all uncaught method
+calls to the selected Atom object, by default the one that represents
+the atom with the highest occupancy. The user can of course change the
+selected ``Atom`` object, making use of its altloc specifier. In this
+way atom disorder is represented correctly without much additional
+complexity. In other words, if you are not interested in atom disorder,
+you will not be bothered by it.
 
 Each disordered atom has a characteristic altloc identifier. You can
 specify that a ``DisorderedAtom`` object should behave like the ``Atom``
@@ -679,8 +670,7 @@ Since these residues belong to a different residue type (e.g. let’s say
 Ser 60 and Cys 60) they should not be stored in a single ``Residue``
 object as in the common case. In this case, each residue is represented
 by one ``Residue`` object, and both ``Residue`` objects are stored in a
-single ``DisorderedResidue`` object (see Fig.
-`[fig:smcra] <#fig:smcra>`__).
+single ``DisorderedResidue`` object (see Fig. [fig:smcra]).
 
 The ``DisorderedResidue`` object forwards all uncaught methods to the
 selected ``Residue`` object (by default the last ``Residue`` object
@@ -733,8 +723,8 @@ Other hetero residues
 
 The hetfield string for other hetero residues starts with “H\_” followed
 by the residue name. A glucose molecule e.g. with residue name “GLC”
-would have hetfield “H_GLC”. Its residue id could e.g. be (“H_GLC”, 1, “
-”).
+would have hetfield “H\_GLC”. Its residue id could e.g. be (“H\_GLC”, 1,
+“ ”).
 
 Navigating through a Structure object
 -------------------------------------
@@ -889,8 +879,8 @@ the atoms with altloc A are present.
     ...                             atom.disordered_select("A")
     ...
 
-Extracting polypeptides from a ``Structure`` object[subsubsec:extracting_polypeptides]
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Extracting polypeptides from a ``Structure`` object[subsubsec:extracting\_polypeptides]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To extract polypeptides from a structure, construct a list of
 ``Polypeptide`` objects from a ``Structure`` object using
@@ -1084,38 +1074,36 @@ For this functionality, you need to install DSSP (and obtain a license
 for it — free for academic use, see http://www.cmbi.kun.nl/gv/dssp/).
 Then use the ``DSSP`` class, which maps ``Residue`` objects to their
 secondary structure (and accessible surface area). The DSSP codes are
-listed in Table `[cap:DSSP-codes] <#cap:DSSP-codes>`__. Note that DSSP
-(the program, and thus by consequence the class) cannot handle multiple
-models!
+listed in Table [cap:DSSP-codes]. Note that DSSP (the program, and thus
+by consequence the class) cannot handle multiple models!
 
-.. table:: [cap:DSSP-codes]DSSP codes in Bio.PDB.
++--------+-----------------------------------------+
+| Code   | Secondary structure                     |
++========+=========================================+
+| H      | :math:`\alpha`-helix                    |
++--------+-----------------------------------------+
+| B      | Isolated :math:`\beta`-bridge residue   |
++--------+-----------------------------------------+
+| E      | Strand                                  |
++--------+-----------------------------------------+
+| G      | 3-10 helix                              |
++--------+-----------------------------------------+
+| I      | :math:`\Pi`-helix                       |
++--------+-----------------------------------------+
+| T      | Turn                                    |
++--------+-----------------------------------------+
+| S      | Bend                                    |
++--------+-----------------------------------------+
+| -      | Other                                   |
++--------+-----------------------------------------+
 
-   +------+---------------------------------------+
-   | Code | Secondary structure                   |
-   +======+=======================================+
-   | H    | :math:`\alpha`-helix                  |
-   +------+---------------------------------------+
-   | B    | Isolated :math:`\beta`-bridge residue |
-   +------+---------------------------------------+
-   | E    | Strand                                |
-   +------+---------------------------------------+
-   | G    | 3-10 helix                            |
-   +------+---------------------------------------+
-   | I    | :math:`\Pi`-helix                     |
-   +------+---------------------------------------+
-   | T    | Turn                                  |
-   +------+---------------------------------------+
-   | S    | Bend                                  |
-   +------+---------------------------------------+
-   | -    | Other                                 |
-   +------+---------------------------------------+
+Table: [cap:DSSP-codes]DSSP codes in Bio.PDB.
 
 The ``DSSP`` class can also be used to calculate the accessible surface
-area of a residue. But see also section
-`[subsec:residue_depth] <#subsec:residue_depth>`__.
+area of a residue. But see also section [subsec:residue\_depth].
 
-Calculating the residue depth[subsec:residue_depth]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Calculating the residue depth[subsec:residue\_depth]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Residue depth is the average distance of a residue’s atoms from the
 solvent accessible surface. It’s a fairly new and very powerful
@@ -1251,8 +1239,6 @@ Sometimes a PDB file cannot be unambiguously interpreted. Rather than
 guessing and risking a mistake, an exception is generated, and the user
 is expected to correct the PDB file. These cases are listed below.
 
-.. duplicate-residues-1:
-
 Duplicate residues
 ^^^^^^^^^^^^^^^^^^
 
@@ -1271,8 +1257,6 @@ based on:
 
 If this does not lead to a unique id something is quite likely wrong,
 and an exception is generated.
-
-.. duplicate-atoms-1:
 
 Duplicate atoms
 ^^^^^^^^^^^^^^^
