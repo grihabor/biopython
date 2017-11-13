@@ -1,3 +1,0 @@
-BIO_PATH=~/Projects/biopython/doc/utils
-
-30 2 * * * /your/command
