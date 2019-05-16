@@ -7,7 +7,7 @@ of the examples in this section assume that you have some general
 working knowledge of Python, and that you have successfully installed
 Biopython on your system. If you think you need to brush up on your
 Python, the main Python web site provides quite a bit of free
-documentation to get started with (http://www.python.org/doc/).
+documentation to get started with (https://docs.python.org/2/).
 
 Since much biological work on the computer involves connecting with
 databases on the internet, some of the examples will also require a
@@ -63,7 +63,7 @@ Python prompt followed by what you would type in:
     >>> from Bio.Seq import Seq
     >>> my_seq = Seq("AGTACACTGGT")
     >>> my_seq
-    Seq('AGTACACTGGT', Alphabet())
+    Seq('AGTACACTGGT')
     >>> print(my_seq)
     AGTACACTGGT
     >>> my_seq.alphabet
@@ -82,11 +82,11 @@ string:
 ::
 
     >>> my_seq
-    Seq('AGTACACTGGT', Alphabet())
+    Seq('AGTACACTGGT')
     >>> my_seq.complement()
-    Seq('TCATGTGACCA', Alphabet())
+    Seq('TCATGTGACCA')
     >>> my_seq.reverse_complement()
-    Seq('ACCAGTGTACT', Alphabet())
+    Seq('ACCAGTGTACT')
 
 The next most important class is the ``SeqRecord`` or Sequence Record.
 This holds a sequence (as a ``Seq`` object) with additional annotation
@@ -113,9 +113,9 @@ based example (sorry to all the fans of other organisms out there!).
 Having just completed a recent trip to our local greenhouse, we’ve
 suddenly developed an incredible obsession with Lady Slipper Orchids (if
 you wonder why, have a look at some `Lady Slipper Orchids photos on
-Flickr <http://www.flickr.com/search/?q=lady+slipper+orchid&s=int&z=t>`__,
+Flickr <https://www.flickr.com/search/?q=lady+slipper+orchid&s=int&z=t>`__,
 or try a `Google Image
-Search <http://images.google.com/images?q=lady%20slipper%20orchid>`__).
+Search <https://images.google.com/images?q=lady%20slipper%20orchid>`__).
 
 Of course, orchids are not only beautiful to look at, they are also
 extremely interesting for people studying evolution and systematics. So
@@ -156,7 +156,7 @@ search for our friends, the lady slipper orchids. To keep this
 introduction simple, we’re just using the NCBI website by hand. Let’s
 just take a look through the nucleotide databases at NCBI, using an
 Entrez online search
-(http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?db=Nucleotide) for
+(https://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?db=Nucleotide) for
 everything mentioning the text Cypripedioideae (this is the subfamily of
 lady slipper orchids).
 
@@ -287,11 +287,11 @@ repetitive work to do. Biopython attempts to save you time and energy by
 making some on-line databases available from Python scripts. Currently,
 Biopython has code to extract information from the following databases:
 
--  `Entrez <http://www.ncbi.nlm.nih.gov/Entrez/>`__ (and
-   `PubMed <http://www.ncbi.nlm.nih.gov/PubMed/>`__) from the NCBI – See
-   Chapter [chapter:entrez].
+-  `Entrez <https://www.ncbi.nlm.nih.gov/Web/Search/entrezfs.html>`__
+   (and `PubMed <https://www.ncbi.nlm.nih.gov/PubMed/>`__) from the NCBI
+   – See Chapter [chapter:entrez].
 
--  `ExPASy <http://www.expasy.org/>`__ – See
+-  `ExPASy <https://www.expasy.org/>`__ – See
    Chapter [chapter:swiss\_prot].
 
 -  `SCOP <http://scop.mrc-lmb.cam.ac.uk/scop/>`__ – See the

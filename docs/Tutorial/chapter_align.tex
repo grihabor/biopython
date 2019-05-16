@@ -69,7 +69,7 @@ COATB_BPIF1/22-73             FAADDATSQAKAAFDSLTAQATEMSGYAWALVVLVVGATVGIKLFKKFVS
 //
 \end{verbatim}
 
-This is the seed alignment for the Phage\_Coat\_Gp8 (PF05371) PFAM entry, downloaded from a now out of date release of PFAM from \url{http://pfam.xfam.org/}.  We can load this file as follows (assuming it has been saved to disk as ``PF05371\_seed.sth'' in the current working directory):
+This is the seed alignment for the Phage\_Coat\_Gp8 (PF05371) PFAM entry, downloaded from a now out of date release of PFAM from \url{https://pfam.xfam.org/}.  We can load this file as follows (assuming it has been saved to disk as ``PF05371\_seed.sth'' in the current working directory):
 
 %doctest examples
 \begin{verbatim}
@@ -102,6 +102,7 @@ You'll notice in the above output the sequences have been truncated.  We could i
 Alignment length 52
 >>> for record in alignment:
 ...     print("%s - %s" % (record.seq, record.id))
+...
 AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA - COATB_BPIKE/30-81
 AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA - Q9T0Q8_BPIKE/1-52
 DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA - COATB_BPI22/32-83
@@ -120,6 +121,7 @@ Did you notice in the raw file above that several of the sequences include datab
 >>> for record in alignment:
 ...     if record.dbxrefs:
 ...         print("%s %s" % (record.id, record.dbxrefs))
+...
 COATB_BPIKE/30-81 ['PDB; 1ifl ; 1-52;']
 COATB_BPM13/24-72 ['PDB; 2cpb ; 1-49;', 'PDB; 2cps ; 1-49;']
 Q9T0Q9_BPFD/1-49 ['PDB; 1nh4 A; 1-49;']
@@ -131,9 +133,10 @@ COATB_BPIF1/22-73 ['PDB; 1ifk ; 1-50;']
 \begin{verbatim}
 >>> for record in alignment:
 ...     print(record)
+...
 \end{verbatim}
 
-Sanger provide a nice web interface at \url{http://pfam.sanger.ac.uk/family?acc=PF05371} which will actually let you download this alignment in several other formats.  This is what the file looks like in the FASTA file format:
+PFAM provide a nice web interface at \url{ http://pfam.xfam.org/family/PF05371} which will actually let you download this alignment in several other formats.  This is what the file looks like in the FASTA file format:
 
 \begin{verbatim}
 >COATB_BPIKE/30-81
@@ -533,7 +536,7 @@ AlignIO.convert("PF05371_seed.sth", "stockholm", "PF05371_seed.phy", "phylip-rel
 \end{verbatim}
 
 This time the output looks like this, using a longer indentation to
-allow all the identifers to be given in full::
+allow all the identifers to be given in full:
 
 \begin{verbatim}
  7 52
@@ -650,6 +653,7 @@ make sense:
 Number of rows: 7
 >>> for record in alignment:
 ...     print("%s - %s" % (record.seq, record.id))
+...
 AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA - COATB_BPIKE/30-81
 AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA - Q9T0Q8_BPIKE/1-52
 DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA - COATB_BPI22/32-83
@@ -837,9 +841,9 @@ in memory as separate objects - editing one will not update the other!
 There are \emph{lots} of algorithms out there for aligning sequences, both pairwise alignments
 and multiple sequence alignments. These calculations are relatively slow, and you generally
 wouldn't want to write such an algorithm in Python. For pairwise alignments Biopython contains
-the \verb|Bio.pairwise2| module (see Section~\ref{sec:pairwise2}), which is supplemented by
-functions written in C for speed enhancements. In addition, you can use Biopython to invoke a
-command line tool on your behalf. Normally you would:
+the \verb|Bio.pairwise2| module , which is supplemented by functions written in C for speed
+enhancements and the new \verb|PairwiseAligner| (see Section~\ref{sec:pairwise}). In addition,
+you can use Biopython to invoke a command line tool on your behalf. Normally you would:
 \begin{enumerate}
 \item Prepare an input file of your unaligned sequences, typically this will be a FASTA file
       which you might create using \verb|Bio.SeqIO| (see Chapter~\ref{chapter:Bio.SeqIO}).
@@ -1394,13 +1398,36 @@ and \texttt{water}. One useful trick is that the second file can contain
 multiple sequences (say five), and then EMBOSS will do five pairwise
 alignments.
 
-\subsection{Biopython's pairwise2}
+
+\section{Pairwise sequence alignment}
+\label{sec:pairwise}
+
+Pairwise sequence alignment is the process of aligning two sequences to each
+other by optimizing the similarity score between them. Biopython includes two
+built-in pairwise aligners: the 'old' \verb|Bio.pairwise2| module and the new
+\verb|PairwiseAligner| class within the \verb|Bio.Align| module (since Biopython
+version 1.72). Both can perform global and local alignments and offer numerous
+options to change the alignment parameters. Although \verb|pairwise2| has gained
+some speed and memory enhancements recently, the new \verb|PairwiseAligner| is
+much faster; so if you need to make many alignments with larger sequences, the
+latter would be the tool to choose. \verb|pairwise2|, on the contrary, is also
+able to align lists, which can be useful if your sequences do not consist of
+single characters only. 
+
+Given that the parameters and sequences are the same, both aligners will return
+the same alignments and alignment score (if the number of alignments is too high
+they may return different subsets of all valid alignments).
+
+\subsection{pairwise2}
 \label{sec:pairwise2}
-Biopython has its own module to make local and global pairwise alignments,
-\verb|Bio.pairwise2|. This module contains essentially the same algorithms as
+
+\verb|Bio.pairwise2| contains essentially the same algorithms as
 \texttt{water} (local) and \texttt{needle} (global) from the
 \href{http://emboss.sourceforge.net/}{EMBOSS} suite (see above) and should
-return the same results.
+return the same results. The \verb|pairwise2| module has undergone some
+optimization regarding speed and memory consumption recently (Biopython versions \textgreater 1.67) so that for short sequences (global alignments: \textasciitilde 2000 residues, local alignments \textasciitilde 600 residues) it's faster (or equally fast)
+to use \verb|pairwise2| than calling EMBOSS' \texttt{water} or \texttt{needle}
+via the command line tools.
 
 Suppose you want to do a global pairwise alignment between the same two
 hemoglobin sequences from above (\texttt{HBA\_HUMAN}, \texttt{HBB\_HUMAN})
@@ -1452,7 +1479,7 @@ function \verb|format_alignment| for a nicer printout:
 \begin{verbatim}
 >>> print(pairwise2.format_alignment(*alignment[0]))
 MV-LSPADKTNV---K-A--A-WGKVGAHAG---EY-GA-EALE-RMFLSF----PTTK-TY--F...YR-
-|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||...|||
+|| |     |     | |  | ||||        |  |  |||  |  |      |    |   |...|  
 MVHL-----T--PEEKSAVTALWGKV-----NVDE-VG-GEAL-GR--L--LVVYP---WT-QRF...Y-H
   Score=72
 \end{verbatim}
@@ -1479,7 +1506,7 @@ and a gap extension penalty of 0.5 (using \verb|globalds|):
 \begin{verbatim}
 >>> print(pairwise2.format_alignment(*alignments[0]))
 MV-LSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTY...KYR
-||||||||||||||||||||||||||||||||||||||||||||...|||
+|| |.|..|..|.|.|||| ......|............|.......||.
 MVHLTPEEKSAVTALWGKV-NVDEVGGEALGRLLVVYPWTQRFF...KYH
   Score=292.5
 \end{verbatim}
@@ -1496,9 +1523,30 @@ where again XX stands for a two letter code for the match and gap functions:
 >>> from Bio.SubsMat.MatrixInfo import blosum62
 >>> alignments = pairwise2.align.localds("LSPADKTNVKAA", "PEEKSAV", blosum62, -10, -1)
 >>> print(pairwise2.format_alignment(*alignments[0]))
-LSPADKTNVKAA
+3 PADKTNV
   |..|..|
---PEEKSAV---
+1 PEEKSAV
+  Score=16
+<BLANKLINE>
+\end{verbatim}
+
+Note that local alignments must, as defined by Smith \& Waterman, have a 
+positive score (\textgreater 0). Thus, \verb|pairwise2| may return no
+alignments if no score \textgreater 0 has been obtained. Also, \verb|pairwise2|
+will not report alignments which are the result of the addition of zero-scoring
+extensions on either site. In the next example, the pairs serin/aspartate (S/D)
+and lysin/asparagin (K/N) both have a match score of 0. As you see, the aligned
+part has not been extended:
+
+%doctest
+\begin{verbatim}
+>>> from Bio import pairwise2
+>>> from Bio.SubsMat.MatrixInfo import blosum62
+>>> alignments = pairwise2.align.localds("LSSPADKTNVKKAA", "DDPEEKSAVNN", blosum62, -10, -1)
+>>> print(pairwise2.format_alignment(*alignments[0]))
+4 PADKTNV
+  |..|..|
+3 PEEKSAV
   Score=16
 <BLANKLINE>
 \end{verbatim}
@@ -1506,15 +1554,15 @@ LSPADKTNVKAA
 Instead of supplying a complete match/mismatch matrix, the match code
 \texttt{m} allows for easy defining general match/mismatch values. The next
 example uses match/mismatch scores of 5/-4 and gap penalties (open/extend)
-of 2/0.5 using \verb|localms|):
+of 2/0.5 using \verb|localms|:
 
 %cont-doctest
 \begin{verbatim}
 >>> alignments = pairwise2.align.localms("AGAACT", "GAC", 5, -4, -2, -0.5)
 >>> print(pairwise2.format_alignment(*alignments[0]))
-AGAACT
- | ||
--G-AC-
+2 GAAC
+  | ||
+1 G-AC
   Score=13
 <BLANKLINE>
 \end{verbatim}
@@ -1523,6 +1571,8 @@ One useful keyword argument of the \verb|Bio.pairwise2.align| functions is
 \texttt{score\_only}. When set to \texttt{True} it will only return the score
 of the best alignment(s), but in a significantly shorter time. It will also
 allow the alignment of longer sequences before a memory error is raised.
+Another useful keyword argument is \texttt{one\_alignment\_only=True} which
+will also result in some speed gain.
 
 Unfortunately, \verb|Bio.pairwise2| does not work with Biopython's multiple
 sequence alignment objects (yet).
@@ -1535,3 +1585,606 @@ are hard (if at all) to realize with other alignment tools. For more details
 see the modules documentation in
 \href{http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html}{Biopython's API}.
 
+\subsection{PairwiseAligner}
+\label{sec:pairwisealigner}
+The new \verb|Bio.Align.PairwiseAligner| implements the Needleman-Wunsch, Smith-Waterman,
+Gotoh (three-state), and Waterman-Smith-Beyer global and local pairwise alignment algorithms.
+We refer to Durbin {\it et al.} \cite{durbin1998} for in-depth information on sequence alignment algorithms.
+
+\subsubsection{Basic usage}
+\label{sec:pairwise-basic}
+
+To generate pairwise alignments, first create a \verb+PairwiseAligner+ object:
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+\end{verbatim}
+The \verb+PairwiseAligner+ object \verb+aligner+
+(see Section~\ref{sec:pairwise-aligner})
+stores the alignment parameters to be used for the pairwise alignments.
+
+Use the \verb+aligner.score+ method to calculate the alignment score between
+two sequences:
+%cont-doctest
+\begin{verbatim}
+>>> seq1 = "GAACT"
+>>> seq2 = "GAT"
+>>> score = aligner.score(seq1, seq2)
+>>> score
+3.0
+\end{verbatim}
+
+To see the actual alignments, use the \verb+aligner.align+ method and iterate over the \verb+PairwiseAlignment+ objects returned:
+%cont-doctest
+\begin{verbatim}
+>>> alignments = aligner.align(seq1, seq2)
+>>> for alignment in alignments:
+...     print(alignment)
+... 
+GAACT
+||--|
+GA--T
+<BLANKLINE>
+GAACT
+|-|-|
+G-A-T
+<BLANKLINE>
+\end{verbatim}
+
+By default, a global pairwise alignment is performed, which finds the optimal
+alignment over the whole length of \verb+seq1+ and \verb+seq2+.
+Instead, a local alignment will find the subsequence of
+\verb+seq1+ and \verb+seq2+ with the highest alignment score.
+Local alignments can be generated by setting \verb+aligner.mode+ to
+\verb+"local"+:
+
+%cont-doctest
+\begin{verbatim}
+>>> aligner.mode = 'local'
+>>> seq1 = "AGAACTC"
+>>> seq2 = "GAACT"
+>>> score = aligner.score(seq1, seq2)
+>>> score
+5.0
+>>> alignments = aligner.align(seq1, seq2)
+>>> for alignment in alignments:
+...     print(alignment)
+...
+AGAACTC
+.|||||.
+.GAACT.
+<BLANKLINE>
+\end{verbatim}
+
+Note that there is some ambiguity in the definition of the best local alignments if segments with a score 0 can be added to the alignment. We follow the suggestion by Waterman \& Eggert \cite{waterman1987} and disallow such extensions.
+
+\subsubsection{The pairwise aligner object}
+\label{sec:pairwise-aligner}
+
+The \verb+PairwiseAligner+ object stores all alignment parameters to be used
+for the pairwise alignments. To see an overview of the values for all parameters, use
+%cont-doctest
+\begin{verbatim}
+>>> print(aligner)
+Pairwise sequence aligner with parameters
+  match_score: 1.000000
+  mismatch_score: 0.000000
+  target_open_gap_score: 0.000000
+  target_extend_gap_score: 0.000000
+  target_left_open_gap_score: 0.000000
+  target_left_extend_gap_score: 0.000000
+  target_right_open_gap_score: 0.000000
+  target_right_extend_gap_score: 0.000000
+  query_open_gap_score: 0.000000
+  query_extend_gap_score: 0.000000
+  query_left_open_gap_score: 0.000000
+  query_left_extend_gap_score: 0.000000
+  query_right_open_gap_score: 0.000000
+  query_right_extend_gap_score: 0.000000
+  mode: local
+<BLANKLINE>
+\end{verbatim}
+See Sections~\ref{sec:pairwise-matchscores}, \ref{sec:pairwise-affine-gapscores}, and \ref{sec:pairwise-general-gapscores} below for the definition of these
+parameters. The attribute \verb+mode+ (described above in Section~\ref{sec:pairwise-basic}) can be set equal to \verb+"global"+ or \verb+"local"+ to specify global or local pairwise alignment, respectively.
+
+Depending on the gap scoring parameters
+(see Sections~\ref{sec:pairwise-affine-gapscores} and
+\ref{sec:pairwise-general-gapscores}) and mode, a \verb+PairwiseAligner+ object
+automatically chooses the appropriate algorithm to use for pairwise sequence alignment. To verify the selected algorithm, use
+%cont-doctest
+\begin{verbatim}
+>>> aligner.algorithm
+'Smith-Waterman'
+\end{verbatim}
+This attribute is read-only.
+
+A \verb+PairwiseAligner+ object also stores the precision $\epsilon$ to be used during alignment. The value of $\epsilon$ is stored in the attribute \verb+aligner.epsilon+, and by default is equal to $10^{-6}$:
+%cont-doctest
+\begin{verbatim}
+>>> aligner.epsilon
+1e-06
+\end{verbatim}
+Two scores will be considered equal to each other for the purpose of the alignment if the absolute difference between them is less than $\epsilon$.
+
+\subsubsection{Match and mismatch scores}
+\label{sec:pairwise-matchscores}
+
+The match and mismatch scores are stored as attributes of an \verb+PairwiseAligner+
+object:
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+>>> aligner.match_score
+1.0
+>>> aligner.mismatch_score
+0.0
+>>> score = aligner.score("AAA","AAC")
+>>> print(score)
+2.0
+>>> aligner.match_score = 2.0
+>>> score = aligner.score("AAA","AAC")
+>>> print(score)
+4.0
+\end{verbatim}
+
+Alternatively, you can specify a substitution matrix as follows:
+%cont-doctest
+\begin{verbatim}
+>>> matrix = {('A','A'): 1.0, ('A','B'): -1.0, ('B','B'): 2.0}
+>>> aligner.substitution_matrix = matrix
+\end{verbatim}
+
+The attributes \verb+aligner.match_score+ and \verb+aligner.mismatch_score+ are
+ignored if \verb+aligner.substitution_matrix+ is specified. Likewise, after
+specifying \verb+aligner.match_score+ or \verb+aligner.mismatch_score+,
+\verb+aligner.substitution_matrix+  will be ignored.
+
+Note that \verb+aligner.substitution_matrix+ will return a copy of the
+substitution matrix stored in the \verb+PairwiseAligner+ object. Therefore,
+modifying the substitution matrix directly has no effect:
+%cont-doctest
+\begin{verbatim}
+>>> aligner.substitution_matrix[('A','A')] = 5.0 # does nothing
+>>> aligner.substitution_matrix[('A','A')]
+1.0
+\end{verbatim}
+
+In all cases, the character \verb+X+ is used to denote unknown characters,
+which will always get a zero score in alignments, irrespective of the match or
+mismatch score.
+ 
+\subsubsection{Affine gap scores}
+\label{sec:pairwise-affine-gapscores}
+
+Affine gap scores are defined by a score to open a gap, and a score to extend
+an existing gap:
+
+$\textrm{gap score} = \textrm{open gap score} + (n-1) \times \textrm{extend gap score}$,
+
+where $n$ is the length of the gap.
+Biopython's pairwise sequence aligner allows fine-grained control over the gap
+scoring scheme by specifying the following twelve attributes of a \verb+PairwiseAligner+ object:
+
+\begin{table}
+\begin{tabular}{|l|}
+\verb+query_left_open_gap_score+ \\
+\verb+query_left_extend_gap_score+ \\
+\verb+query_internal_open_gap_score+ \\
+\verb+query_internal_extend_gap_score+ \\
+\verb+query_right_open_gap_score+ \\
+\verb+query_right_extend_gap_score+ \\
+\verb+target_left_open_gap_score+ \\
+\verb+target_left_extend_gap_score+ \\
+\verb+target_internal_open_gap_score+ \\
+\verb+target_internal_extend_gap_score+ \\
+\verb+target_right_open_gap_score+ \\
+\verb+target_right_extend_gap_score+ \\
+\end{tabular}
+\end{table}
+
+These attributes allow for different gap scores for internal gaps and on either end of the sequence, as shown in this example:
+
+\begin{table}
+\begin{tabular}{|c|c|l|}
+\bf{target} & \bf{query} & \bf{score} \\
+A & - &  query left open gap score \\
+C & - &  query left extend gap score \\
+C & - &  query left extend gap score \\
+G & G &  match score \\
+G & T &  mismatch score \\
+G & - &  query internal open gap score \\
+A & - &  query internal extend gap score \\
+A & - &  query internal extend gap score \\
+T & T &  match score \\
+A & A &  match score \\
+G & - &  query internal open gap score \\
+C & C &  match score \\
+- & C &  target internal open gap score \\
+- & C &  target internal extend gap score \\
+C & C &  match score \\
+T & G &  mismatch score \\
+C & C &  match score \\
+- & C &  target internal open gap score \\
+A & A &  match score \\
+- & T &  target right open gap score \\
+- & A &  target right extend gap score \\
+- & A &  target right extend gap score
+\end{tabular}
+\end{table}
+
+For convenience, \verb+PairwiseAligner+ objects have additional attributes that refer to a number of these values collectively, as shown (hierarchically) in this table:
+
+\begin{table}
+\begin{tabular}{|l|l|}
+\hline
+\verb+gap_score+ & \verb+target_gap_score+, \verb+query_gap_score+ \\
+\verb+open_gap_score+ & \verb+target_open_gap_score+, \verb+query_open_gap_score+ \\
+\verb+extend_gap_score+ & \verb+target_extend_gap_score+, \verb+query_extend_gap_score+ \\
+\verb+internal_gap_score+ & \verb+target_internal_gap_score+, \verb+query_internal_gap_score+ \\
+\verb+internal_open_gap_score+ & \verb+target_internal_open_gap_score+, \verb+query_internal_open_gap_score+ \\
+\verb+internal_extend_gap_score+ & \verb+target_internal_extend_gap_score+, \verb+query_internal_extend_gap_score+ \\
+\verb+end_gap_score+ & \verb+target_end_gap_score+, \verb+query_end_gap_score+ \\
+\verb+end_open_gap_score+ & \verb+target_end_open_gap_score+, \verb+query_end_open_gap_score+ \\
+\verb+end_extend_gap_score+ & \verb+target_end_extend_gap_score+, \verb+query_end_extend_gap_score+ \\
+\verb+left_gap_score+ & \verb+target_left_gap_score+, \verb+query_left_gap_score+ \\
+\verb+right_gap_score+ & \verb+target_right_gap_score+, \verb+query_right_gap_score+ \\
+\verb+left_open_gap_score+ & \verb+target_left_open_gap_score+, \verb+query_left_open_gap_score+ \\
+\verb+left_extend_gap_score+ & \verb+target_left_extend_gap_score+, \verb+query_left_extend_gap_score+ \\
+\verb+right_open_gap_score+ & \verb+target_right_open_gap_score+, \verb+query_right_open_gap_score+ \\
+\verb+right_extend_gap_score+ & \verb+target_right_extend_gap_score+, \verb+query_right_extend_gap_score+ \\
+\verb+target_open_gap_score+ & \verb+target_internal_open_gap_score+, \verb+target_left_open_gap_score+, \verb+target_right_open_gap_score+ \\
+\verb+target_extend_gap_score+ & \verb+target_internal_extend_gap_score+, \verb+target_left_extend_gap_score+, \verb+target_right_extend_gap_score+ \\
+\verb+target_gap_score+ & \verb+target_open_gap_score+, \verb+target_extend_gap_score+ \\
+\verb+query_open_gap_score+ & \verb+query_internal_open_gap_score+, \verb+query_left_open_gap_score+, \verb+query_right_open_gap_score+ \\
+\verb+query_extend_gap_score+ & \verb+query_internal_extend_gap_score+, \verb+query_left_extend_gap_score+, \verb+query_right_extend_gap_score+ \\
+\verb+query_gap_score+ & \verb+query_open_gap_score+, \verb+query_extend_gap_score+ \\
+\verb+target_internal_gap_score+ & \verb+target_internal_open_gap_score+, \verb+target_internal_extend_gap_score+ \\
+\verb+target_end_gap_score+ & \verb+target_end_open_gap_score+, \verb+target_end_extend_gap_score+ \\
+\verb+target_end_open_gap_score+ & \verb+target_left_open_gap_score+, \verb+target_right_open_gap_score+ \\
+\verb+target_end_extend_gap_score+ & \verb+target_left_extend_gap_score+, \verb+target_right_extend_gap_score+ \\
+\verb+target_left_gap_score+ & \verb+target_left_open_gap_score+, \verb+target_left_extend_gap_score+ \\
+\verb+target_right_gap_score+ & \verb+target_right_open_gap_score+, \verb+target_right_extend_gap_score+ \\
+\verb+query_end_gap_score+ & \verb+query_end_open_gap_score+, \verb+query_end_extend_gap_score+ \\
+\verb+query_end_open_gap_score+ & \verb+query_left_open_gap_score+, \verb+query_right_open_gap_score+ \\
+\verb+query_end_extend_gap_score+ & \verb+query_left_extend_gap_score+, \verb+query_right_extend_gap_score+ \\
+\verb+query_internal_gap_score+ & \verb+query_internal_open_gap_score+, \verb+query_internal_extend_gap_score+ \\
+\verb+query_left_gap_score+ & \verb+query_left_open_gap_score+, \verb+query_left_extend_gap_score+ \\
+\verb+query_right_gap_score+ & \verb+query_right_open_gap_score+, \verb+query_right_extend_gap_score+ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{General gap scores}
+\label{sec:pairwise-general-gapscores}
+
+For even more fine-grained control over the gap scores, you can specify a gap scoring function. For example, the gap scoring function below disallows a gap after two nucleotides in the query sequence:
+
+%doctest
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+>>> def my_gap_score_function(start, length):
+...     if start==2:
+...         return -1000
+...     else:
+...         return -1 * length
+...
+>>> aligner.query_gap_score = my_gap_score_function
+>>> alignments = aligner.align("AACTT", "AATT")
+>>> for alignment in alignments:
+...     print(alignment)
+... 
+AACTT
+-|X||
+-AATT
+<BLANKLINE>
+AACTT
+|-X||
+A-ATT
+<BLANKLINE>
+AACTT
+||X-|
+AAT-T
+<BLANKLINE>
+AACTT
+||X|-
+AATT-
+<BLANKLINE>
+\end{verbatim}
+
+\subsubsection{Iterating over alignments}
+
+The \verb+alignments+ returned by \verb+aligner.align+ are a kind of immutable iterable objects (similar to \verb+range+). While they appear similarto a \verb+tuple+ or \verb+list+ of \verb+PairwiseAlignment+ objects, they are different in the sense that each \verb+PairwiseAlignment+ object is created dynamically when it is needed. This approach was chosen because the number of alignments can be extremely large, in particular for poor alignments (see Section~\ref{sec:pairwise-examples} for an example).
+
+You can perform the following operations on \verb+alignments+:
+\begin{itemize}
+\item \verb+len(alignments)+ returns the number of alignments stored. This function returns quickly, even if the number of alignments is huge. If the number of alignments is extremely large (typically, larger than 9,223,372,036,854,775,807, which is the largest integer that can be stored as a \verb+long int+ on 64 bit machines), \verb+len(alignments)+ will raise an \verb+OverflowError+. A large number of alignments suggests that the alignment quality is low.
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+>>> alignments = aligner.align("AAA", "AA")
+>>> len(alignments)
+3
+\end{verbatim}
+\item You can extract a specific alignment by index:
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+>>> alignments = aligner.align("AAA", "AA")
+>>> print(alignments[2])
+AAA
+-||
+-AA
+<BLANKLINE>
+>>> print(alignments[0])
+AAA
+||-
+AA-
+<BLANKLINE>
+\end{verbatim}
+\item You can iterate over alignments, for example as in
+\begin{verbatim}
+>>> for alignment in alignments:
+...     print(alignment)
+...
+\end{verbatim}
+Note that \verb+alignments+ can be reused, i.e. you can iterate over alignments multiple times:
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+>>> alignments = aligner.align("AAA", "AA")
+>>> for alignment in alignments:
+...     print(alignment)
+...
+AAA
+||-
+AA-
+<BLANKLINE>
+AAA
+|-|
+A-A
+<BLANKLINE>
+AAA
+-||
+-AA
+<BLANKLINE>
+>>> for alignment in alignments:
+...     print(alignment)
+...
+AAA
+||-
+AA-
+<BLANKLINE>
+AAA
+|-|
+A-A
+<BLANKLINE>
+AAA
+-||
+-AA
+<BLANKLINE>
+\end{verbatim}
+You can also convert the \verb+alignments+ iterator into a \verb+list+ or \verb+tuple+:
+\begin{verbatim}
+>>> alignments = list(alignments)
+\end{verbatim}
+It is wise to check the number of alignments by calling \verb+len(alignments)+ before attempting to call \verb+list(alignments)+ to save all alignments as a list.
+\item The alignment score (which has the same value for each alignment in \verb+alignments+), is stored as an attribute. This allows you to check the alignment score before proceeding to extract individual alignments:
+%cont-doctest
+\begin{verbatim}
+>>> print(alignments.score)
+2.0
+\end{verbatim}
+\end{itemize}
+
+\subsubsection{Alignment objects}
+The \verb+aligner.align+ method returns \verb+PairwiseAlignment+ objects, each representing one alignment between the two sequences.
+%doctest
+\begin{verbatim}
+>>> from Bio import Align
+>>> aligner = Align.PairwiseAligner()
+>>> seq1 = "GAACT"
+>>> seq2 = "GAT"
+>>> alignments = aligner.align(seq1, seq2)
+>>> alignment = alignments[0]
+\end{verbatim}
+\begin{verbatim}
+>>> alignment
+<Bio.Align.PairwiseAlignment object at 0x10204d250>
+\end{verbatim}
+
+Each alignment stores the alignment score:
+%cont-doctest
+\begin{verbatim}
+>>> alignment.score
+3.0
+\end{verbatim}
+as well as pointers to the sequences that were aligned:
+%cont-doctest
+\begin{verbatim}
+>>> alignment.target
+'GAACT'
+>>> alignment.query
+'GAT'
+\end{verbatim}
+
+Print the \verb+PairwiseAlignment+ object to show the alignment explicitly:
+%cont-doctest
+\begin{verbatim}
+>>> print(alignment)
+GAACT
+||--|
+GA--T
+<BLANKLINE>
+\end{verbatim}
+
+You can also represent the alignment as a string in PSL (Pattern Space Layout, as generated by BLAT \cite{kent2002}) format:
+%cont-doctest
+\begin{verbatim}
+>>> format(alignment, 'psl')
+'3\t0\t0\t0\t0\t0\t1\t2\t+\tquery\t3\t0\t3\ttarget\t5\t0\t5\t2\t2,1,\t0,2,\t0,4,\n'
+\end{verbatim}
+
+Use the \verb+aligned+ property to find the start and end indices of subsequences in the target and query sequence that were aligned to each other.
+Generally, if the alignment between target (t) and query (q) consists of N
+chunks, you get two tuples of length N:
+
+\begin{verbatim}
+(((t_start1, t_end1), (t_start2, t_end2), ..., (t_startN, t_endN)),
+ ((q_start1, q_end1), (q_start2, q_end2), ..., (q_startN, q_endN)))
+\end{verbatim}
+
+In the current example, `alignment.aligned` returns two tuples of length 2:
+%cont-doctest
+\begin{verbatim}
+>>> alignment.aligned
+(((0, 2), (4, 5)), ((0, 2), (2, 3)))
+\end{verbatim}
+while for the alternative alignment, two tuples of length 3 are returned:
+%cont-doctest
+\begin{verbatim}
+>>> alignment = alignments[1]
+>>> print(alignment)
+GAACT
+|-|-|
+G-A-T
+<BLANKLINE>
+>>> alignment.aligned
+(((0, 1), (2, 3), (4, 5)), ((0, 1), (1, 2), (2, 3)))
+\end{verbatim}
+Note that different alignments may have the same subsequences aligned to each other. In particular, this may occur if alignments differ from each other in terms of their gap placement only:
+%cont-doctest
+\begin{verbatim}
+>>> aligner.mismatch_score = -10
+>>> alignments = aligner.align("AAACAAA", "AAAGAAA")
+>>> len(alignments)
+2
+>>> print(alignments[0])
+AAAC-AAA
+|||--|||
+AAA-GAAA
+<BLANKLINE>
+>>> alignments[0].aligned
+(((0, 3), (4, 7)), ((0, 3), (4, 7)))
+>>> print(alignments[1])
+AAA-CAAA
+|||--|||
+AAAG-AAA
+<BLANKLINE>
+>>> alignments[1].aligned
+(((0, 3), (4, 7)), ((0, 3), (4, 7)))
+\end{verbatim}
+The \verb+aligned+ property can be used to identify alignments that are identical to each other in terms of their aligned sequences.
+
+\subsubsection{Example}
+\label{sec:pairwise-examples}
+
+Suppose you want to do a global pairwise alignment between the same two
+hemoglobin sequences from above (\texttt{HBA\_HUMAN}, \texttt{HBB\_HUMAN})
+stored in \texttt{alpha.faa} and \texttt{beta.faa}:
+
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> from Bio import SeqIO
+>>> seq1 = SeqIO.read("alpha.faa", "fasta")
+>>> seq2 = SeqIO.read("beta.faa", "fasta")
+>>> aligner = Align.PairwiseAligner()
+>>> score = aligner.score(seq1.seq, seq2.seq)
+>>> print(score)
+72.0
+\end{verbatim}
+
+showing an alignment score of 72.0. To see the individual alignments, do
+%cont-doctest
+\begin{verbatim}
+>>> alignments = aligner.align(seq1.seq, seq2.seq)
+\end{verbatim}
+In this example, the total number of optimal alignments is huge (more than $4 \times 10^{37}$), and calling \verb+len(alignments)+ will raise an \verb+OverflowError+:
+\begin{verbatim}
+>>> len(alignments)
+...
+OverflowError: number of optimal alignments is larger than 9223372036854775807
+\end{verbatim}
+Let's have a look at the first alignment:
+%cont-doctest
+\begin{verbatim}
+>>> alignment = alignments[0]
+\end{verbatim}
+
+The alignment object stores the alignment score, as well as the alignment
+itself:
+%cont-doctest
+\begin{verbatim}
+>>> print(alignment.score)
+72.0
+\end{verbatim}
+%This has been abbreviated, can't use as doctest
+\begin{verbatim}
+>>> print(alignment)
+MV-LS-PAD--KTN--VK-AA-WGKV-----GAHAGEYGAEALE-RMFLSF----P-TTKTY--FPHF--...
+||-|--|----|----|--|--||||-----|---||--|--|--|--|------|-|------|--|--...
+MVHL-TP--EEK--SAV-TA-LWGKVNVDEVG---GE--A--L-GR--L--LVVYPWT----QRF--FES...
+\end{verbatim}
+
+Better alignments are usually obtained by penalizing gaps: higher costs
+for opening a gap and lower costs for extending an existing gap. For amino
+acid sequences match scores are usually encoded in matrices like \texttt{PAM}
+or \texttt{BLOSUM}. Thus, a more meaningful alignment for our example can be
+obtained by using the BLOSUM62 matrix, together with a gap open penalty of 10
+and a gap extension penalty of 0.5:
+
+%doctest examples
+\begin{verbatim}
+>>> from Bio import Align
+>>> from Bio import SeqIO
+>>> from Bio.SubsMat.MatrixInfo import blosum62
+>>> seq1 = SeqIO.read("alpha.faa", "fasta")
+>>> seq2 = SeqIO.read("beta.faa", "fasta")
+>>> aligner = Align.PairwiseAligner()
+>>> aligner.open_gap_score = -10
+>>> aligner.extend_gap_score = -0.5
+>>> aligner.substitution_matrix = blosum62
+>>> score = aligner.score(seq1.seq, seq2.seq)
+>>> print(score)
+292.5
+>>> alignments = aligner.align(seq1.seq, seq2.seq)
+>>> len(alignments)
+2
+>>> print(alignments[0].score)
+292.5
+\end{verbatim}
+%This has been abbreviated, can't use as doctest
+\begin{verbatim}
+>>> print(alignments[0])
+MV-LSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHF-DLS-----HGSAQVKGHGKKV...
+||-|X|XX|XX|X|X||||--XXX|X|X|||X|XXXXX|X|XXX|XX|-|||---- X|XXX||X|||||...
+MVHLTPEEKSAVTALWGKV--NVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKV...
+\end{verbatim}
+
+This alignment has the same score that we obtained earlier with EMBOSS needle
+using the same sequences and the same parameters.
+
+To perform a local alignment, set \verb+aligner.mode+ to \verb+'local'+:
+%cont-doctest
+\begin{verbatim}
+>>> aligner.mode = 'local'
+>>> aligner.open_gap_score = -10
+>>> aligner.extend_gap_score = -1
+>>> alignments = aligner.align("LSPADKTNVKAA", "PEEKSAV")
+>>> print(len(alignments))
+1
+>>> alignment = alignments[0]
+>>> print(alignment)
+LSPADKTNVKAA
+..|XX|XX|...
+..PEEKSAV...
+<BLANKLINE>
+>>> print(alignment.score)
+16.0
+\end{verbatim}

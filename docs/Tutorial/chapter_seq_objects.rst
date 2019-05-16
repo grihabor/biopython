@@ -30,8 +30,9 @@ Sequences and Alphabets
 The alphabet object is perhaps the important thing that makes the
 ``Seq`` object more than just a string. The currently available
 alphabets for Biopython are defined in the ``Bio.Alphabet`` module.
-We’ll use the IUPAC alphabets (http://www.chem.qmw.ac.uk/iupac/) here to
-deal with some of our favorite objects: DNA, RNA and Proteins.
+We’ll use the IUPAC alphabets
+(` http://www.sbcs.qmul.ac.uk/iupac/ < http://www.sbcs.qmul.ac.uk/iupac/>`__)
+here to deal with some of our favorite objects: DNA, RNA and Proteins.
 
 ``Bio.Alphabet.IUPAC`` provides basic definitions for proteins, DNA and
 RNA, but additionally provides the ability to extend and customize the
@@ -62,7 +63,7 @@ with the default generic alphabet like this:
     >>> from Bio.Seq import Seq
     >>> my_seq = Seq("AGTACACTGGT")
     >>> my_seq
-    Seq('AGTACACTGGT', Alphabet())
+    Seq('AGTACACTGGT')
     >>> my_seq.alphabet
     Alphabet()
 
@@ -145,7 +146,7 @@ letters, this makes no difference:
 
     >>> from Bio.Seq import Seq
     >>> from Bio.Alphabet import IUPAC
-    >>> my_seq = Seq('GATCGATGGGCCTATATAGGATCGAAAATCGC', IUPAC.unambiguous_dna)
+    >>> my_seq = Seq("GATCGATGGGCCTATATAGGATCGAAAATCGC", IUPAC.unambiguous_dna)
     >>> len(my_seq)
     32
     >>> my_seq.count("G")
@@ -162,7 +163,7 @@ For example:
     >>> from Bio.Seq import Seq
     >>> from Bio.Alphabet import IUPAC
     >>> from Bio.SeqUtils import GC
-    >>> my_seq = Seq('GATCGATGGGCCTATATAGGATCGAAAATCGC', IUPAC.unambiguous_dna)
+    >>> my_seq = Seq("GATCGATGGGCCTATATAGGATCGAAAATCGC", IUPAC.unambiguous_dna)
     >>> GC(my_seq)
     46.875
 
@@ -295,7 +296,7 @@ sequences generic alphabets:
     >>> protein_seq.alphabet = generic_alphabet
     >>> dna_seq.alphabet = generic_alphabet
     >>> protein_seq + dna_seq
-    Seq('EVRNAKACGT', Alphabet())
+    Seq('EVRNAKACGT')
 
 Here is an example of adding a generic nucleotide sequence to an
 unambiguous IUPAC DNA sequence, resulting in an ambiguous nucleotide
@@ -551,7 +552,7 @@ optional arguments, including different translation tables (Genetic
 Codes).
 
 The translation tables available in Biopython are based on those `from
-the NCBI <http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi>`__
+the NCBI <https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi>`__
 (see the next section of this tutorial). By default, translation will
 use the *standard* genetic code (NCBI table id 1). Suppose we are
 dealing with a mitochondrial sequence. We need to tell the translation
@@ -649,7 +650,7 @@ method (and mentioned the equivalent function in the ``Bio.Seq`` module
 – see Section [sec:seq-module-functions]). Internally these use codon
 table objects derived from the NCBI information at
 ftp://ftp.ncbi.nlm.nih.gov/entrez/misc/data/gc.prt, also shown on
-http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi in a much more
+https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi in a much more
 readable layout.
 
 As before, let’s just focus on two choices: the Standard translation
@@ -810,7 +811,7 @@ used:
     >>> from Bio.Seq import Seq
     >>> from Bio.Alphabet import generic_dna, generic_protein
     >>> dna_seq = Seq("ACGT", generic_dna)
-    >>> prot_seq = Seq(``ACGT'', generic_protein)
+    >>> prot_seq = Seq("ACGT", generic_protein)
     >>> dna_seq == prot_seq
     BiopythonWarning: Incompatible alphabets DNAAlphabet() and ProteinAlphabet()
     True
@@ -915,7 +916,7 @@ single letter “N” and the desired length as an integer.
     >>> from Bio.Seq import UnknownSeq
     >>> unk = UnknownSeq(20)
     >>> unk
-    UnknownSeq(20, alphabet = Alphabet(), character = '?')
+    UnknownSeq(20, character='?')
     >>> print(unk)
     ????????????????????
     >>> len(unk)
@@ -930,7 +931,7 @@ the letter defaults to “N” and for proteins “X”, rather than just “?�
     >>> from Bio.Alphabet import IUPAC
     >>> unk_dna = UnknownSeq(20, alphabet=IUPAC.ambiguous_dna)
     >>> unk_dna
-    UnknownSeq(20, alphabet = IUPACAmbiguousDNA(), character = 'N')
+    UnknownSeq(20, alphabet=IUPACAmbiguousDNA(), character='N')
     >>> print(unk_dna)
     NNNNNNNNNNNNNNNNNNNN
 
@@ -941,16 +942,16 @@ expect:
 ::
 
     >>> unk_dna
-    UnknownSeq(20, alphabet = IUPACAmbiguousDNA(), character = 'N')
+    UnknownSeq(20, alphabet=IUPACAmbiguousDNA(), character='N')
     >>> unk_dna.complement()
-    UnknownSeq(20, alphabet = IUPACAmbiguousDNA(), character = 'N')
+    UnknownSeq(20, alphabet=IUPACAmbiguousDNA(), character='N')
     >>> unk_dna.reverse_complement()
-    UnknownSeq(20, alphabet = IUPACAmbiguousDNA(), character = 'N')
+    UnknownSeq(20, alphabet=IUPACAmbiguousDNA(), character='N')
     >>> unk_dna.transcribe()
-    UnknownSeq(20, alphabet = IUPACAmbiguousRNA(), character = 'N')
+    UnknownSeq(20, alphabet=IUPACAmbiguousRNA(), character='N')
     >>> unk_protein = unk_dna.translate()
     >>> unk_protein
-    UnknownSeq(6, alphabet = ProteinAlphabet(), character = 'X')
+    UnknownSeq(6, alphabet=ProteinAlphabet(), character='X')
     >>> print(unk_protein)
     XXXXXX
     >>> len(unk_protein)

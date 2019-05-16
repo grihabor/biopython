@@ -1,14 +1,5 @@
-BLAST and other sequence search tools (*experimental code*)
-===========================================================
-
-*WARNING*: This chapter of the Tutorial describes an *experimental*
-module in Biopython. It is being included in Biopython and documented
-here in the tutorial in a pre-final state to allow a period of feedback
-and refinement before we declare it stable. Until then the details will
-probably change, and any scripts using the current ``Bio.SearchIO``
-would need to be updated. Please keep this in mind! For stable code
-working with NCBI BLAST, please continue to use Bio.Blast described in
-the preceding Chapter [chapter:blast].
+BLAST and other sequence search tools
+=====================================
 
 Biological sequence identification is an integral part of
 bioinformatics. Several tools are available for this, each with their
@@ -134,7 +125,7 @@ file we have:
 ::
 
     >>> from Bio import SearchIO
-    >>> blast_qresult = SearchIO.read('my_blast.xml', 'blast-xml')
+    >>> blast_qresult = SearchIO.read("my_blast.xml", "blast-xml")
     >>> print(blast_qresult)
     Program: blastn (2.2.27+)
       Query: 42291 (61)
@@ -199,7 +190,7 @@ Now let’s check our BLAT results using the same procedure as above:
 
 ::
 
-    >>> blat_qresult = SearchIO.read('my_blat.psl', 'blat-psl')
+    >>> blat_qresult = SearchIO.read("my_blat.psl", "blat-psl")
     >>> print(blat_qresult)
     Program: blat (<unknown version>)
       Query: mystery_seq (61)
@@ -321,7 +312,7 @@ search query results:
 
 ::
 
-    >>> blast_qresult['gi|262205317|ref|NR_030195.1|']
+    >>> blast_qresult["gi|262205317|ref|NR_030195.1|"]
     Hit(id='gi|262205317|ref|NR_030195.1|', query_id='42291', 1 hsps)
 
 You can also get a full list of ``Hit`` objects using ``hits`` and a
@@ -340,9 +331,9 @@ the query results? You can do a simple Python membership test using the
 
 ::
 
-    >>> 'gi|262205317|ref|NR_030195.1|' in blast_qresult
+    >>> "gi|262205317|ref|NR_030195.1|" in blast_qresult
     True
-    >>> 'gi|262205317|ref|NR_030194.1|' in blast_qresult
+    >>> "gi|262205317|ref|NR_030194.1|" in blast_qresult
     False
 
 Sometimes, knowing whether a hit is present is not enough; you also want
@@ -351,7 +342,7 @@ rescue:
 
 ::
 
-    >>> blast_qresult.index('gi|301171437|ref|NR_035870.1|')
+    >>> blast_qresult.index("gi|301171437|ref|NR_035870.1|")
     22
 
 Remember that we’re using Python’s indexing style here, which is
@@ -463,7 +454,7 @@ IDs:
 ::
 
     >>> def map_func(hit):
-    ...     hit.id = hit.id.split('|')[3]   # renames 'gi|301171322|ref|NR_035857.1|' to 'NR_035857.1'
+    ...     hit.id = hit.id.split("|")[3]   # renames "gi|301171322|ref|NR_035857.1|" to "NR_035857.1"
     ...     return hit
     ...
     >>> mapped_qresult = blast_qresult.hit_map(map_func)
@@ -491,7 +482,7 @@ Let’s see what they look like, beginning with our BLAST search:
 ::
 
     >>> from Bio import SearchIO
-    >>> blast_qresult = SearchIO.read('my_blast.xml', 'blast-xml')
+    >>> blast_qresult = SearchIO.read("my_blast.xml", "blast-xml")
     >>> blast_hit = blast_qresult[3]    # fourth hit from the query result
     >>> print(blast_hit)
     Query: 42291
@@ -526,7 +517,7 @@ search we had one hit with 17 HSPs.
 
 ::
 
-    >>> blat_qresult = SearchIO.read('my_blat.psl', 'blat-psl')
+    >>> blat_qresult = SearchIO.read("my_blat.psl", "blat-psl")
     >>> blat_hit = blat_qresult[0]      # the only hit
     >>> print(blat_hit)
     Query: mystery_seq
@@ -645,7 +636,7 @@ the BLAST HSP first:
 ::
 
     >>> from Bio import SearchIO
-    >>> blast_qresult = SearchIO.read('my_blast.xml', 'blast-xml')
+    >>> blast_qresult = SearchIO.read("my_blast.xml", "blast-xml")
     >>> blast_hsp = blast_qresult[0][0]    # first hit, first hsp
     >>> print(blast_hsp)
           Query: 42291 mystery_seq
@@ -761,7 +752,7 @@ results for a different kind of HSP. As usual, we’ll begin by invoking
 
 ::
 
-    >>> blat_qresult = SearchIO.read('my_blat.psl', 'blat-psl')
+    >>> blat_qresult = SearchIO.read("my_blat.psl", "blat-psl")
     >>> blat_hsp = blat_qresult[0][0]       # first hit, first hsp
     >>> print(blat_hsp)
           Query: mystery_seq <unknown description>
@@ -930,7 +921,7 @@ These attributes are readily shown when you invoke ``print`` on an
 ::
 
     >>> from Bio import SearchIO
-    >>> blast_qresult = SearchIO.read('my_blast.xml', 'blast-xml')
+    >>> blast_qresult = SearchIO.read("my_blast.xml", "blast-xml")
     >>> blast_frag = blast_qresult[0][0][0]    # first hit, first hsp, first fragment
     >>> print(blast_frag)
           Query: 42291 mystery_seq
@@ -947,7 +938,7 @@ fragment, save for the query and hit sequences which are not present:
 
 ::
 
-    >>> blat_qresult = SearchIO.read('my_blat.psl', 'blat-psl')
+    >>> blat_qresult = SearchIO.read("my_blat.psl", "blat-psl")
     >>> blat_frag = blat_qresult[0][0][0]    # first hit, first hsp, first fragment
     >>> print(blat_frag)
           Query: mystery_seq <unknown description>
@@ -1045,10 +1036,10 @@ with comments in it:
 ::
 
     >>> from Bio import SearchIO
-    >>> qresult = SearchIO.read('tab_2226_tblastn_003.txt', 'blast-tab')
+    >>> qresult = SearchIO.read("tab_2226_tblastn_003.txt", "blast-tab")
     >>> qresult
     QueryResult(id='gi|16080617|ref|NP_391444.1|', 3 hits)
-    >>> qresult2 = SearchIO.read('tab_2226_tblastn_007.txt', 'blast-tab', comments=True)
+    >>> qresult2 = SearchIO.read("tab_2226_tblastn_007.txt", "blast-tab", comments=True)
     >>> qresult2
     QueryResult(id='gi|16080617|ref|NP_391444.1|', 3 hits)
 
@@ -1065,12 +1056,12 @@ arguments:
 ::
 
     >>> from Bio import SearchIO
-    >>> qresults = SearchIO.parse('tab_2226_tblastn_001.txt', 'blast-tab')
+    >>> qresults = SearchIO.parse("tab_2226_tblastn_001.txt", "blast-tab")
     >>> for qresult in qresults:
     ...     print(qresult.id)
     gi|16080617|ref|NP_391444.1|
     gi|11464971:4-101
-    >>> qresults2 = SearchIO.parse('tab_2226_tblastn_005.txt', 'blast-tab', comments=True)
+    >>> qresults2 = SearchIO.parse("tab_2226_tblastn_005.txt", "blast-tab", comments=True)
     >>> for qresult in qresults2:
     ...     print(qresult.id)
     random_s00
@@ -1100,10 +1091,10 @@ format name:
 ::
 
     >>> from Bio import SearchIO
-    >>> idx = SearchIO.index('tab_2226_tblastn_001.txt', 'blast-tab')
+    >>> idx = SearchIO.index("tab_2226_tblastn_001.txt", "blast-tab")
     >>> sorted(idx.keys())
     ['gi|11464971:4-101', 'gi|16080617|ref|NP_391444.1|']
-    >>> idx['gi|16080617|ref|NP_391444.1|']
+    >>> idx["gi|16080617|ref|NP_391444.1|"]
     QueryResult(id='gi|16080617|ref|NP_391444.1|', 3 hits)
     >>> idx.close()
 
@@ -1111,10 +1102,10 @@ Or also with the format-specific keyword argument:
 
 ::
 
-    >>> idx = SearchIO.index('tab_2226_tblastn_005.txt', 'blast-tab', comments=True)
+    >>> idx = SearchIO.index("tab_2226_tblastn_005.txt", "blast-tab", comments=True)
     >>> sorted(idx.keys())
     ['gi|11464971:4-101', 'gi|16080617|ref|NP_391444.1|', 'random_s00']
-    >>> idx['gi|16080617|ref|NP_391444.1|']
+    >>> idx["gi|16080617|ref|NP_391444.1|"]
     QueryResult(id='gi|16080617|ref|NP_391444.1|', 3 hits)
     >>> idx.close()
 
@@ -1123,10 +1114,10 @@ Or with the ``key_function`` argument, as in ``Bio.SeqIO``:
 ::
 
     >>> key_function = lambda id: id.upper()    # capitalizes the keys
-    >>> idx = SearchIO.index('tab_2226_tblastn_001.txt', 'blast-tab', key_function=key_function)
+    >>> idx = SearchIO.index("tab_2226_tblastn_001.txt", "blast-tab", key_function=key_function)
     >>> sorted(idx.keys())
     ['GI|11464971:4-101', 'GI|16080617|REF|NP_391444.1|']
-    >>> idx['GI|16080617|REF|NP_391444.1|']
+    >>> idx["GI|16080617|REF|NP_391444.1|"]
     QueryResult(id='gi|16080617|ref|NP_391444.1|', 3 hits)
     >>> idx.close()
 
@@ -1148,8 +1139,8 @@ denotes the number or ``QueryResult``, ``Hit``, ``HSP``, and
 ::
 
     >>> from Bio import SearchIO
-    >>> qresults = SearchIO.parse('mirna.xml', 'blast-xml')     # read XML file
-    >>> SearchIO.write(qresults, 'results.tab', 'blast-tab')    # write to tabular file
+    >>> qresults = SearchIO.parse("mirna.xml", "blast-xml")     # read XML file
+    >>> SearchIO.write(qresults, "results.tab", "blast-tab")    # write to tabular file
     (3, 239, 277, 277)
 
 You should note different file formats require different attributes of
@@ -1173,7 +1164,7 @@ Using the convert function, our example above would be:
 ::
 
     >>> from Bio import SearchIO
-    >>> SearchIO.convert('mirna.xml', 'blast-xml', 'results.tab', 'blast-tab')
+    >>> SearchIO.convert("mirna.xml", "blast-xml", "results.tab", "blast-tab")
     (3, 239, 277, 277)
 
 As ``convert`` uses ``write``, it is only limited to format conversions

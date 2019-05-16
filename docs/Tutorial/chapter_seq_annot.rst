@@ -117,7 +117,7 @@ indicating they are unknown, and can be modified subsequently:
     >>> print(simple_seq_r.description)
     Made up sequence I wish I could write a paper about
     >>> simple_seq_r.seq
-    Seq('GATC', Alphabet())
+    Seq('GATC')
 
 Including an identifier is very important if you want to output your
 ``SeqRecord`` to a file. You would normally include this when creating
@@ -620,7 +620,7 @@ just check all the features one by one in a loop:
     >>> record = SeqIO.read("NC_005816.gb", "genbank")
     >>> for feature in record.features:
     ...     if my_snp in feature:
-    ...         print("%s %s" % (feature.type, feature.qualifiers.get('db_xref')))
+    ...         print("%s %s" % (feature.type, feature.qualifiers.get("db_xref")))
     ...
     source ['taxon:229193']
     gene ['GeneID:2767712']

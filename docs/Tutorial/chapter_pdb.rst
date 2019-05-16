@@ -54,14 +54,23 @@ Example:
 
 ::
 
-    >>> resolution = structure.header['resolution']
-    >>> keywords = structure.header['keywords']
+    >>> resolution = structure.header["resolution"]
+    >>> keywords = structure.header["keywords"]
 
 The available keys are ``name``, ``head``, ``deposition_date``,
 ``release_date``, ``structure_method``, ``resolution``,
 ``structure_reference`` (which maps to a list of references),
-``journal_reference``, ``author``, and ``compound`` (which maps to a
-dictionary with various information about the crystallized compound).
+``journal_reference``, ``author``, ``compound`` (which maps to a
+dictionary with various information about the crystallized compound),
+``has_missing_residues``, and ``missing_residues``.
+
+``has_missing_residues`` maps to a bool that is True if at least one
+non-empty ``REMARK 465`` header line was found. In this case you should
+assume that the molecule used in the experiment has some residues for
+which no ATOM coordinates could be determined. ``missing_residues`` maps
+to a list of dictionaries with information about the missing residues.
+*The list of missing residues will be empty or incomplete if the PDB
+header does not follow the template from the PDB specification.*
 
 The dictionary can also be created without creating a ``Structure``
 object, ie. directly from the PDB file:
@@ -69,7 +78,7 @@ object, ie. directly from the PDB file:
 ::
 
     >>> from Bio.PDB import parse_pdb_header
-    >>> with open(filename, 'r') as handle:
+    >>> with open(filename, "r") as handle:
     ...     header_dict = parse_pdb_header(handle)
     ...
 
@@ -88,7 +97,7 @@ Then use this parser to create a structure object from the mmCIF file:
 
 ::
 
-    >>> structure = parser.get_structure('1fat', '1fat.cif')
+    >>> structure = parser.get_structure("1fat", "1fat.cif")
 
 To have some more low level access to an mmCIF file, you can use the
 ``MMCIF2Dict`` class to create a Python dictionary that maps all mmCIF
@@ -100,19 +109,19 @@ values. The dictionary is created from the mmCIF file as follows:
 ::
 
     >>> from Bio.PDB.MMCIF2Dict import MMCIF2Dict
-    >>> mmcif_dict = MMCIF2Dict('1FAT.cif')
+    >>> mmcif_dict = MMCIF2Dict("1FAT.cif")
 
 Example: get the solvent content from an mmCIF file:
 
 ::
 
-    >>> sc = mmcif_dict['_exptl_crystal.density_percent_sol']
+    >>> sc = mmcif_dict["_exptl_crystal.density_percent_sol"]
 
 Example: get the list of the :math:`y` coordinates of all atoms
 
 ::
 
-    >>> y_list = mmcif_dict['_atom_site.Cartn_y']
+    >>> y_list = mmcif_dict["_atom_site.Cartn_y"]
 
 Reading files in the MMTF format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,7 +161,7 @@ Reading files in the PDB XML format
 
 That’s not yet supported, but we are definitely planning to support that
 in the future (it’s not a lot of work). Contact the Biopython developers
-() if you need this).
+via the mailing list if you need this.
 
 Writing PDB files
 ~~~~~~~~~~~~~~~~~
@@ -166,7 +175,7 @@ Example: saving a structure
 
     >>> io = PDBIO()
     >>> io.set_structure(s)
-    >>> io.save('out.pdb')
+    >>> io.save("out.pdb")
 
 If you want to write out a part of the structure, make use of the
 ``Select`` class (also in ``PDBIO``). Select has four methods:
@@ -189,14 +198,14 @@ following code only writes out glycine residues:
 
     >>> class GlySelect(Select):
     ...     def accept_residue(self, residue):
-    ...         if residue.get_name()=='GLY':
+    ...         if residue.get_name()=="GLY":
     ...             return True
     ...         else:
     ...             return False
     ...
     >>> io = PDBIO()
     >>> io.set_structure(s)
-    >>> io.save('gly_only.pdb', GlySelect())
+    >>> io.save("gly_only.pdb", GlySelect())
 
 If this is all too complicated for you, the ``Dice`` module contains a
 handy ``extract`` function that writes out all residues in a chain
@@ -212,7 +221,7 @@ format:
 
     >>> io = MMCIFIO()
     >>> io.set_structure(s)
-    >>> io.save('out.cif')
+    >>> io.save("out.cif")
 
 The ``Select`` class can be used in a similar way to ``PDBIO`` above.
 mmCIF dictionaries read using ``MMCIF2Dict`` can also be written:
@@ -221,7 +230,7 @@ mmCIF dictionaries read using ``MMCIF2Dict`` can also be written:
 
     >>> io = MMCIFIO()
     >>> io.set_dict(d)
-    >>> io.save('out.cif')
+    >>> io.save("out.cif")
 
 Structure representation
 ------------------------
@@ -433,7 +442,7 @@ blank, the sequence identifier alone can be used:
 ::
 
     # Full id
-    >>> residue=chain[(' ', 100, ' ')]
+    >>> residue=chain[(" ", 100, " ")]
     # Shortcut id
     >>> residue=chain[100]
 
@@ -461,7 +470,7 @@ shortcut for the full id:
 ::
 
     # use full id
-    >>> res10 = chain[(' ', 10, ' ')]
+    >>> res10 = chain[(" ", 10, " ")]
     # use shortcut
     >>> res10 = chain[10]
 
@@ -557,9 +566,9 @@ construct a rotation around a certain axis) of the ``Vector`` module:
 ::
 
     # get atom coordinates as vectors
-    >>> n = residue['N'].get_vector()
-    >>> c = residue['C'].get_vector()
-    >>> ca = residue['CA'].get_vector()
+    >>> n = residue["N"].get_vector()
+    >>> c = residue["C"].get_vector()
+    >>> ca = residue["CA"].get_vector()
     # center at origin
     >>> n = n - ca
     >>> c = c - ca
@@ -586,15 +595,15 @@ These are some examples:
 ::
 
     >>> model = structure[0]
-    >>> chain = model['A']
+    >>> chain = model["A"]
     >>> residue = chain[100]
-    >>> atom = residue['CA']
+    >>> atom = residue["CA"]
 
 Note that you can use a shortcut:
 
 ::
 
-    >>> atom = structure[0]['A'][100]['CA']
+    >>> atom = structure[0]["A"][100]["CA"]
 
 Disorder
 --------
@@ -638,10 +647,10 @@ object associated with a specific altloc identifier:
 
 ::
 
-    >>> atom.disordered_select('A') # select altloc A atom
+    >>> atom.disordered_select("A") # select altloc A atom
     >>> print(atom.get_altloc())
     "A"
-    >>> atom.disordered_select('B') # select altloc B atom
+    >>> atom.disordered_select("B") # select altloc B atom
     >>> print(atom.get_altloc())
     "B"
 
@@ -688,7 +697,7 @@ chain behaves as the Cys residue.
 ::
 
     >>> residue = chain[10]
-    >>> residue.disordered_select('CYS')
+    >>> residue.disordered_select("CYS")
 
 In addition, you can get a list of all ``Atom`` objects (ie. all
 ``DisorderedAtom`` objects are ’unpacked’ to their individual ``Atom``
@@ -748,7 +757,7 @@ Iterating through all atoms of a structure
 ::
 
     >>> p = PDBParser()
-    >>> structure = p.get_structure('X', 'pdb1fat.ent')
+    >>> structure = p.get_structure("X", "pdb1fat.ent")
     >>> for model in structure:
     ...     for chain in model:
     ...         for residue in chain:
@@ -792,13 +801,13 @@ residues from a structure:
 
 ::
 
-    >>> res_list = Selection.unfold_entities(structure, 'R')
+    >>> res_list = Selection.unfold_entities(structure, "R")
 
 or to get all atoms from a chain:
 
 ::
 
-    >>> atom_list = Selection.unfold_entities(chain, 'A')
+    >>> atom_list = Selection.unfold_entities(chain, "A")
 
 Obviously, ``A=atom, R=residue, C=chain, M=model, S=structure``. You can
 use this to go up in the hierarchy, e.g. to get a list of (unique)
@@ -806,8 +815,8 @@ use this to go up in the hierarchy, e.g. to get a list of (unique)
 
 ::
 
-    >>> residue_list = Selection.unfold_entities(atom_list, 'R')
-    >>> chain_list = Selection.unfold_entities(atom_list, 'C')
+    >>> residue_list = Selection.unfold_entities(atom_list, "R")
+    >>> chain_list = Selection.unfold_entities(atom_list, "C")
 
 For more info, see the API documentation.
 
@@ -950,8 +959,8 @@ between two atoms.
 ::
 
     # Get some atoms
-    >>> ca1 = residue1['CA']
-    >>> ca2 = residue2['CA']
+    >>> ca1 = residue1["CA"]
+    >>> ca2 = residue2["CA"]
     # Simply subtract the atoms to get their distance
     >>> distance = ca1-ca2
 
@@ -1059,9 +1068,9 @@ Example:
     >>> model = structure[0]
     >>> hse = HSExposure()
     # Calculate HSEalpha
-    >>> exp_ca = hse.calc_hs_exposure(model, option='CA3')
+    >>> exp_ca = hse.calc_hs_exposure(model, option="CA3")
     # Calculate HSEbeta
-    >>> exp_cb=hse.calc_hs_exposure(model, option='CB')
+    >>> exp_cb=hse.calc_hs_exposure(model, option="CB")
     # Calculate classical coordination number
     >>> exp_fs = hse.calc_fs_exposure(model)
     # Print HSEalpha for a residue
@@ -1071,11 +1080,12 @@ Determining the secondary structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For this functionality, you need to install DSSP (and obtain a license
-for it — free for academic use, see http://www.cmbi.kun.nl/gv/dssp/).
-Then use the ``DSSP`` class, which maps ``Residue`` objects to their
-secondary structure (and accessible surface area). The DSSP codes are
-listed in Table [cap:DSSP-codes]. Note that DSSP (the program, and thus
-by consequence the class) cannot handle multiple models!
+for it — free for academic use, see
+https://swift.cmbi.umcn.nl/gv/dssp/). Then use the ``DSSP`` class, which
+maps ``Residue`` objects to their secondary structure (and accessible
+surface area). The DSSP codes are listed in Table [cap:DSSP-codes]. Note
+that DSSP (the program, and thus by consequence the class) cannot handle
+multiple models!
 
 +--------+-----------------------------------------+
 | Code   | Secondary structure                     |
@@ -1109,12 +1119,11 @@ Residue depth is the average distance of a residue’s atoms from the
 solvent accessible surface. It’s a fairly new and very powerful
 parameterization of solvent accessibility. For this functionality, you
 need to install Michel Sanner’s MSMS program
-(http://www.scripps.edu/pub/olson-web/people/sanner/html/msms_home.html).
-Then use the ``ResidueDepth`` class. This class behaves as a dictionary
-which maps ``Residue`` objects to corresponding (residue depth,
-C\ :math:`\alpha` depth) tuples. The C\ :math:`\alpha` depth is the
-distance of a residue’s C\ :math:`\alpha` atom to the solvent accessible
-surface.
+(https://www.scripps.edu/sanner/html/msms_home.html). Then use the
+``ResidueDepth`` class. This class behaves as a dictionary which maps
+``Residue`` objects to corresponding (residue depth, C\ :math:`\alpha`
+depth) tuples. The C\ :math:`\alpha` depth is the distance of a
+residue’s C\ :math:`\alpha` atom to the solvent accessible surface.
 
 Example:
 
@@ -1284,7 +1293,7 @@ for this method is the PDB identifier of the structure.
 ::
 
     >>> pdbl = PDBList()
-    >>> pdbl.retrieve_pdb_file('1FAT')
+    >>> pdbl.retrieve_pdb_file("1FAT")
 
 The ``PDBList`` class can also be used as a command-line tool:
 
@@ -1332,7 +1341,7 @@ PDB is present) and calls the ``update_pdb`` method:
 
 ::
 
-    >>> pl = PDBList(pdb='/data/pdb')
+    >>> pl = PDBList(pdb="/data/pdb")
     >>> pl.update_pdb()
 
 One can of course make a weekly ``cronjob`` out of this to keep the
@@ -1378,21 +1387,21 @@ choice is Pymol, BTW (I’ve used this successfully with Bio.PDB, and
 there will probably be specific PyMol modules in Bio.PDB soon/some day).
 Python based/aware molecular graphics solutions include:
 
--  PyMol: http://pymol.sourceforge.net/
+-  PyMol: https://pymol.org/
 
--  Chimera: http://www.cgl.ucsf.edu/chimera/
+-  Chimera: https://www.cgl.ucsf.edu/chimera/
 
 -  PMV: http://www.scripps.edu/~sanner/python/
 
--  Coot: http://www.ysbl.york.ac.uk/~emsley/coot/
+-  Coot: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/
 
--  CCP4mg: http://www.ysbl.york.ac.uk/~lizp/molgraphics.html
+-  CCP4mg: http://www.ccp4.ac.uk/MG/
 
 -  mmLib: http://pymmlib.sourceforge.net/
 
--  VMD: http://www.ks.uiuc.edu/Research/vmd/
+-  VMD: https://www.ks.uiuc.edu/Research/vmd/
 
--  MMTK: http://starship.python.net/crew/hinsen/MMTK/
+-  MMTK: http://dirac.cnrs-orleans.fr/MMTK/
 
 Who’s using Bio.PDB?
 ~~~~~~~~~~~~~~~~~~~~

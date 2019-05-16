@@ -42,13 +42,13 @@ call the online version of BLAST. This has three non-optional arguments:
 
 -  The first argument is the blast program to use for the search, as a
    lower case string. The options and descriptions of the programs are
-   available at http://www.ncbi.nlm.nih.gov/BLAST/blast_program.shtml.
-   Currently ``qblast`` only works with blastn, blastp, blastx, tblast
-   and tblastx.
+   available at https://blast.ncbi.nlm.nih.gov/Blast.cgi. Currently
+   ``qblast`` only works with blastn, blastp, blastx, tblast and
+   tblastx.
 
 -  The second argument specifies the databases to search against. Again,
-   the options for this are available on the NCBI web pages at
-   http://www.ncbi.nlm.nih.gov/BLAST/blast_databases.shtml.
+   the options for this are available on the NCBI Guide to BLAST
+   ftp://ftp.ncbi.nlm.nih.gov/pub/factsheets/HowTo_BLASTGuide.pdf.
 
 -  The third argument is a string containing your query sequence. This
    can either be the sequence itself, the sequence in fasta format, or
@@ -203,7 +203,7 @@ Standalone NCBI BLAST+
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The “new” `NCBI
-BLAST+ <http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download>`__
+BLAST+ <https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download>`__
 suite was released in 2009. This replaces the old NCBI “legacy” BLAST
 package (see below).
 
@@ -272,12 +272,12 @@ cover calling these old tools from Biopython in this tutorial.
 
 You may also come across `Washington University
 BLAST <http://blast.wustl.edu/>`__ (WU-BLAST), and its successor,
-`Advanced Biocomputing BLAST <http://blast.advbiocomp.com>`__ (AB-BLAST,
-released in 2009, not free/open source). These packages include the
-command line tools ``wu-blastall`` and ``ab-blastall``, which mimicked
-``blastall`` from the NCBI “legacy” BLAST suite. Biopython does not
-currently provide wrappers for calling these tools, but should be able
-to parse any NCBI compatible output from them.
+`Advanced Biocomputing BLAST <https://blast.advbiocomp.com>`__
+(AB-BLAST, released in 2009, not free/open source). These packages
+include the command line tools ``wu-blastall`` and ``ab-blastall``,
+which mimicked ``blastall`` from the NCBI “legacy” BLAST suite.
+Biopython does not currently provide wrappers for calling these tools,
+but should be able to parse any NCBI compatible output from them.
 
 Parsing BLAST output
 --------------------
@@ -449,13 +449,13 @@ The following code does this:
     >>> for alignment in blast_record.alignments:
     ...     for hsp in alignment.hsps:
     ...         if hsp.expect < E_VALUE_THRESH:
-    ...             print('****Alignment****')
-    ...             print('sequence:', alignment.title)
-    ...             print('length:', alignment.length)
-    ...             print('e value:', hsp.expect)
-    ...             print(hsp.query[0:75] + '...')
-    ...             print(hsp.match[0:75] + '...')
-    ...             print(hsp.sbjct[0:75] + '...')
+    ...             print("****Alignment****")
+    ...             print("sequence:", alignment.title)
+    ...             print("length:", alignment.length)
+    ...             print("e value:", hsp.expect)
+    ...             print(hsp.query[0:75] + "...")
+    ...             print(hsp.match[0:75] + "...")
+    ...             print(hsp.sbjct[0:75] + "...")
 
 This will print out summary reports like the following:
 
@@ -508,228 +508,6 @@ PSIBlast is shown in Figure [fig:psiblastrecord].
 
    Class diagram for the PSIBlast Record class.
 
-Deprecated BLAST parsers
-------------------------
-
-Older versions of Biopython had parsers for BLAST output in plain text
-or HTML format. Over the years, we discovered that it is very hard to
-maintain these parsers in working order. Basically, any small change to
-the BLAST output in newly released BLAST versions tends to cause the
-plain text and HTML parsers to break. We therefore recommend parsing
-BLAST output in XML format, as described in section [sec:parsing-blast].
-
-Depending on which BLAST versions or programs you’re using, our plain
-text BLAST parser may or may not work. Use it at your own risk!
-
-Parsing plain-text BLAST output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The plain text BLAST parser is located in ``Bio.Blast.NCBIStandalone``.
-
-As with the XML parser, we need to have a handle object that we can pass
-to the parser. The handle must implement the ``readline()`` method and
-do this properly. The common ways to get such a handle are to either use
-the provided ``blastall`` or ``blastpgp`` functions to run the local
-blast, or to run a local blast via the command line, and then do
-something like the following:
-
-::
-
-    >>> result_handle = open("my_file_of_blast_output.txt")
-
-Well, now that we’ve got a handle (which we’ll call ``result_handle``),
-we are ready to parse it. This can be done with the following code:
-
-::
-
-    >>> from Bio.Blast import NCBIStandalone
-    >>> blast_parser = NCBIStandalone.BlastParser()
-    >>> blast_record = blast_parser.parse(result_handle)
-
-This will parse the BLAST report into a Blast Record class (either a
-Blast or a PSIBlast record, depending on what you are parsing) so that
-you can extract the information from it. In our case, let’s just print
-out a quick summary of all of the alignments greater than some threshold
-value.
-
-::
-
-    >>> E_VALUE_THRESH = 0.04
-    >>> for alignment in blast_record.alignments:
-    ...     for hsp in alignment.hsps:
-    ...         if hsp.expect < E_VALUE_THRESH:
-    ...             print('****Alignment****')
-    ...             print('sequence:', alignment.title)
-    ...             print('length:', alignment.length)
-    ...             print('e value:', hsp.expect)
-    ...             print(hsp.query[0:75] + '...')
-    ...             print(hsp.match[0:75] + '...')
-    ...             print(hsp.sbjct[0:75] + '...')
-
-If you also read the section [sec:parsing-blast] on parsing BLAST XML
-output, you’ll notice that the above code is identical to what is found
-in that section. Once you parse something into a record class you can
-deal with it independent of the format of the original BLAST info you
-were parsing. Pretty snazzy!
-
-Sure, parsing one record is great, but I’ve got a BLAST file with tons
-of records – how can I parse them all? Well, fear not, the answer lies
-in the very next section.
-
-Parsing a plain-text BLAST file full of BLAST runs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-We can do this using the blast iterator. To set up an iterator, we first
-set up a parser, to parse our blast reports in Blast Record objects:
-
-::
-
-    >>> from Bio.Blast import NCBIStandalone
-    >>> blast_parser = NCBIStandalone.BlastParser()
-
-Then we will assume we have a handle to a bunch of blast records, which
-we’ll call ``result_handle``. Getting a handle is described in full
-detail above in the blast parsing sections.
-
-Now that we’ve got a parser and a handle, we are ready to set up the
-iterator with the following command:
-
-::
-
-    >>> blast_iterator = NCBIStandalone.Iterator(result_handle, blast_parser)
-
-The second option, the parser, is optional. If we don’t supply a parser,
-then the iterator will just return the raw BLAST reports one at a time.
-
-Now that we’ve got an iterator, we start retrieving blast records
-(generated by our parser) using ``next()``:
-
-::
-
-    >>> blast_record = next(blast_iterator)
-
-Each call to next will return a new record that we can deal with. Now we
-can iterate through these records and generate our old favorite, a nice
-little blast report:
-
-::
-
-    >>> for blast_record in blast_iterator:
-    ...     E_VALUE_THRESH = 0.04
-    ...     for alignment in blast_record.alignments:
-    ...         for hsp in alignment.hsps:
-    ...             if hsp.expect < E_VALUE_THRESH:
-    ...                 print('****Alignment****')
-    ...                 print('sequence:', alignment.title)
-    ...                 print('length:', alignment.length)
-    ...                 print('e value:', hsp.expect)
-    ...                 if len(hsp.query) > 75:
-    ...                     dots = '...'
-    ...                 else:
-    ...                     dots = ''
-    ...                 print(hsp.query[0:75] + dots)
-    ...                 print(hsp.match[0:75] + dots)
-    ...                 print(hsp.sbjct[0:75] + dots)
-
-The iterator allows you to deal with huge blast records without any
-memory problems, since things are read in one at a time. I have parsed
-tremendously huge files without any problems using this.
-
-Finding a bad record somewhere in a huge plain-text BLAST file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-One really ugly problem that happens to me is that I’ll be parsing a
-huge blast file for a while, and the parser will bomb out with a
-ValueError. This is a serious problem, since you can’t tell if the
-ValueError is due to a parser problem, or a problem with the BLAST. To
-make it even worse, you have no idea where the parse failed, so you
-can’t just ignore the error, since this could be ignoring an important
-data point.
-
-We used to have to make a little script to get around this problem, but
-the ``Bio.Blast`` module now includes a ``BlastErrorParser`` which
-really helps make this easier. The ``BlastErrorParser`` works very
-similar to the regular ``BlastParser``, but it adds an extra layer of
-work by catching ValueErrors that are generated by the parser, and
-attempting to diagnose the errors.
-
-Let’s take a look at using this parser – first we define the file we are
-going to parse and the file to write the problem reports to:
-
-::
-
-    >>> import os
-    >>> blast_file = os.path.join(os.getcwd(), "blast_out", "big_blast.out")
-    >>> error_file = os.path.join(os.getcwd(), "blast_out", "big_blast.problems")
-
-Now we want to get a ``BlastErrorParser``:
-
-::
-
-    >>> from Bio.Blast import NCBIStandalone
-    >>> error_handle = open(error_file, "w")
-    >>> blast_error_parser = NCBIStandalone.BlastErrorParser(error_handle)
-
-Notice that the parser take an optional argument of a handle. If a
-handle is passed, then the parser will write any blast records which
-generate a ValueError to this handle. Otherwise, these records will not
-be recorded.
-
-Now we can use the ``BlastErrorParser`` just like a regular blast
-parser. Specifically, we might want to make an iterator that goes
-through our blast records one at a time and parses them with the error
-parser:
-
-::
-
-    >>> result_handle = open(blast_file)
-    >>> iterator = NCBIStandalone.Iterator(result_handle, blast_error_parser)
-
-We can read these records one a time, but now we can catch and deal with
-errors that are due to problems with Blast (and not with the parser
-itself):
-
-::
-
-    >>> try:
-    ...     next_record = next(iterator)
-    ... except NCBIStandalone.LowQualityBlastError as info:
-    ...     print("LowQualityBlastError detected in id %s" % info[1])
-
-The ``next()`` functionality is normally called indirectly via a
-``for``-loop. Right now the ``BlastErrorParser`` can generate the
-following errors:
-
--  ``ValueError`` – This is the same error generated by the regular
-   BlastParser, and is due to the parser not being able to parse a
-   specific file. This is normally either due to a bug in the parser, or
-   some kind of discrepancy between the version of BLAST you are using
-   and the versions the parser is able to handle.
-
--  ``LowQualityBlastError`` – When BLASTing a sequence that is of really
-   bad quality (for example, a short sequence that is basically a
-   stretch of one nucleotide), it seems that Blast ends up masking out
-   the entire sequence and ending up with nothing to parse. In this case
-   it will produce a truncated report that causes the parser to generate
-   a ValueError. ``LowQualityBlastError`` is reported in these cases.
-   This error returns an info item with the following information:
-
-   -  ``item[0]`` – The error message
-
-   -  ``item[1]`` – The id of the input record that caused the error.
-      This is really useful if you want to record all of the records
-      that are causing problems.
-
-As mentioned, with each error generated, the BlastErrorParser will write
-the offending record to the specified ``error_handle``. You can then go
-ahead and look and these and deal with them as you see fit. Either you
-will be able to debug the parser with a single blast report, or will
-find out problems in your blast runs. Either way, it will definitely be
-a useful experience!
-
-Hopefully the ``BlastErrorParser`` will make it much easier to debug and
-deal with large Blast files.
-
 Dealing with PSI-BLAST
 ----------------------
 
@@ -742,9 +520,7 @@ a PSI-BLAST search via the internet.
 
 Note that the ``Bio.Blast.NCBIXML`` parser can read the XML output from
 current versions of PSI-BLAST, but information like which sequences in
-each iteration is new or reused isn’t present in the XML file. If you
-care about this information you may have more joy with the plain text
-output and the ``PSIBlastParser`` in ``Bio.Blast.NCBIStandalone``.
+each iteration is new or reused isn’t present in the XML file.
 
 Dealing with RPS-BLAST
 ----------------------

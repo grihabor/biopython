@@ -380,7 +380,7 @@ sequence read archive,
 ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR020/SRR020192/SRR020192.fastq.gz
 (2MB) which unzips to a 19MB file ``SRR020192.fastq``. This is some
 Roche 454 GS FLX single end data from virus infected California sea
-lions (see http://www.ebi.ac.uk/ena/data/view/SRS004476 for details).
+lions (see https://www.ebi.ac.uk/ena/data/view/SRS004476 for details).
 
 First, let’s count the reads:
 
@@ -993,10 +993,9 @@ Sequence parsing plus simple plots
 This section shows some more examples of sequence parsing, using the
 ``Bio.SeqIO`` module described in Chapter [chapter:Bio.SeqIO], plus the
 Python library matplotlib’s ``pylab`` plotting interface (see `the
-matplotlib website for a
-tutorial <http://matplotlib.sourceforge.net/>`__). Note that to follow
-these examples you will need matplotlib installed - but without it you
-can still try the data parsing bits.
+matplotlib website for a tutorial <https://matplotlib.org>`__). Note
+that to follow these examples you will need matplotlib installed - but
+without it you can still try the data parsing bits.
 
 Histogram of sequence lengths
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1149,9 +1148,9 @@ with a nested list comprehension:
     window = 7
     seq_one = str(rec_one.seq).upper()
     seq_two = str(rec_two.seq).upper()
-    data = [[(seq_one[i:i+window] <> seq_two[j:j+window])
-             for j in range(len(seq_one)-window)]
-            for i in range(len(seq_two)-window)]
+    data = [[(seq_one[i:i + window] != seq_two[j:j + window])
+             for j in range(len(seq_one) - window)]
+            for i in range(len(seq_two) - window)]
 
 Note that we have *not* checked for reverse complement matches here. Now
 we’ll use the matplotlib’s ``pylab.imshow()`` function to display this
@@ -1268,7 +1267,7 @@ downloaded from the ENA sequence read archive FTP site
 and
 ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR001/SRR001666/SRR001666_2.fastq.gz),
 and are from *E. coli* – see
-http://www.ebi.ac.uk/ena/data/view/SRR001666 for details. In the
+https://www.ebi.ac.uk/ena/data/view/SRR001666 for details. In the
 following code the ``pylab.subplot(...)`` function is used in order to
 show the forward and reverse qualities on two subplots, side by side.
 There is also a little bit of code to only plot the first fifty reads.
@@ -1746,13 +1745,13 @@ Very nice. Now we’ve got our very own substitution matrix to play with!
 BioSQL – storing sequences in a relational database
 ---------------------------------------------------
 
-`BioSQL <http://www.biosql.org/>`__ is a joint effort between the
-`OBF <http://open-bio.org/>`__ projects (BioPerl, BioJava etc) to
-support a shared database schema for storing sequence data. In theory,
-you could load a GenBank file into the database with BioPerl, then using
-Biopython extract this from the database as a record object with
-features - and get more or less the same thing as if you had loaded the
-GenBank file directly as a SeqRecord using ``Bio.SeqIO``
+`BioSQL <https://www.biosql.org/>`__ is a joint effort between the
+`OBF <https://www.open-bio.org/wiki/Main_Page>`__ projects (BioPerl,
+BioJava etc) to support a shared database schema for storing sequence
+data. In theory, you could load a GenBank file into the database with
+BioPerl, then using Biopython extract this from the database as a record
+object with features - and get more or less the same thing as if you had
+loaded the GenBank file directly as a SeqRecord using ``Bio.SeqIO``
 (Chapter [chapter:Bio.SeqIO]).
 
 Biopython’s BioSQL module is currently documented at

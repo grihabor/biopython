@@ -117,13 +117,13 @@ graphic using the ``draw`` function (see Fig. [fig:phylo-simple-draw]):
 Coloring branches within a tree
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The functions ``draw`` and ``draw_graphviz`` support the display of
-different colors and branch widths in a tree. As of Biopython 1.59, the
-``color`` and ``width`` attributes are available on the basic Clade
-object and there’s nothing extra required to use them. Both attributes
-refer to the branch leading the given clade, and apply recursively, so
-all descendent branches will also inherit the assigned width and color
-values during display.
+The function ``draw`` supports the display of different colors and
+branch widths in a tree. As of Biopython 1.59, the ``color`` and
+``width`` attributes are available on the basic Clade object and there’s
+nothing extra required to use them. Both attributes refer to the branch
+leading the given clade, and apply recursively, so all descendent
+branches will also inherit the assigned width and color values during
+display.
 
 In earlier versions of Biopython, these were special features of
 PhyloXML trees, and using the attributes required first converting the
@@ -366,110 +366,6 @@ accepts to customize the output.
    :width: 70.0%
 
    A simple rooted tree plotted with the draw function.
-
-``draw_graphviz`` draws an unrooted cladogram, but requires that you
-have Graphviz, PyDot or PyGraphviz, NetworkX, and matplotlib (or pylab)
-installed. Using the same example as above, and the ``dot`` program
-included with Graphviz, let’s draw a rooted tree (see
-Fig. [fig:phylo-dot]):
-
-::
-
-    >>> tree = Phylo.read("example.xml", "phyloxml")
-    >>> Phylo.draw_graphviz(tree, prog='dot')
-    >>> import pylab
-    >>> pylab.show()                    # Displays the tree in an interactive viewer
-    >>> pylab.savefig('phylo-dot.png')  # Creates a PNG file of the same graphic
-
-[fig:phylo-dot]
-
-.. figure:: images/phylo-dot.png
-   :alt: A simple rooted tree drawn with draw\_graphviz, using dot for
-   node layout.
-   :width: 50.0%
-
-   A simple rooted tree drawn with draw\_graphviz, using dot for node
-   layout.
-
-(Tip: If you execute IPython with the ``-pylab`` option, calling
-``draw_graphviz`` causes the matplotlib viewer to launch automatically
-without manually calling ``show()``.)
-
-This exports the tree object to a NetworkX graph, uses Graphviz to lay
-out the nodes, and displays it using matplotlib. There are a number of
-keyword arguments that can modify the resulting diagram, including most
-of those accepted by the NetworkX functions ``networkx.draw`` and
-``networkx.draw_graphviz``.
-
-The display is also affected by the ``rooted`` attribute of the given
-tree object. Rooted trees are shown with a “head” on each branch
-indicating direction (see Fig. [fig:phylo-rooted]):
-
-::
-
-    >>> tree = Phylo.read("simple.dnd", "newick")
-    >>> tree.rooted = True
-    >>> Phylo.draw_graphviz(tree)
-
-[fig:phylo-rooted]
-
-The “prog” argument specifies the Graphviz engine used for layout. The
-default, ``twopi``, behaves well for any size tree, reliably avoiding
-crossed branches. The ``neato`` program may draw more attractive
-moderately-sized trees, but sometimes will cross branches (see
-Fig. [fig:phylo-color]). The ``dot`` program may be useful with small
-trees, but tends to do surprising things with the layout of larger
-trees.
-
-.. figure:: images/phylo-rooted.png
-   :alt: A rooted tree drawn with draw\_graphviz. Since we rooted the
-   tree, we can see the root must be along the branch with two
-   directional “heads”.
-   :width: 45.0%
-
-   A rooted tree drawn with draw\_graphviz. Since we rooted the tree, we
-   can see the root must be along the branch with two directional
-   “heads”. 
-
-.. figure:: images/phylo-color.png
-   :alt: A colorized tree drawn with draw\_graphviz, using neato for
-   node layout.
-   :width: 50.0%
-
-   A colorized tree drawn with draw\_graphviz, using neato for node
-   layout.
-
-::
-
-    >>> Phylo.draw_graphviz(tree, prog="neato")
-
-[fig:phylo-color]
-
-This viewing mode is particularly handy for exploring larger trees,
-because the matplotlib viewer can zoom in on a selected region, thinning
-out a cluttered graphic.
-
-(See Figs. [fig:phylo-apaf], [fig:phylo-apaf-zoom]).
-
-::
-
-    >>> tree = Phylo.read("apaf.xml", "phyloxml")
-    >>> Phylo.draw_graphviz(tree, prog="neato", node_size=0)
-
-[fig:phylo-apaf] [fig:phylo-apaf-zoom]
-
-| |A larger tree, using neato for layout.|
-
-.. figure:: images/phylo-apaf-zoom.png
-   :alt: A zoomed-in portion of the same tree as Fig. [fig:phylo-apaf].
-   :width: 60.0%
-
-   A zoomed-in portion of the same tree as Fig. [fig:phylo-apaf].
-
-Note that branch lengths are not displayed accurately, because Graphviz
-ignores them when creating the node layouts. The branch lengths are
-retained when exporting a tree as a NetworkX graph object
-(``to_networkx``), however.
 
 See the Phylo page on the Biopython wiki
 (http://biopython.org/wiki/Phylo) for descriptions and examples of the
@@ -779,7 +675,7 @@ A quick example:
 
     >>> from Bio import Phylo
     >>> from Bio.Phylo.Applications import PhymlCommandline
-    >>> cmd = PhymlCommandline(input='Tests/Phylip/random.phy')
+    >>> cmd = PhymlCommandline(input="Tests/Phylip/random.phy")
     >>> out_log, err_log = cmd()
 
 This generates a tree file and a stats file with the names
@@ -789,11 +685,11 @@ format:
 
 ::
 
-    >>> tree = Phylo.read('Tests/Phylip/random.phy_phyml_tree.txt', 'newick')
+    >>> tree = Phylo.read("Tests/Phylip/random.phy_phyml_tree.txt", "newick")
     >>> Phylo.draw_ascii(tree)
 
 A similar wrapper for RAxML
-(http://sco.h-its.org/exelixis/software.html) was added in Biopython
+(https://sco.h-its.org/exelixis/software.html) was added in Biopython
 1.60, and FastTree (http://www.microbesonline.org/fasttree/) in
 Biopython 1.62.
 
@@ -890,10 +786,7 @@ bug database.
 Finally, if you need additional functionality not yet included in the
 Phylo module, check if it’s available in another of the high-quality
 Python libraries for phylogenetics such as DendroPy
-(http://pythonhosted.org/DendroPy/) or PyCogent (http://pycogent.org/).
-Since these libraries also support standard file formats for
-phylogenetic trees, you can easily transfer data between libraries by
-writing to a temporary file or StringIO object.
-
-.. |A larger tree, using neato for layout.| image:: images/phylo-apaf.png
-   :width: 65.0%
+(https://dendropy.org/) or PyCogent (http://pycogent.org/). Since these
+libraries also support standard file formats for phylogenetic trees, you
+can easily transfer data between libraries by writing to a temporary
+file or StringIO object.

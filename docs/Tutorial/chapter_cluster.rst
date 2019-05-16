@@ -39,10 +39,9 @@ clustering algorithms in ``Bio.Cluster`` can be applied both to rows
 Missing values
 ~~~~~~~~~~~~~~
 
-Often in microarray experiments, some of the data values are missing,
-which is indicated by an additional :math:`n \times m` Numerical Python
-integer array ``mask``. If ``mask[i,j]==0``, then ``data[i,j]`` is
-missing and is ignored in the analysis.
+The :math:`n \times m` Numerical Python integer array ``mask`` indicates
+if any of the values in ``data`` are missing. If ``mask[i, j] == 0``,
+then ``data[i, j]`` is missing and is ignored in the analysis.
 
 Random number generator
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -289,9 +288,7 @@ For most of the distance functions available in ``Bio.Cluster``, a
 weight vector can be applied. The weight vector contains weights for the
 items in the data vector. If the weight for item :math:`i` is
 :math:`w_i`, then that item is treated as if it occurred :math:`w_i`
-times in the data. The weight do not have to be integers. For the
-Spearman rank correlation and Kendall’s :math:`\tau`, weights do not
-have a well-defined meaning and are therefore not implemented.
+times in the data. The weight do not have to be integers.
 
 Calculating the distance matrix
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -312,17 +309,17 @@ where the following arguments are defined:
 
 -  | ``mask`` (default: ``None``)
    | Array of integers showing which data are missing. If
-     ``mask[i,j]==0``, then ``data[i,j]`` is missing. If ``mask==None``,
-     then all data are present.
+     ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If ``mask`` is
+     ``None``, then all data are present.
 
 -  | ``weight`` (default: ``None``)
-   | The weights to be used when calculating distances. If
-     ``weight==None``, then equal weights are assumed.
+   | The weights to be used when calculating distances. If ``weight`` is
+     ``None``, then equal weights are assumed.
 
 -  | ``transpose`` (default: ``0``)
    | Determines if the distances between the rows of ``data`` are to be
-     calculated (``transpose==0``), or between the columns of ``data``
-     (``transpose==1``).
+     calculated (``transpose`` is ``False``), or between the columns of
+     ``data`` (``transpose`` is ``True``).
 
 -  | ``dist`` (default: ``'e'``, Euclidean distance)
    | Defines the distance function to be used (see
@@ -330,25 +327,45 @@ where the following arguments are defined:
 
 To save memory, the distance matrix is returned as a list of 1D arrays.
 The number of columns in each row is equal to the row number. Hence, the
-first row has zero elements. An example of the return value is
+first row has zero elements. For example,
 
 ::
 
-    [array([]),
-     array([1.]),
-     array([7., 3.]),
-     array([4., 2., 6.])]
+    >>> from numpy import array
+    >>> from Bio.Cluster import distancematrix
+    >>> data = array([[0, 1,  2,  3],
+    ...               [4, 5,  6,  7],
+    ...               [8, 9, 10, 11],
+    ...               [1, 2,  3,  4]])
+    >>> distances = distancematrix(data, dist='e')
 
-This corresponds to the distance matrix
+yields a distance matrix
+
+::
+
+    >>> distances
+    [array([], dtype=float64), array([ 16.]), array([ 64.,  16.]), array([  1.,   9.,  49.])]
+
+which can be rewritten as
+
+::
+
+    [array([], dtype=float64),
+     array([ 16.]),
+     array([ 64.,  16.]),
+     array([  1.,   9.,  49.])
+    ]
+
+This corresponds to the distance matrix:
 
 .. math::
 
    \left(
    \begin{array}{cccc}
-   0 & 1 & 7 & 4  \\
-   1 & 0 & 3 & 2  \\
-   7 & 3 & 0 & 6  \\
-   4 & 2 & 6 & 0
+   0  & 16 & 64 &  1  \\
+   16 &  0 & 16 &  9  \\
+   64 & 16 &  0 & 49  \\
+    1 &  9 & 49 &  0
    \end{array}
    \right).
 
@@ -374,8 +391,8 @@ where the following arguments are defined:
 
 -  | ``mask`` (default: ``None``)
    | Array of integers showing which data are missing. If
-     ``mask[i,j]==0``, then ``data[i,j]`` is missing. If ``mask==None``,
-     then all data are present.
+     ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If ``mask`` is
+     ``None``, then all data are present.
 
 -  | ``clusterid`` (default: ``None``)
    | Vector of integers showing to which cluster each item belongs. If
@@ -388,8 +405,8 @@ where the following arguments are defined:
 
 -  | ``transpose`` (default: ``0``)
    | Determines if the centroids of the rows of ``data`` are to be
-     calculated (``transpose==0``), or the centroids of the columns of
-     ``data`` (``transpose==1``).
+     calculated (``transpose`` is ``False``), or the centroids of the
+     columns of ``data`` (``transpose`` is ``True``).
 
 This function returns the tuple ``(cdata, cmask)``. The centroid data
 are stored in the 2D Numerical Python array ``cdata``, with missing data
@@ -430,12 +447,12 @@ where the following arguments are defined:
 
 -  | ``mask`` (default: ``None``)
    | Array of integers showing which data are missing. If
-     ``mask[i,j]==0``, then ``data[i,j]`` is missing. If ``mask==None``,
-     then all data are present.
+     ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If ``mask`` is
+     ``None``, then all data are present.
 
 -  | ``weight`` (default: ``None``)
-   | The weights to be used when calculating distances. If
-     ``weight==None``, then equal weights are assumed.
+   | The weights to be used when calculating distances. If ``weight`` is
+     ``None``, then equal weights are assumed.
 
 -  | ``index1`` (default: ``0``)
    | A list containing the indices of the items belonging to the first
@@ -469,9 +486,9 @@ where the following arguments are defined:
      [sec:distancefunctions]).
 
 -  | ``transpose`` (default: ``0``)
-   | If ``transpose==0``, calculate the distance between the rows of
-     ``data``. If ``transpose==1``, calculate the distance between the
-     columns of ``data``.
+   | If ``transpose`` is ``False``, calculate the distance between the
+     rows of ``data``. If ``transpose`` is ``True``, calculate the
+     distance between the columns of ``data``.
 
 Partitioning algorithms
 -----------------------
@@ -582,12 +599,12 @@ where the following arguments are defined:
 
 -  | ``mask`` (default: ``None``)
    | Array of integers showing which data are missing. If
-     ``mask[i,j]==0``, then ``data[i,j]`` is missing. If ``mask==None``,
-     then all data are present.
+     ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If ``mask`` is
+     ``None``, then all data are present.
 
 -  | ``weight`` (default: ``None``)
-   | The weights to be used when calculating distances. If
-     ``weight==None``, then equal weights are assumed.
+   | The weights to be used when calculating distances. If ``weight`` is
+     ``None``, then equal weights are assumed.
 
 -  | ``transpose`` (default: ``0``)
    | Determines if rows (``transpose`` is ``0``) or columns
@@ -618,11 +635,11 @@ where the following arguments are defined:
 
 -  | ``initialid`` (default: ``None``)
    | Specifies the initial clustering to be used for the EM algorithm.
-     If ``initialid==None``, then a different random initial clustering
-     is used for each of the ``npass`` runs of the EM algorithm. If
-     ``initialid`` is not ``None``, then it should be equal to a 1D
-     array containing the cluster number (between ``0`` and
-     ``nclusters-1``) for each item. Each cluster should contain at
+     If ``initialid`` is ``None``, then a different random initial
+     clustering is used for each of the ``npass`` runs of the EM
+     algorithm. If ``initialid`` is not ``None``, then it should be
+     equal to a 1D array containing the cluster number (between ``0``
+     and ``nclusters-1``) for each item. Each cluster should contain at
      least one item. With the initial clustering specified, the EM
      algorithm is deterministic.
 
@@ -690,11 +707,11 @@ initialid=None)\|
 
 -  | ``initialid`` (default: ``None``)
    | Specifies the initial clustering to be used for the EM algorithm.
-     If ``initialid==None``, then a different random initial clustering
-     is used for each of the ``npass`` runs of the EM algorithm. If
-     ``initialid`` is not ``None``, then it should be equal to a 1D
-     array containing the cluster number (between ``0`` and
-     ``nclusters-1``) for each item. Each cluster should contain at
+     If ``initialid`` is ``None``, then a different random initial
+     clustering is used for each of the ``npass`` runs of the EM
+     algorithm. If ``initialid`` is not ``None``, then it should be
+     equal to a 1D array containing the cluster number (between ``0``
+     and ``nclusters-1``) for each item. Each cluster should contain at
      least one item. With the initial clustering specified, the EM
      algorithm is deterministic.
 
@@ -870,7 +887,7 @@ brackets:
     >>> tree[-1]
     (0, -1): 0.5
 
-As a ``Tree`` object is read-only, we cannot change individual nodes in
+As a ``Tree`` object is immutable, we cannot change individual nodes in
 a ``Tree`` object. However, we can convert the tree to a list of nodes,
 modify this list, and create a new tree from this list:
 
@@ -957,16 +974,16 @@ where the following arguments are defined:
 
 -  | ``mask`` (default: ``None``)
    | Array of integers showing which data are missing. If
-     ``mask[i,j]==0``, then ``data[i,j]`` is missing. If ``mask==None``,
-     then all data are present.
+     ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If ``mask`` is
+     ``None``, then all data are present.
 
 -  | ``weight`` (default: ``None``)
-   | The weights to be used when calculating distances. If
-     ``weight==None``, then equal weights are assumed.
+   | The weights to be used when calculating distances. If ``weight`` is
+     ``None``, then equal weights are assumed.
 
 -  | ``transpose`` (default: ``0``)
-   | Determines if rows (``transpose==0``) or columns (``transpose==1``)
-     are to be clustered.
+   | Determines if rows (``transpose`` is ``False``) or columns
+     (``transpose`` is ``True``) are to be clustered.
 
 -  | ``method`` (default: ``'m'``)
    | defines the linkage method to be used:
@@ -1111,7 +1128,7 @@ The function ``somcluster`` implements the complete algorithm to
 calculate a Self-Organizing Map on a rectangular grid. First it
 initializes the random number generator. The node data are then
 initialized using the random number generator. The order in which genes
-or microarrays are used to modify the SOM is also randomized. The total
+or samples are used to modify the SOM is also randomized. The total
 number of iterations in the SOM algorithm is specified by the user.
 
 To run ``somcluster``, use
@@ -1128,12 +1145,12 @@ where the following arguments are defined:
 
 -  | ``mask`` (default: ``None``)
    | Array of integers showing which data are missing. If
-     ``mask[i,j]==0``, then ``data[i,j]`` is missing. If ``mask==None``,
-     then all data are present.
+     ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If ``mask`` is
+     ``None``, then all data are present.
 
 -  | ``weight`` (default: ``None``)
    | contains the weights to be used when calculating distances. If
-     ``weight==None``, then equal weights are assumed.
+     ``weight`` is ``None``, then equal weights are assumed.
 
 -  | ``transpose`` (default: ``0``)
    | Determines if rows (``transpose`` is ``0``) or columns
@@ -1359,12 +1376,12 @@ A ``Record`` object has the following attributes:
 
 -  | ``data``
    | The data array containing the gene expression data. Genes are
-     stored row-wise, while microarrays are stored column-wise.
+     stored row-wise, while samples are stored column-wise.
 
 -  | ``mask``
    | This array shows which elements in the ``data`` array, if any, are
-     missing. If ``mask[i,j]==0``, then ``data[i,j]`` is missing. If no
-     data were found to be missing, ``mask`` is set to ``None``.
+     missing. If ``mask[i, j] == 0``, then ``data[i, j]`` is missing. If
+     no data were found to be missing, ``mask`` is set to ``None``.
 
 -  | ``geneid``
    | This is a list containing a unique description for each gene (i.e.,
@@ -1386,17 +1403,17 @@ A ``Record`` object has the following attributes:
      ``None``.
 
 -  | ``expid``
-   | This is a list containing a description of each microarray, e.g.
+   | This is a list containing a description of each sample, e.g.
      experimental condition.
 
 -  | ``eweight``
    | The weights that are to be used to calculate the distance in
-     expression profile between microarrays. If not present in the data
+     expression profile between samples. If not present in the data
      file, ``eweight`` is set to ``None``.
 
 -  | ``eorder``
-   | The preferred order in which microarrays should be stored in an
-     output file. If not present in the data file, ``eorder`` is set to
+   | The preferred order in which samples should be stored in an output
+     file. If not present in the data file, ``eorder`` is set to
      ``None``.
 
 -  | ``uniqid``
@@ -1420,8 +1437,8 @@ where the following arguments are defined:
 
 -  | ``transpose`` (default: ``0``)
    | Determines if the distances between the rows of ``data`` are to be
-     calculated (``transpose==0``), or between the columns of ``data``
-     (``transpose==1``).
+     calculated (``transpose`` is ``False``), or between the columns of
+     ``data`` (``transpose`` is ``True``).
 
 -  | ``dist`` (default: ``'e'``, Euclidean distance)
    | Defines the distance function to be used (see
@@ -1452,8 +1469,8 @@ use
 
 -  | ``transpose`` (default: ``0``)
    | Determines if the centroids of the rows of ``data`` are to be
-     calculated (``transpose==0``), or the centroids of the columns of
-     ``data`` (``transpose==1``).
+     calculated (``transpose`` is ``False``), or the centroids of the
+     columns of ``data`` (``transpose`` is ``True``).
 
 This function returns the tuple ``cdata, cmask``; see section
 [subsec:clustercentroids] for a description.
@@ -1502,9 +1519,9 @@ where the following arguments are defined:
      [sec:distancefunctions]).
 
 -  | ``transpose`` (default: ``0``)
-   | If ``transpose==0``, calculate the distance between the rows of
-     ``data``. If ``transpose==1``, calculate the distance between the
-     columns of ``data``.
+   | If ``transpose`` is ``False``, calculate the distance between the
+     rows of ``data``. If ``transpose`` is ``True``, calculate the
+     distance between the columns of ``data``.
 
 Performing hierarchical clustering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1519,8 +1536,8 @@ use
 where the following arguments are defined:
 
 -  | ``transpose`` (default: ``0``)
-   | Determines if rows (``transpose==0``) or columns (``transpose==1``)
-     are to be clustered.
+   | Determines if rows (``transpose`` is ``False``) or columns
+     (``transpose`` is ``True``) are to be clustered.
 
 -  | ``method`` (default: ``'m'``)
    | defines the linkage method to be used:
@@ -1539,9 +1556,9 @@ where the following arguments are defined:
      [sec:distancefunctions]).
 
 -  | ``transpose``
-   | Determines if genes or microarrays are being clustered. If
-     ``transpose==0``, genes (rows) are being clustered. If
-     ``transpose==1``, microarrays (columns) are clustered.
+   | Determines if genes or samples are being clustered. If
+     ``transpose`` is ``False``, genes (rows) are being clustered. If
+     ``transpose`` is ``True``, samples (columns) are clustered.
 
 This function returns a ``Tree`` object. This object contains
 :math:`\left(\textrm{number of items} - 1\right)` nodes, where the
@@ -1708,9 +1725,9 @@ The example data ``cyano.txt`` can be found in Biopython’s
     >>> with open("cyano.txt") as handle:
     ...     record = Cluster.read(handle)
     ...
-    >>> genetree = record.treecluster(method='s')
+    >>> genetree = record.treecluster(method="s")
     >>> genetree.scale()
-    >>> exptree = record.treecluster(dist='u', transpose=1)
+    >>> exptree = record.treecluster(dist="u", transpose=1)
     >>> record.save("cyano_result", genetree, exptree)
 
 This will create the files ``cyano_result.cdt``, ``cyano_result.gtr``,
@@ -1730,19 +1747,3 @@ Similarly, we can save a :math:`k`-means clustering solution:
 
 This will create the files ``cyano_result_K_G2_A2.cdt``,
 ``cyano_result_K_G2.kgg``, and ``cyano_result_K_A2.kag``.
-
-Auxiliary functions
--------------------
-
-``median(data)`` returns the median of the 1D array ``data``.
-
-``mean(data)`` returns the mean of the 1D array ``data``.
-
-``version()`` returns the version number of the underlying C Clustering
-Library as a string.
-
-::
-
-    >>> from Bio import Cluster
-    >>> print(Cluster.version())
-    1.50

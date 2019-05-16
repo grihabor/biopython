@@ -15,8 +15,8 @@ provides most of their functionality with a unified motif object
 implementation.
 
 Speaking of other libraries, if you are reading this you might be
-interested in `TAMO <http://fraenkel.mit.edu/TAMO/>`__, another python
-library designed to deal with sequence motifs. It supports more
+interested in `TAMO <http://fraenkel-nsf.csbi.mit.edu/TAMO/>`__, another
+python library designed to deal with sequence motifs. It supports more
 *de-novo* motif finders, but it is not a part of Biopython and has some
 restrictions on commercial use.
 
@@ -102,7 +102,7 @@ You can access these counts as a dictionary:
 
 ::
 
-    >>> m.counts['A']
+    >>> m.counts["A"]
     [3, 7, 0, 2, 1]
 
 but you can also think of it as a 2D array with the nucleotide as the
@@ -110,11 +110,11 @@ first dimension and the position as the second dimension:
 
 ::
 
-    >>> m.counts['T', 0]
+    >>> m.counts["T", 0]
     4
-    >>> m.counts['T', 2]
+    >>> m.counts["T", 2]
     2
-    >>> m.counts['T', 3]
+    >>> m.counts["T", 3]
     0
 
 You can also directly access columns of the counts matrix
@@ -135,7 +135,7 @@ nucleotide in the sorted letters in the alphabet of the motif:
     'GATC'
     >>> sorted(m.alphabet.letters)
     ['A', 'C', 'G', 'T']
-    >>> m.counts['A',:]
+    >>> m.counts["A",:]
     (3, 7, 0, 2, 1)
     >>> m.counts[0,:]
     (3, 7, 0, 2, 1)
@@ -197,7 +197,7 @@ Creating a sequence logo
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 If we have internet access, we can create a
-`weblogo <http://weblogo.berkeley.edu>`__:
+`weblogo <https://weblogo.berkeley.edu>`__:
 
 ::
 
@@ -576,10 +576,10 @@ in the example below.
 ::
 
     >>> motifs = jdb.fetch_motifs(
-    ...     collection = 'CORE',
-    ...     tax_group = ['vertebrates', 'insects'],
-    ...     tf_class = 'Winged Helix-Turn-Helix',
-    ...     tf_family = ['Forkhead', 'Ets'],
+    ...     collection = "CORE",
+    ...     tax_group = ["vertebrates", "insects"],
+    ...     tf_class = "Winged Helix-Turn-Helix",
+    ...     tf_family = ["Forkhead", "Ets"],
     ...     min_ic = 12
     ... )
     >>> for motif in motifs:
@@ -802,7 +802,7 @@ also find it by its name:
 
 ::
 
-    >>> motif = record['Motif 1']
+    >>> motif = record["Motif 1"]
 
 Each motif has an attribute ``.instances`` with the sequence instances
 in which the motif was found, providing some information on each
@@ -896,6 +896,21 @@ To parse a TRANSFAC file, use
     ...     record = motifs.parse(handle, "TRANSFAC")
     ...
 
+If any discrepancies between the file contents and the TRANSFAC file
+format are detected, a ``ValueError`` is raised. Note that you may
+encounter files that do not follow the TRANSFAC format strictly. For
+example, the number of spaces between columns may be different, or a tab
+may be used instead of spaces. Use ``strict=False`` to enable parsing
+such files without raising a ``ValueError``:
+
+::
+
+    >>> record = motifs.parse(handle, "TRANSFAC", strict=False)
+
+When parsing a non-compliant file, we recommend to check the record
+returned by ``motif.parse`` to ensure that it is consistent with the
+file contents.
+
 The overall version number, if available, is stored as
 ``record.version``:
 
@@ -915,7 +930,7 @@ motif:
     >>> motif = record[0]
     >>> motif.degenerate_consensus # Using the Bio.motifs.Motif method
     Seq('SRACAGGTGKYG', IUPACAmbiguousDNA())
-    >>> motif['ID'] # Using motif as a dictionary
+    >>> motif["ID"] # Using motif as a dictionary
     'motif1'
 
 TRANSFAC files are typically much more elaborate than this example,
@@ -1034,7 +1049,7 @@ output in a string and saving it in a file:
 ::
 
     >>> text = str(record)
-    >>> with open("mytransfacfile.dat", 'w') as out_handle:
+    >>> with open("mytransfacfile.dat", "w") as out_handle:
     ...     out_handle.write(text)
     ...
 
@@ -1087,7 +1102,7 @@ TRANSFAC file. For example,
 ::
 
     >>> two_motifs = [arnt, srf]
-    >>> print(motifs.write(two_motifs, 'transfac'))
+    >>> print(motifs.write(two_motifs, "transfac"))
     P0      A      C      G      T
     01      4     16      0      0      C
     02     19      0      1      0      A
@@ -1168,7 +1183,7 @@ accordingly:
 
 ::
 
-    >>> pwm = m.counts.normalize(pseudocounts={'A':0.6, 'C': 0.4, 'G': 0.4, 'T': 0.6})
+    >>> pwm = m.counts.normalize(pseudocounts={"A":0.6, "C": 0.4, "G": 0.4, "T": 0.6})
     >>> print(pwm)
             0      1      2      3      4
     A:   0.40   0.84   0.07   0.29   0.18
@@ -1244,7 +1259,7 @@ argument. For example, against a background with a 40% GC content, use
 
 ::
 
-    >>> background = {'A':0.3,'C':0.2,'G':0.2,'T':0.3}
+    >>> background = {"A":0.3,"C":0.2,"G":0.2,"T":0.3}
     >>> pssm = pwm.log_odds(background)
     >>> print(pssm)
             0      1      2      3      4
@@ -1463,7 +1478,7 @@ associated with each motif. Using the Arnt motif as an example:
 
     >>> from Bio import motifs
     >>> with open("Arnt.sites") as handle:
-    ...     motif = motifs.read(handle, 'sites')
+    ...     motif = motifs.read(handle, "sites")
     ...
     >>> print(motif.counts)
             0      1      2      3      4      5
@@ -1562,7 +1577,7 @@ scoring matrix is recalculated:
 
 ::
 
-    >>> motif.background = {'A': 0.2, 'C': 0.3, 'G': 0.3, 'T': 0.2}
+    >>> motif.background = {"A": 0.2, "C": 0.3, "G": 0.3, "T": 0.2}
     >>> print(motif.pssm)
             0      1      2      3      4      5
     A:   0.13   1.78  -1.09  -1.09  -1.09  -1.09
@@ -1676,8 +1691,8 @@ pseudocounts and the background distribution as our motif ``m``:
 
 ::
 
-    >>> m_reb1.pseudocounts = {'A':0.6, 'C': 0.4, 'G': 0.4, 'T': 0.6}
-    >>> m_reb1.background = {'A':0.3,'C':0.2,'G':0.2,'T':0.3}
+    >>> m_reb1.pseudocounts = {"A":0.6, "C": 0.4, "G": 0.4, "T": 0.6}
+    >>> m_reb1.background = {"A":0.3,"C":0.2,"G":0.2,"T":0.3}
     >>> pssm_reb1 = m_reb1.pssm
     >>> print(pssm_reb1)
             0      1      2      3      4      5      6      7      8
@@ -1775,14 +1790,14 @@ functionality, by adding additional information about the instances.
 Useful links
 ------------
 
--  `Sequence motif <http://en.wikipedia.org/wiki/Sequence_motif>`__ in
+-  `Sequence motif <https://en.wikipedia.org/wiki/Sequence_motif>`__ in
    wikipedia
 
--  `PWM <http://en.wikipedia.org/wiki/Position_weight_matrix>`__ in
+-  `PWM <https://en.wikipedia.org/wiki/Position_weight_matrix>`__ in
    wikipedia
 
 -  `Consensus
-   sequence <http://en.wikipedia.org/wiki/Consensus_sequence>`__ in
+   sequence <https://en.wikipedia.org/wiki/Consensus_sequence>`__ in
    wikipedia
 
 -  `Comparison of different motif finding

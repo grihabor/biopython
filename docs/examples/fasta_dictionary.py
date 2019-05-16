@@ -1,3 +1,10 @@
+# Copyright 2000 Brad Chapman.  All rights reserved.
+# Revisions copyright 2007 Peter Cock.  All rights reserved.
+#
+# This code is part of the Biopython distribution and governed by its
+# license.  Please see the LICENSE file that should have been included
+# as part of this package.
+
 """Example using Bio.SeqIO to load a FASTA file as a dictionary.
 
 An example function (get_accession_num) is defined to demonstrate
@@ -21,6 +28,7 @@ from Bio import SeqIO
 
 
 def get_accession_num(seq_record):
+    """Extract accession number from sequence id."""
     accession_atoms = seq_record.id.split('|')
     gb_name = accession_atoms[3]
     # strip the version info before returning
