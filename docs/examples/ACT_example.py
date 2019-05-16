@@ -3,6 +3,8 @@
 # as part of this package.
 #
 
+"""Example of using GenomeDiagram cross-links to mimic ACT."""
+
 from __future__ import print_function
 
 import sys

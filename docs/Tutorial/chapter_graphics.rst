@@ -2,13 +2,13 @@ Graphics including GenomeDiagram
 ================================
 
 The ``Bio.Graphics`` module depends on the third party Python library
-`ReportLab <http://www.reportlab.org>`__. Although focused on producing
-PDF files, ReportLab can also create encapsulated postscript (EPS) and
-(SVG) files. In addition to these vector based images, provided certain
-further dependencies such as the `Python Imaging Library
-(PIL) <http://www.pythonware.com/products/pil/>`__ are installed,
-ReportLab can also output bitmap images (including JPEG, PNG, GIF, BMP
-and PICT formats).
+`ReportLab <https://www.reportlab.com/>`__. Although focused on
+producing PDF files, ReportLab can also create encapsulated postscript
+(EPS) and (SVG) files. In addition to these vector based images,
+provided certain further dependencies such as the `Python Imaging
+Library (PIL) <http://www.pythonware.com/products/pil/>`__ are
+installed, ReportLab can also output bitmap images (including JPEG, PNG,
+GIF, BMP and PICT formats).
 
 GenomeDiagram
 -------------
@@ -333,26 +333,26 @@ when GenomeDiagram was added to Biopython 1.50:
 
 ::
 
-    #Default uses a BOX sigil
+    # Default uses a BOX sigil
     gd_feature_set.add_feature(feature)
 
-    #You can make this explicit:
+    # You can make this explicit:
     gd_feature_set.add_feature(feature, sigil="BOX")
 
-    #Or opt for an arrow:
+    # Or opt for an arrow:
     gd_feature_set.add_feature(feature, sigil="ARROW")
 
 Biopython 1.61 added three more sigils,
 
 ::
 
-    #Box with corners cut off (making it an octagon)
+    # Box with corners cut off (making it an octagon)
     gd_feature_set.add_feature(feature, sigil="OCTO")
 
-    #Box with jagged edges (useful for showing breaks in contains)
+    # Box with jagged edges (useful for showing breaks in contains)
     gd_feature_set.add_feature(feature, sigil="JAGGY")
 
-    #Arrow which spans the axis with strand used only for direction
+    # Arrow which spans the axis with strand used only for direction
     gd_feature_set.add_feature(feature, sigil="BIGARROW")
 
 These are shown
@@ -385,13 +385,13 @@ bounding box:
 
 ::
 
-    #Full height shafts, giving pointed boxes:
+    # Full height shafts, giving pointed boxes:
     gd_feature_set.add_feature(feature, sigil="ARROW", color="brown",
                                arrowshaft_height=1.0)
-    #Or, thin shafts:
+    # Or, thin shafts:
     gd_feature_set.add_feature(feature, sigil="ARROW", color="teal",
                                arrowshaft_height=0.2)
-    #Or, very thin shafts:
+    # Or, very thin shafts:
     gd_feature_set.add_feature(feature, sigil="ARROW", color="darkgreen",
                                arrowshaft_height=0.1)
 
@@ -412,13 +412,13 @@ height of the bounding box (defaulting to :math:`0.5`, or :math:`50\%`):
 
 ::
 
-    #Short arrow heads:
+    # Short arrow heads:
     gd_feature_set.add_feature(feature, sigil="ARROW", color="blue",
                                arrowhead_length=0.25)
-    #Or, longer arrow heads:
+    # Or, longer arrow heads:
     gd_feature_set.add_feature(feature, sigil="ARROW", color="orange",
                                arrowhead_length=1)
-    #Or, very very long arrow heads (i.e. all head, no shaft, so triangles):
+    # Or, very very long arrow heads (i.e. all head, no shaft, so triangles):
     gd_feature_set.add_feature(feature, sigil="ARROW", color="red",
                                arrowhead_length=10000)
 
@@ -439,7 +439,7 @@ axis, pointing left for the reverse strand or right otherwise:
 
 ::
 
-    #A large arrow straddling the axis:
+    # A large arrow straddling the axis:
     gd_feature_set.add_feature(feature, sigil="BIGARROW")
 
 All the shaft and arrow head options shown above for the ``ARROW`` sigil
@@ -573,8 +573,8 @@ features, see Section [sec:SeqRecord-reverse-complement]):
 The figure we are imitating used different colors for different gene
 functions. One way to do this is to edit the GenBank file to record
 color preferences for each feature - something `Sanger’s Artemis
-editor <http://www.sanger.ac.uk/resources/software/artemis/>`__ does,
-and which GenomeDiagram should understand. Here however, we’ll just hard
+editor <https://www.sanger.ac.uk/science/tools/artemis>`__ does, and
+which GenomeDiagram should understand. Here however, we’ll just hard
 code three lists of colors.
 
 Note that the annotation in the GenBank files doesn’t exactly match that
@@ -672,7 +672,7 @@ of tuples (percentage similarity score, gene in A, gene in B).
 
 ::
 
-    #Tuc2009 (NC_002703) vs bIL285 (AF323668)
+    # Tuc2009 (NC_002703) vs bIL285 (AF323668)
     A_vs_B = [
         (99, "Tuc2009_01", "int"),
         (33, "Tuc2009_03", "orf4"),
@@ -705,7 +705,7 @@ Likewise for B and C:
 
 ::
 
-    #bIL285 (AF323668) vs Listeria innocua prophage 5 (in NC_003212)
+    # bIL285 (AF323668) vs Listeria innocua prophage 5 (in NC_003212)
     B_vs_C = [
         (42, "orf39", "lin2581"),
         (31, "orf40", "lin2580"),
@@ -753,7 +753,7 @@ add cross links to the figure:
 
     from Bio.Graphics.GenomeDiagram import CrossLink
     from reportlab.lib import colors
-    #Note it might have been clearer to assign the track numbers explicitly...
+    # Note it might have been clearer to assign the track numbers explicitly...
     for rec_X, tn_X, rec_Y, tn_Y, X_vs_Y in [(A_rec, 3, B_rec, 2, A_vs_B),
                                              (B_rec, 2, C_rec, 1, B_vs_C)]:
         track_X = gd_diagram.tracks[tn_X]
@@ -931,11 +931,12 @@ thaliana*.
    Chromosome diagram for *Arabidopsis thaliana* showing tRNA genes.
 
 You can skip this bit, but first I downloaded the five sequenced
-chromosomes from the NCBI’s FTP site
-ftp://ftp.ncbi.nlm.nih.gov/genomes/Arabidopsis_thaliana and then parsed
-them with ``Bio.SeqIO`` to find out their lengths. You could use the
-GenBank files for this, but it is faster to use the FASTA files for the
-whole chromosomes:
+chromosomes as five individual FASTA files from the NCBI’s FTP site
+ftp://ftp.ncbi.nlm.nih.gov/genomes/archive/old_refseq/Arabidopsis_thaliana/
+and then parsed them with ``Bio.SeqIO`` to find out their lengths. You
+could use the GenBank files for this (and the next example uses those
+for plotting features), but if all you want is the length it is faster
+to use the FASTA files for the whole chromosomes:
 
 ::
 
@@ -946,8 +947,8 @@ whole chromosomes:
                ("Chr IV", "CHR_IV/NC_003075.fna"),
                ("Chr V", "CHR_V/NC_003076.fna")]
     for (name, filename) in entries:
-       record = SeqIO.read(filename,"fasta")
-       print(name, len(record))
+        record = SeqIO.read(filename,"fasta")
+        print(name, len(record))
 
 This gave the lengths of the five chromosomes, which we’ll now use in
 the following short demonstration of the ``BasicChromosome`` module:
@@ -963,35 +964,35 @@ the following short demonstration of the ``BasicChromosome`` module:
                ("Chr IV", 18585042),
                ("Chr V", 26992728)]
 
-    max_len = 30432563 #Could compute this
-    telomere_length = 1000000 #For illustration
+    max_len = 30432563  # Could compute this from the entries dict
+    telomere_length = 1000000  # For illustration
 
     chr_diagram = BasicChromosome.Organism()
-    chr_diagram.page_size = (29.7*cm, 21*cm) #A4 landscape
+    chr_diagram.page_size = (29.7*cm, 21*cm)  # A4 landscape
 
     for name, length in entries:
         cur_chromosome = BasicChromosome.Chromosome(name)
-        #Set the scale to the MAXIMUM length plus the two telomeres in bp,
-        #want the same scale used on all five chromosomes so they can be
-        #compared to each other
+        # Set the scale to the MAXIMUM length plus the two telomeres in bp,
+        # want the same scale used on all five chromosomes so they can be
+        # compared to each other
         cur_chromosome.scale_num = max_len + 2 * telomere_length
 
-        #Add an opening telomere
+        # Add an opening telomere
         start = BasicChromosome.TelomereSegment()
         start.scale = telomere_length
         cur_chromosome.add(start)
 
-        #Add a body - using bp as the scale length here.
+        # Add a body - using bp as the scale length here.
         body = BasicChromosome.ChromosomeSegment()
         body.scale = length
         cur_chromosome.add(body)
 
-        #Add a closing telomere
+        # Add a closing telomere
         end = BasicChromosome.TelomereSegment(inverted=True)
         end.scale = telomere_length
         cur_chromosome.add(end)
 
-        #This chromosome is done
+        # This chromosome is done
         chr_diagram.add(cur_chromosome)
 
     chr_diagram.draw("simple_chrom.pdf", "Arabidopsis thaliana")
@@ -1012,8 +1013,8 @@ Continuing from the previous example, let’s also show the tRNA genes.
 We’ll get their locations by parsing the GenBank files for the five
 *Arabidopsis thaliana* chromosomes. You’ll need to download these files
 from the NCBI FTP site
-ftp://ftp.ncbi.nlm.nih.gov/genomes/Arabidopsis_thaliana, and preserve
-the subdirectory names or edit the paths below:
+ftp://ftp.ncbi.nlm.nih.gov/genomes/archive/old_refseq/Arabidopsis_thaliana/,
+and preserve the subdirectory names or edit the paths below:
 
 ::
 
@@ -1027,8 +1028,8 @@ the subdirectory names or edit the paths below:
                ("Chr IV", "CHR_IV/NC_003075.gbk"),
                ("Chr V", "CHR_V/NC_003076.gbk")]
 
-    max_len = 30432563 #Could compute this
-    telomere_length = 1000000 #For illustration
+    max_len = 30432563  # Could compute this from the entries dict
+    telomere_length = 1000000  # For illustration
 
     chr_diagram = BasicChromosome.Organism()
     chr_diagram.page_size = (29.7*cm, 21*cm) #A4 landscape
@@ -1037,32 +1038,32 @@ the subdirectory names or edit the paths below:
         record = SeqIO.read(filename,"genbank")
         length = len(record)
         features = [f for f in record.features if f.type=="tRNA"]
-        #Record an Artemis style integer color in the feature's qualifiers,
-        #1 = Black, 2 = Red, 3 = Green, 4 = blue, 5 =cyan, 6 = purple
+        # Record an Artemis style integer color in the feature's qualifiers,
+        # 1 = Black, 2 = Red, 3 = Green, 4 = blue, 5 =cyan, 6 = purple
         for f in features: f.qualifiers["color"] = [index+2]
 
         cur_chromosome = BasicChromosome.Chromosome(name)
-        #Set the scale to the MAXIMUM length plus the two telomeres in bp,
-        #want the same scale used on all five chromosomes so they can be
-        #compared to each other
+        # Set the scale to the MAXIMUM length plus the two telomeres in bp,
+        # want the same scale used on all five chromosomes so they can be
+        # compared to each other
         cur_chromosome.scale_num = max_len + 2 * telomere_length
 
-        #Add an opening telomere
+        # Add an opening telomere
         start = BasicChromosome.TelomereSegment()
         start.scale = telomere_length
         cur_chromosome.add(start)
 
-        #Add a body - again using bp as the scale length here.
+        # Add a body - again using bp as the scale length here.
         body = BasicChromosome.AnnotatedChromosomeSegment(length, features)
         body.scale = length
         cur_chromosome.add(body)
 
-        #Add a closing telomere
+        # Add a closing telomere
         end = BasicChromosome.TelomereSegment(inverted=True)
         end.scale = telomere_length
         cur_chromosome.add(end)
 
-        #This chromosome is done
+        # This chromosome is done
         chr_diagram.add(cur_chromosome)
 
     chr_diagram.draw("tRNA_chrom.pdf", "Arabidopsis thaliana")

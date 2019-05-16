@@ -34,7 +34,7 @@ separated values) files produced by the machine’s proprietary software
 and `JSON <https://en.wikipedia.org/wiki/JSON>`__ files produced by
 analysis software, like
 `opm <https://www.dsmz.de/research/microorganisms/projects/analysis-of-omnilog-phenotype-microarray-data.html>`__
-or `DuctApe <http://combogenomics.github.io/DuctApe/>`__. The parser
+or `DuctApe <https://combogenomics.github.io/DuctApe/>`__. The parser
 will return one or a generator of PlateRecord objects, depending on
 whether the read or parse method is being used. You can test the parse
 function by using the
@@ -65,7 +65,7 @@ Well identifier
 
     ::
 
-            >>> record['A02']
+            >>> record["A02"]
             
 
 Well plate coordinates
@@ -123,7 +123,7 @@ object; in the example below only the first ten time points are shown.
 
     >>> from Bio import phenotype
     >>> record = list(phenotype.parse("Plates.csv", "pm-csv"))[-1]
-    >>> well = record['A02']  
+    >>> well = record["A02"]
 
 ::
 
@@ -195,10 +195,10 @@ another PlateRecord object with the corrected data.
 
 ::
 
-    >>> corrected = record.subtract_control(control='A01')
-    >>> record['A01'][63]
+    >>> corrected = record.subtract_control(control="A01")
+    >>> record["A01"][63]
     336.0
-    >>> corrected['A01'][63]
+    >>> corrected["A01"][63]
     0.0
 
 Parameters extraction
@@ -223,7 +223,7 @@ The parameters that can be extracted from the curve are:
 -  Curve lag time (**lag**).
 
 All the parameters (except **min**, **max** and **average\_height**)
-require the `scipy library <http://www.scipy.org/>`__ to be installed.
+require the `scipy library <https://www.scipy.org/>`__ to be installed.
 
 The fit function uses three sigmoid functions:
 
@@ -245,7 +245,7 @@ Where:
 -  corresponds to the **lag**
 
 These functions have been derived from `this
-publication <http://www.ncbi.nlm.nih.gov/pubmed/16348228>`__. The fit
+publication <https://www.ncbi.nlm.nih.gov/pubmed/16348228>`__. The fit
 method by default tries first to fit the gompertz function: if it fails
 it will then try to fit the logistic and then the richards function. The
 user can also specify one of the three functions to be applied.
@@ -254,7 +254,7 @@ user can also specify one of the three functions to be applied.
 
     >>> from Bio import phenotype
     >>> record = list(phenotype.parse("Plates.csv", "pm-csv"))[-1]
-    >>> well = record['A02'] 
+    >>> well = record["A02"]
     >>> well.fit()
     >>> print("Function fitted: %s" % well.model)
     Function fitted: gompertz
@@ -277,7 +277,7 @@ PlateRecord objects can be written to file in the form of
 `JSON <https://en.wikipedia.org/wiki/JSON>`__ files, a format compatible
 with other software packages such as
 `opm <https://www.dsmz.de/research/microorganisms/projects/analysis-of-omnilog-phenotype-microarray-data.html>`__
-or `DuctApe <http://combogenomics.github.io/DuctApe/>`__.
+or `DuctApe <https://combogenomics.github.io/DuctApe/>`__.
 
 ::
 

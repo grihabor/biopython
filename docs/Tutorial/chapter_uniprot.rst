@@ -4,11 +4,11 @@ Swiss-Prot and ExPASy
 Parsing Swiss-Prot files
 ------------------------
 
-Swiss-Prot (http://www.expasy.org/sprot) is a hand-curated database of
-protein sequences. Biopython can parse the “plain text” Swiss-Prot file
-format, which is still used for the UniProt Knowledgebase which combined
-Swiss-Prot, TrEMBL and PIR-PSD. We do not (yet) support the UniProtKB
-XML file format.
+Swiss-Prot (https://web.expasy.org/docs/swiss-prot_guideline.html) is a
+hand-curated database of protein sequences. Biopython can parse the
+“plain text” Swiss-Prot file format, which is still used for the UniProt
+Knowledgebase which combined Swiss-Prot, TrEMBL and PIR-PSD. We do not
+(yet) support the UniProtKB XML file format.
 
 Parsing Swiss-Prot records
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -227,8 +227,8 @@ The entries in this file can be parsed by the ``parse`` function in the
     >>> handle = open("keywlist.txt")
     >>> records = KeyWList.parse(handle)
     >>> for record in records:
-    ...     print(record['ID'])
-    ...     print(record['DE'])
+    ...     print(record["ID"])
+    ...     print(record["DE"])
 
 This prints
 
@@ -437,7 +437,7 @@ Accessing the ExPASy server
 ---------------------------
 
 Swiss-Prot, Prosite, and Prosite documentation records can be downloaded
-from the ExPASy web server at http://www.expasy.org. Six kinds of
+from the ExPASy web server at https://www.expasy.org. Four kinds of
 queries are available from ExPASy:
 
 get\_prodoc\_entry
@@ -451,12 +451,6 @@ get\_prosite\_raw
 
 get\_sprot\_raw
     To download a Swiss-Prot record in raw format
-
-sprot\_search\_ful
-    To search for a Swiss-Prot record
-
-sprot\_search\_de
-    To search for a Swiss-Prot record
 
 To access this web server from a Python script, we use the
 ``Bio.ExPASy`` module.
@@ -514,30 +508,9 @@ Searching Swiss-Prot
 
 Now, you may remark that I knew the records’ accession numbers
 beforehand. Indeed, ``get_sprot_raw()`` needs either the entry name or
-an accession number. When you don’t have them handy, you can use one of
-the ``sprot_search_de()`` or ``sprot_search_ful()`` functions.
-
-``sprot_search_de()`` searches in the ID, DE, GN, OS and OG lines;
-``sprot_search_ful()`` searches in (nearly) all the fields. They are
-detailed on http://www.expasy.org/cgi-bin/sprot-search-de and
-http://www.expasy.org/cgi-bin/sprot-search-ful respectively. Note that
-they don’t search in TrEMBL by default (argument ``trembl``). Note also
-that they return HTML pages; however, accession numbers are quite easily
-extractable:
-
-::
-
-    >>> from Bio import ExPASy
-    >>> import re
-
-    >>> handle = ExPASy.sprot_search_de("Orchid Chalcone Synthase")
-    >>> # or:
-    >>> # handle = ExPASy.sprot_search_ful("Orchid and {Chalcone Synthase}")
-    >>> html_results = handle.read()
-    >>> if "Number of sequences found" in html_results:
-    ...     ids = re.findall(r'HREF="/uniprot/(\w+)"', html_results)
-    ... else:
-    ...     ids = re.findall(r'href="/cgi-bin/niceprot\.pl\?(\w+)"', html_results)
+an accession number. When you don’t have them handy, right now you could
+use https://www.uniprot.org/ but we do not have a Python wrapper for
+searching this from a script. Perhaps you could contribute here?
 
 Retrieving Prosite and Prosite documentation records
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -555,7 +528,7 @@ print it out in raw text format, use
 ::
 
     >>> from Bio import ExPASy
-    >>> handle = ExPASy.get_prosite_raw('PS00001')
+    >>> handle = ExPASy.get_prosite_raw("PS00001")
     >>> text = handle.read()
     >>> print(text)
 
@@ -566,7 +539,7 @@ object, use
 
     >>> from Bio import ExPASy
     >>> from Bio import Prosite
-    >>> handle = ExPASy.get_prosite_raw('PS00001')
+    >>> handle = ExPASy.get_prosite_raw("PS00001")
     >>> record = Prosite.read(handle)
 
 The same function can be used to retrieve a Prosite documentation record
@@ -576,7 +549,7 @@ and parse it into a ``Bio.ExPASy.Prodoc.Record`` object:
 
     >>> from Bio import ExPASy
     >>> from Bio.ExPASy import Prodoc
-    >>> handle = ExPASy.get_prosite_raw('PDOC00001')
+    >>> handle = ExPASy.get_prosite_raw("PDOC00001")
     >>> record = Prodoc.read(handle)
 
 For non-existing accession numbers, ``ExPASy.get_prosite_raw`` returns a
@@ -591,7 +564,7 @@ format. To create a web page showing one Prosite record, you can use
 ::
 
     >>> from Bio import ExPASy
-    >>> handle = ExPASy.get_prosite_entry('PS00001')
+    >>> handle = ExPASy.get_prosite_entry("PS00001")
     >>> html = handle.read()
     >>> with open("myprositerecord.html", "w") as out_handle:
     ...     out_handle.write(html)
@@ -602,7 +575,7 @@ and similarly for a Prosite documentation record:
 ::
 
     >>> from Bio import ExPASy
-    >>> handle = ExPASy.get_prodoc_entry('PDOC00001')
+    >>> handle = ExPASy.get_prodoc_entry("PDOC00001")
     >>> html = handle.read()
     >>> with open("myprodocrecord.html", "w") as out_handle:
     ...     out_handle.write(html)
@@ -614,13 +587,13 @@ message in HTML format.
 Scanning the Prosite database
 -----------------------------
 
-`ScanProsite <http://www.expasy.org/tools/scanprosite/>`__ allows you to
+`ScanProsite <https://prosite.expasy.org/prosite.html>`__ allows you to
 scan protein sequences online against the Prosite database by providing
 a UniProt or PDB sequence identifier or the sequence itself. For more
 information about ScanProsite, please see the `ScanProsite
-documentation <http://www.expasy.org/tools/scanprosite/scanprosite-doc.html>`__
-as well as the `documentation for programmatic access of
-ScanProsite <http://www.expasy.org/tools/scanprosite/ScanPrositeREST.html>`__.
+documentation <https://prosite.expasy.org/prosite_doc.html>`__ as well
+as the `documentation for programmatic access of
+ScanProsite <https://prosite.expasy.org/scanprosite/scanprosite_doc.html#rest>`__.
 
 You can use Biopython’s ``Bio.ExPASy.ScanProsite`` module to scan the
 Prosite database from Python. This module both helps you to access
@@ -680,7 +653,7 @@ returned by ScanProsite. This ScanProsite search resulted in six hits:
 
 Other ScanProsite parameters can be passed as keyword arguments; see the
 `documentation for programmatic access of
-ScanProsite <http://www.expasy.org/tools/scanprosite/ScanPrositeREST.html>`__
+ScanProsite <https://prosite.expasy.org/scanprosite/scanprosite_doc.html#rest>`__
 for more information. As an example, passing ``lowscore=1`` to include
 matches with low level scores lets use find one additional hit:
 

@@ -332,5 +332,5 @@ FreqTable
        >>> from SubsMat import *
        >>> ftab = FreqTable.FreqTable(my_frequency_dictionary, FreqTable.FREQ)
        >>> ftab = FreqTable.FreqTable(my_count_dictionary, FreqTable.COUNT)
-       >>> ftab = FreqTable.read_count(open('myCountFile'))
-       >>> ftab = FreqTable.read_frequency(open('myFrequencyFile'))
+       >>> ftab = FreqTable.read_count(open("myCountFile"))
+       >>> ftab = FreqTable.read_frequency(open("myFrequencyFile"))

@@ -9,20 +9,14 @@ Open-source projects like this benefit greatly from feedback,
 bug-reports (and patches!) from a wide variety of contributors.
 
 The main forums for discussing feature requests and potential bugs are
-the `Biopython mailing
-lists <http://biopython.org/wiki/Mailing_lists>`__:
-
--  – An unmoderated list for discussion of anything to do with
-   Biopython.
-
--  – A more development oriented list that is mainly used by developers
-   (but anyone is free to contribute!).
+the `Biopython mailing list <http://biopython.org/wiki/Mailing_lists>`__
+and issues or pull requests on GitHub.
 
 Additionally, if you think you’ve found a new bug, you can submit it to
 our issue tracker at https://github.com/biopython/biopython/issues (this
-has replaced the older tracker hosted at
-http://redmine.open-bio.org/projects/biopython). This way, it won’t get
-buried in anyone’s Inbox and forgotten about.
+replaced the older Open Bioinformatics Foundation hosted RedMine
+tracker). This way, it won’t get buried in anyone’s Inbox and forgotten
+about.
 
 Mailing lists and helping newcomers
 -----------------------------------
@@ -118,9 +112,9 @@ Macintosh
 
 Once you’ve got a package, please test it on your system to make sure it
 installs everything in a good way and seems to work properly. Once you
-feel good about it, send it off to one of the Biopython developers
-(write to our main mailing list at biopython@biopython.org if you’re not
-sure who to send it to) and you’ve done it. Thanks!
+feel good about it, make a pull request on GitHub and write to our
+`Biopython mailing list <http://biopython.org/wiki/Mailing_lists>`__.
+You’ve done it. Thanks!
 
 Contributing Unit Tests
 -----------------------
@@ -159,8 +153,8 @@ you wrote it all yourself, and it is not based on any other code, this
 shouldn’t be a problem. However, there are issues if you want to
 contribute a derivative work - for example something based on GPL or
 LPGL licenced code would not be compatible with our license. If you have
-any queries on this, please discuss the issue on the biopython-dev
-mailing list.
+any queries on this, please discuss the issue on the mailing list or
+GitHub.
 
 Another point of concern for any additions to Biopython regards any
 build time or run time dependencies. Generally speaking, writing code to

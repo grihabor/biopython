@@ -488,9 +488,9 @@ particular as a GenBank file. Until Easter 2009, the Entrez EFetch API
 let you use “genbank” as the return type, however the NCBI now insist on
 using the official return types of “gb” (or “gp” for proteins) as
 described on `EFetch for Sequence and other Molecular Biology
-Databases <http://www.ncbi.nlm.nih.gov/entrez/query/static/efetchseq_help.html>`__.
-As a result, in Biopython 1.50 onwards, we support “gb” as an alias for
-“genbank” in ``Bio.SeqIO``.
+Databases <https://www.ncbi.nlm.nih.gov/books/NBK3837/>`__. As a result,
+in Biopython 1.50 onwards, we support “gb” as an alias for “genbank” in
+``Bio.SeqIO``.
 
 ::
 
@@ -982,7 +982,7 @@ to worry about which file the sequence comes from, e.g.
 
 ::
 
-    >>> print(gb_vrl[``AB811634.1''].description)
+    >>> print(gb_vrl["AB811634.1"].description)
     Equine encephalosis virus NS3 gene, complete cds, isolate: Kimron1.
 
 Getting the raw data for a record
@@ -994,7 +994,7 @@ you get at the raw bytes of each record:
 
 ::
 
-    >>> print(gb_vrl.get_raw(``AB811634.1''))
+    >>> print(gb_vrl.get_raw("AB811634.1"))
     LOCUS       AB811634                 723 bp    RNA     linear   VRL 17-JUN-2015
     DEFINITION  Equine encephalosis virus NS3 gene, complete cds, isolate: Kimron1.
     ACCESSION   AB811634
@@ -1010,8 +1010,8 @@ access is difficult with the more common file formats like gzip and
 bzip2. In this setting, BGZF (Blocked GNU Zip Format) can be very
 helpful. This is a variant of gzip (and can be decompressed using
 standard gzip tools) popularised by the BAM file format,
-`samtools <http://samtools.sourceforge.net/>`__, and
-`tabix <http://samtools.sourceforge.net/tabix.shtml>`__.
+`samtools <https://www.htslib.org/>`__, and
+`tabix <https://www.htslib.org/doc/tabix.html>`__.
 
 To create a BGZF compressed file you can use the command line tool
 ``bgzip`` which comes with samtools. In our examples we use a filename

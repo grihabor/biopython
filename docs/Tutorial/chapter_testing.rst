@@ -2,7 +2,7 @@ The Biopython testing framework
 ===============================
 
 Biopython has a regression testing framework (the file ``run_tests.py``)
-based on `unittest <http://docs.python.org/library/unittest.html>`__,
+based on `unittest <https://docs.python.org/3/library/unittest.html>`__,
 the standard unit testing framework for Python. Providing comprehensive
 tests for modules is one of the most important aspects of making sure
 that the Biopython code is as bug-free as possible before going out. It
@@ -109,7 +109,7 @@ Running the tests using Tox
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Like most Python projects, you can also use
-`Tox <http://tox.readthedocs.org/en/latest/>`__ to run the tests on
+`Tox <https://tox.readthedocs.org/en/latest/>`__ to run the tests on
 multiple Python versions, provided they are already installed in your
 system.
 
@@ -300,8 +300,8 @@ The ``unittest``-framework has been included with Python since version
 2.1, and is documented in the Python Library Reference (which I know you
 are keeping under your pillow, as recommended). There is also `online
 documentaion for
-unittest <http://docs.python.org/library/unittest.html>`__. If you are
-familiar with the ``unittest`` system (or something similar like the
+unittest <https://docs.python.org/3/library/unittest.html>`__. If you
+are familiar with the ``unittest`` system (or something similar like the
 nose test framework), you shouldn’t have any trouble. You may find
 looking at the existing example within Biopython helpful too.
 
@@ -342,7 +342,7 @@ In the division tests, we use ``assertAlmostEqual`` instead of
 ``assertEqual`` to avoid tests failing due to roundoff errors; see the
 ``unittest`` chapter in the Python documentation for details and for
 other functionality available in ``unittest`` (`online
-reference <http://docs.python.org/library/unittest.html>`__).
+reference <https://docs.python.org/3/library/unittest.html>`__).
 
 These are the key points of ``unittest``-based tests:
 
@@ -463,37 +463,42 @@ Writing doctests
 
 Python modules, classes and functions support built in documentation
 using docstrings. The `doctest
-framework <http://docs.python.org/library/doctest.html>`__ (included
+framework <https://docs.python.org/3/library/doctest.html>`__ (included
 with Python) allows the developer to embed working examples in the
 docstrings, and have these examples automatically tested.
 
-Currently only a small part of Biopython includes doctests. The
-``run_tests.py`` script takes care of running the doctests. For this
-purpose, at the top of the ``run_tests.py`` script is a manually
-compiled list of modules to test, which allows us to skip modules with
-optional external dependencies which may not be installed (e.g. the
-Reportlab and NumPy libraries). So, if you’ve added some doctests to the
-docstrings in a Biopython module, in order to have them included in the
-Biopython test suite, you must update ``run_tests.py`` to include your
-module. Currently, the relevant part of ``run_tests.py`` looks as
-follows:
+Currently only part of Biopython includes doctests. The ``run_tests.py``
+script takes care of running the doctests. For this purpose, at the top
+of the ``run_tests.py`` script is a manually compiled list of modules to
+skip, important where optional external dependencies which may not be
+installed (e.g. the Reportlab and NumPy libraries). So, if you’ve added
+some doctests to the docstrings in a Biopython module, in order to have
+them excluded in the Biopython test suite, you must update
+``run_tests.py`` to include your module. Currently, the relevant part of
+``run_tests.py`` looks as follows:
 
 ::
 
-    # This is the list of modules containing docstring tests.
-    # If you develop docstring tests for other modules, please add
-    # those modules here.
-    DOCTEST_MODULES = ["Bio.Seq",
-                       "Bio.SeqRecord",
-                       "Bio.SeqIO",
-                       "...",
-                      ]
-    #Silently ignore any doctests for modules requiring numpy!
-    try:
-        import numpy
-        DOCTEST_MODULES.extend(["Bio.Statistics.lowess"])
-    except ImportError:
-        pass
+    EXCLUDE_DOCTEST_MODULES = [
+    DOCTEST_MODULES = [
+        'Bio.AlignIO.MauveIO',
+        ...
+    ]
+
+    # Exclude modules with online activity
+    EXCLUDE_DOCTEST_MODULES.extend([
+        'Bio.Entrez',
+        'Bio.TogoWS',
+        ...
+        ])
+
+    # Silently ignore any doctests for modules requiring numpy!
+    if numpy is None:
+        EXCLUDE_DOCTEST_MODULES.extend([
+            "Bio.Affy.CelFile",
+            "Bio.KDTree",
+            ...
+        ])
 
 Note that we regard doctests primarily as documentation, so you should
 stick to typical usage. Generally complicated examples dealing with

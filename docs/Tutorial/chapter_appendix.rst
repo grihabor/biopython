@@ -96,7 +96,7 @@ into a handle. The following example shows how to do this using
 
 ::
 
-    >>> my_info = 'A string\n with multiple lines.'
+    >>> my_info = "A string\n with multiple lines."
     >>> print(my_info)
     A string
      with multiple lines.

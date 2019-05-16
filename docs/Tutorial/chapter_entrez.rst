@@ -1,20 +1,21 @@
 Accessing NCBI’s Entrez databases
 =================================
 
-Entrez (http://www.ncbi.nlm.nih.gov/Entrez) is a data retrieval system
-that provides users access to NCBI’s databases such as PubMed, GenBank,
-GEO, and many others. You can access Entrez from a web browser to
-manually enter queries, or you can use Biopython’s ``Bio.Entrez`` module
-for programmatic access to Entrez. The latter allows you for example to
-search PubMed or download GenBank records from within a Python script.
+Entrez (https://www.ncbi.nlm.nih.gov/Web/Search/entrezfs.html) is a data
+retrieval system that provides users access to NCBI’s databases such as
+PubMed, GenBank, GEO, and many others. You can access Entrez from a web
+browser to manually enter queries, or you can use Biopython’s
+``Bio.Entrez`` module for programmatic access to Entrez. The latter
+allows you for example to search PubMed or download GenBank records from
+within a Python script.
 
 The ``Bio.Entrez`` module makes use of the Entrez Programming Utilities
 (also known as EUtils), consisting of eight tools that are described in
-detail on NCBI’s page at http://www.ncbi.nlm.nih.gov/entrez/utils/. Each
-of these tools corresponds to one Python function in the ``Bio.Entrez``
-module, as described in the sections below. This module makes sure that
-the correct URL is used for the queries, and that not more than one
-request is made every three seconds, as required by NCBI.
+detail on NCBI’s page at https://www.ncbi.nlm.nih.gov/books/NBK25501/.
+Each of these tools corresponds to one Python function in the
+``Bio.Entrez`` module, as described in the sections below. This module
+makes sure that the correct URL is used for the queries, and that not
+more than one request is made every three seconds, as required by NCBI.
 
 The output returned by the Entrez Programming Utilities is typically in
 XML format. To parse such output, you have several options:
@@ -70,21 +71,27 @@ Entrez Guidelines
 Before using Biopython to access the NCBI’s online resources (via
 ``Bio.Entrez`` or some of the other modules), please read the `NCBI’s
 Entrez User
-Requirements <http://www.ncbi.nlm.nih.gov/books/NBK25497/#chapter2.Usage_Guidelines_and_Requiremen>`__.
-If the NCBI finds you are abusing their systems, they can and will ban
-your access!
+Requirements <https://www.ncbi.nlm.nih.gov/books/NBK25497/>`__. If the
+NCBI finds you are abusing their systems, they can and will ban your
+access!
 
 To paraphrase:
 
 -  For any series of more than 100 requests, do this at weekends or
    outside USA peak times. This is up to you to obey.
 
--  Use the http://eutils.ncbi.nlm.nih.gov address, not the standard NCBI
-   Web address. Biopython uses this web address.
+-  Use the https://eutils.ncbi.nlm.nih.gov address, not the standard
+   NCBI Web address. Biopython uses this web address.
 
--  Make no more than three requests every seconds (relaxed from at most
-   one request every three seconds in early 2009). This is automatically
-   enforced by Biopython.
+-  If you are using a API key, you can make at most 10 queries per
+   second, otherwise at most 3 queries per second. This is automatically
+   enforced by Biopython. Include ``api_key="MyAPIkey"`` in the argument
+   list or set it as a module level variable:
+
+   ::
+
+       >>> from Bio import Entrez
+       >>> Entrez.api_key = "MyAPIkey"
 
 -  Use the optional email parameter so the NCBI can contact you if there
    is a problem. You can either explicitly set this as a parameter with
@@ -137,7 +144,7 @@ list of all database names accessible through the Entrez utilities:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.einfo()
     >>> result = handle.read()
     >>> handle.close()
@@ -149,7 +156,7 @@ The variable ``result`` now contains a list of databases in XML format:
     >>> print(result)
     <?xml version="1.0"?>
     <!DOCTYPE eInfoResult PUBLIC "-//NLM//DTD eInfoResult, 11 May 2002//EN"
-     "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd">
+     "https://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd">
     <eInfoResult>
     <DbList>
             <DbName>pubmed</DbName>
@@ -227,6 +234,8 @@ information:
 
 ::
 
+    >>> from Bio import Entrez
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.einfo(db="pubmed")
     >>> record = Entrez.read(handle)
     >>> record["DbInfo"]["Description"]
@@ -320,11 +329,11 @@ As a final example, let’s get a list of computational journal titles:
 
 ::
 
-    >>> handle = Entrez.esearch(db="nlmcatalog", term="computational[Journal]", retmax='20')
+    >>> handle = Entrez.esearch(db="nlmcatalog", term="computational[Journal]", retmax="20")
     >>> record = Entrez.read(handle)
     >>> print("{} computational journals found".format(record["Count"]))
     117 computational Journals found
-    >>> print("The first 20 are\n{}".format(record['IdList']))
+    >>> print("The first 20 are\n{}".format(record["IdList"]))
     ['101660833', '101664671', '101661657', '101659814', '101657941',
      '101653734', '101669877', '101649614', '101647835', '101639023',
      '101627224', '101647801', '101589678', '101585369', '101645372',
@@ -342,7 +351,7 @@ EPost: Uploading a list of identifiers
 
 EPost uploads a list of UIs for use in subsequent search strategies; see
 the `EPost help
-page <http://www.ncbi.nlm.nih.gov/entrez/query/static/epost_help.html>`__
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EPost>`__
 for more information. It is available from Biopython through the
 ``Bio.Entrez.epost()`` function.
 
@@ -370,7 +379,7 @@ PubMed identifiers:
     >>> print(Entrez.epost("pubmed", id=",".join(id_list)).read())
     <?xml version="1.0"?>
     <!DOCTYPE ePostResult PUBLIC "-//NLM//DTD ePostResult, 11 May 2002//EN"
-     "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/ePost_020511.dtd">
+     "https://www.ncbi.nlm.nih.gov/entrez/query/DTD/ePost_020511.dtd">
     <ePostResult>
         <QueryKey>1</QueryKey>
         <WebEnv>NCID_01_206841095_130.14.22.101_9001_1242061629</WebEnv>
@@ -396,7 +405,7 @@ ESummary: Retrieving summaries from primary IDs
 
 ESummary retrieves document summaries from a list of primary IDs (see
 the `ESummary help
-page <http://www.ncbi.nlm.nih.gov/entrez/query/static/esummary_help.html>`__
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESummary>`__
 for more information). In Biopython, ESummary is available as
 ``Bio.Entrez.esummary()``. Using the search result above, we can for
 example find out more about the journal with ID 30367:
@@ -404,10 +413,10 @@ example find out more about the journal with ID 30367:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.esummary(db="nlmcatalog", id="101660833")
     >>> record = Entrez.read(handle)
-    >>> info = record[0]['TitleMainList'][0]
+    >>> info = record[0]["TitleMainList"][0]
     >>> print("Journal info\nid: {}\nTitle: {}".format(record[0]["Id"], info["Title"]))
     Journal info
     id: 101660833
@@ -418,20 +427,14 @@ EFetch: Downloading full records from Entrez
 
 EFetch is what you use when you want to retrieve a full record from
 Entrez. This covers several possible databases, as described on the main
-`EFetch Help
-page <http://eutils.ncbi.nlm.nih.gov/entrez/query/static/efetch_help.html>`__.
+`EFetch Help page <https://www.ncbi.nlm.nih.gov/books/NBK3837/>`__.
 
 For most of their databases, the NCBI support several different file
 formats. Requesting a specific file format from Entrez using
 ``Bio.Entrez.efetch()`` requires specifying the ``rettype`` and/or
 ``retmode`` optional arguments. The different combinations are described
 for each database type on the pages linked to on `NCBI efetch
-webpage <http://www.ncbi.nlm.nih.gov/entrez/query/static/efetch_help.html>`__
-(e.g.
-`literature <http://eutils.ncbi.nlm.nih.gov/corehtml/query/static/efetchlit_help.html>`__,
-`sequences <http://eutils.ncbi.nlm.nih.gov/corehtml/query/static/efetchseq_help.html>`__
-and
-`taxonomy <http://eutils.ncbi.nlm.nih.gov/corehtml/query/static/efetchtax_help.html>`__).
+webpage <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch>`__.
 
 One common usage is downloading sequences in the FASTA or
 GenBank/GenPept plain text formats (which can then be parsed with
@@ -442,7 +445,7 @@ download GenBank record EU490707 using ``Bio.Entrez.efetch``:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.efetch(db="nucleotide", id="EU490707", rettype="gb", retmode="text")
     >>> print(handle.read())
     LOCUS       EU490707                1302 bp    DNA     linear   PLN 26-JUL-2016
@@ -536,10 +539,10 @@ XML.
 
 Alternatively, you could for example use ``rettype="fasta"`` to get the
 Fasta-format; see the `EFetch Sequences Help
-page <http://www.ncbi.nlm.nih.gov/entrez/query/static/efetchseq_help.html>`__
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch>`__
 for other options. Remember – the available formats depend on which
 database you are downloading from - see the main `EFetch Help
-page <http://eutils.ncbi.nlm.nih.gov/entrez/query/static/efetch_help.html>`__.
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch>`__.
 
 If you fetch the record in one of the formats accepted by ``Bio.SeqIO``
 (see Chapter [chapter:Bio.SeqIO]), you could directly parse it into a
@@ -547,8 +550,9 @@ If you fetch the record in one of the formats accepted by ``Bio.SeqIO``
 
 ::
 
-    >>> from Bio import Entrez
     >>> from Bio import SeqIO
+    >>> from Bio import Entrez
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.efetch(db="nucleotide", id="EU490707", rettype="gb", retmode="text")
     >>> record = SeqIO.read(handle, "genbank")
     >>> handle.close()
@@ -594,6 +598,7 @@ To get the output in XML format, which you can parse using the
 ::
 
     >>> from Bio import Entrez
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.efetch(db="nucleotide", id="EU490707", retmode="xml")
     >>> record = Entrez.read(handle)
     >>> handle.close()
@@ -625,7 +630,7 @@ article is 19304878:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> pmid = "19304878"
     >>> record = Entrez.read(Entrez.elink(dbfrom="pubmed", id=pmid))
 
@@ -706,9 +711,9 @@ if a paper has been cited. Well, ELink can do that too – at least for
 journals in Pubmed Central (see Section [sec:elink-citations]).
 
 For help on ELink, see the `ELink help
-page <http://www.ncbi.nlm.nih.gov/entrez/query/static/elink_help.html>`__.
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ELink>`__.
 There is an entire sub-page just for the `link
-names <http://eutils.ncbi.nlm.nih.gov/corehtml/query/static/entrezlinks.html>`__,
+names <https://eutils.ncbi.nlm.nih.gov/corehtml/query/static/entrezlinks.html>`__,
 describing how different databases can be cross referenced.
 
 EGQuery: Global Query - counts for search terms
@@ -726,7 +731,7 @@ for “Biopython”:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.egquery(term="biopython")
     >>> record = Entrez.read(handle)
     >>> for row in record["eGQueryResult"]:
@@ -738,7 +743,7 @@ for “Biopython”:
     ...
 
 See the `EGQuery help
-page <http://www.ncbi.nlm.nih.gov/entrez/query/static/egquery_help.html>`__
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EGQuery>`__
 for more information.
 
 ESpell: Obtaining spelling suggestions
@@ -750,7 +755,7 @@ ESpell retrieves spelling suggestions. In this example, we use
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"      # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.espell(term="biopythooon")
     >>> record = Entrez.read(handle)
     >>> record["Query"]
@@ -759,7 +764,7 @@ ESpell retrieves spelling suggestions. In this example, we use
     'biopython'
 
 See the `ESpell help
-page <http://www.ncbi.nlm.nih.gov/entrez/query/static/espell_help.html>`__
+page <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESpell>`__
 for more information. The main use of this is for GUI tools to provide
 automatic suggestions for search terms.
 
@@ -799,14 +804,15 @@ records and prints out the gene numbers and names for all current genes:
 ::
 
     >>> from Bio import Entrez
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = open("Homo_sapiens.xml")
     >>> records = Entrez.parse(handle)
     >>> for record in records:
-    ...     status = record['Entrezgene_track-info']['Gene-track']['Gene-track_status']
-    ...     if status.attributes['value']=='discontinued':
+    ...     status = record["Entrezgene_track-info"]["Gene-track"]["Gene-track_status"]
+    ...     if status.attributes["value"]=="discontinued":
     ...         continue
-    ...     geneid = record['Entrezgene_track-info']['Gene-track']['Gene-track_geneid']
-    ...     genename = record['Entrezgene_gene']['Gene-ref']['Gene-ref_locus']
+    ...     geneid = record["Entrezgene_track-info"]["Gene-track"]["Gene-track_geneid"]
+    ...     genename = record["Entrezgene_gene"]["Gene-ref"]["Gene-ref_locus"]
     ...     print(geneid, genename)
     ...
 
@@ -828,6 +834,44 @@ This will print:
     16 AARS
     17 AAVS1
     ...
+
+HTML escape characters
+----------------------
+
+Pubmed records may contain HTML tags to indicate e.g. subscripts,
+superscripts, or italic text, as well as mathematical symbols via
+MathML. By default, the ``Bio.Entrez`` parser treats all text as plain
+text without markup; for example, the fragment “:math:`P < 0.05`” in the
+abstract of a Pubmed record, which is encoded as
+
+::
+
+    <i>P</i> &lt; 0.05
+
+in the XML returned by Entrez, is converted to the Python string
+
+::
+
+    '<i>P</i> < 0.05'
+
+by the ``Bio.Entrez`` parser. While this is more human-readable, it is
+not valid HTML due to the less-than sign, and makes further processing
+of the text e.g. by an HTML parser impractical. To ensure that all
+strings returned by the parser are valid HTML, call ``Entrez.read`` or
+``Entrez.parse`` with the ``escape`` argument set to ``True``:
+
+::
+
+    >>> record = Entrez.read(handle, escape=True)
+
+The parser will then replace all characters disallowed in HTML by their
+HTML-escaped equivalent; in the example above, the parser will generate
+
+::
+
+    '<i>P</i> &lt; 0.05'
+
+which is a valid HTML fragment. By default, ``escape`` is ``False``.
 
 Handling errors
 ---------------
@@ -864,7 +908,7 @@ an example of an XML file that ends prematurely:
 ::
 
     <?xml version="1.0"?>
-    <!DOCTYPE eInfoResult PUBLIC "-//NLM//DTD eInfoResult, 11 May 2002//EN" "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd">
+    <!DOCTYPE eInfoResult PUBLIC "-//NLM//DTD eInfoResult, 11 May 2002//EN" "https://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd">
     <eInfoResult>
     <DbList>
             <DbName>pubmed</DbName>
@@ -898,7 +942,7 @@ such an XML file:
 ::
 
     <?xml version="1.0"?>
-    <!DOCTYPE eInfoResult PUBLIC "-//NLM//DTD eInfoResult, 11 May 2002//EN" "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd">
+    <!DOCTYPE eInfoResult PUBLIC "-//NLM//DTD eInfoResult, 11 May 2002//EN" "https://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd">
     <eInfoResult>
             <DbInfo>
             <DbName>pubmed</DbName>
@@ -964,7 +1008,7 @@ To request a specific file format from Entrez using
 ``Bio.Entrez.efetch()`` requires specifying the ``rettype`` and/or
 ``retmode`` optional arguments. The different combinations are described
 for each database type on the `NCBI efetch
-webpage <http://www.ncbi.nlm.nih.gov/entrez/query/static/efetch_help.html>`__.
+webpage <https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch>`__.
 
 One obvious case is you may prefer to download sequences in the FASTA or
 GenBank/GenPept plain text formats (which can then be parsed with
@@ -1056,7 +1100,7 @@ look at all Medline records in PubMed related to Biopython:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.esearch(db="pubmed", term="biopython")
     >>> record = Entrez.read(handle)
     >>> record["IdList"]
@@ -1093,7 +1137,7 @@ For comparison, here we show an example using the XML format:
 
     >>> handle = Entrez.efetch(db="pubmed", id=idlist, rettype="medline", retmode="xml")
     >>> records = Entrez.read(handle)
-    >>> for record in records['PubmedArticle']:
+    >>> for record in records["PubmedArticle"]:
     ...     print(record["MedlineCitation"]["Article"]["ArticleTitle"])
     Biopython: freely available Python tools for computational molecular biology and
      bioinformatics.
@@ -1113,7 +1157,7 @@ Section [sec:entrez-webenv].
 Parsing GEO records
 ~~~~~~~~~~~~~~~~~~~
 
-GEO (`Gene Expression Omnibus <http://www.ncbi.nlm.nih.gov/geo/>`__) is
+GEO (`Gene Expression Omnibus <https://www.ncbi.nlm.nih.gov/geo/>`__) is
 a data repository of high-throughput gene expression and hybridization
 array data. The ``Bio.Geo`` module can be used to parse GEO-formatted
 data.
@@ -1134,7 +1178,7 @@ You can search the “gds” database (GEO datasets) with ESearch:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com" # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.esearch(db="gds", term="GSE16")
     >>> record = Entrez.read(handle)
     >>> handle.close()
@@ -1277,7 +1321,7 @@ set this within Python at the start of your script, for example:
     os.environ["http_proxy"] = "http://proxyhost.example.com:8080"
 
 See the `urllib
-documentation <http://www.python.org/doc/lib/module-urllib.html>`__ for
+documentation <https://docs.python.org/2/library/urllib.html>`__ for
 more details.
 
 Examples
@@ -1288,7 +1332,7 @@ PubMed and Medline
 
 If you are in the medical field or interested in human issues (and many
 times even if you are not!), PubMed
-(http://www.ncbi.nlm.nih.gov/PubMed/) is an excellent source of all
+(https://www.ncbi.nlm.nih.gov/PubMed/) is an excellent source of all
 kinds of goodies. So like other things, we’d like to be able to grab
 information from it and use it in Python scripts.
 
@@ -1299,7 +1343,7 @@ how many of such articles there are:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.egquery(term="orchid")
     >>> record = Entrez.read(handle)
     >>> for row in record["eGQueryResult"]:
@@ -1313,6 +1357,7 @@ of these 463 articles:
 ::
 
     >>> from Bio import Entrez
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.esearch(db="pubmed", term="orchid", retmax=463)
     >>> record = Entrez.read(handle)
     >>> handle.close()
@@ -1413,7 +1458,7 @@ only interested in nucleotides:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.egquery(term="Cypripedioideae")
     >>> record = Entrez.read(handle)
     >>> for row in record["eGQueryResult"]:
@@ -1431,6 +1476,7 @@ number of records retrieved to the number available in 2008:
 ::
 
     >>> from Bio import Entrez
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.esearch(db="nucleotide", term="Cypripedioideae", retmax=814, idtype="acc")
     >>> record = Entrez.read(handle)
     >>> handle.close()
@@ -1520,7 +1566,7 @@ Searching, downloading, and parsing GenBank records
 The GenBank record format is a very popular method of holding
 information about sequences, sequence features, and other associated
 sequence information. The format is a good way to get information from
-the NCBI databases at http://www.ncbi.nlm.nih.gov/.
+the NCBI databases at https://www.ncbi.nlm.nih.gov/.
 
 In this example we’ll show how to query the NCBI databases,to retrieve
 the records from the query, and then parse them using ``Bio.SeqIO`` -
@@ -1537,7 +1583,7 @@ records. First we check how many records there are:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.egquery(term="Opuntia AND rpl16")
     >>> record = Entrez.read(handle)
     >>> for row in record["eGQueryResult"]:
@@ -1640,7 +1686,7 @@ for Cypripedioideae, which yields exactly one NCBI taxonomy identifier:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> handle = Entrez.esearch(db="Taxonomy", term="Cypripedioideae")
     >>> record = Entrez.read(handle)
     >>> record["IdList"]
@@ -1711,7 +1757,7 @@ additional argument of ``usehistory="y"``,
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "history.user@example.com"
+    >>> Entrez.email = "history.user@example.com"  # Always tell NCBI who you are
     >>> search_handle = Entrez.esearch(db="nucleotide",term="Opuntia[orgn] and rpl16",
     ...                                usehistory="y", idtype="acc")
     >>> search_results = Entrez.read(search_handle)
@@ -1857,7 +1903,7 @@ Biopython PDB parser paper, PubMed ID 14630660:
 ::
 
     >>> from Bio import Entrez
-    >>> Entrez.email = "A.N.Other@example.com"
+    >>> Entrez.email = "A.N.Other@example.com"  # Always tell NCBI who you are
     >>> pmid = "14630660"
     >>> results = Entrez.read(Entrez.elink(dbfrom="pubmed", db="pmc",
     ...                                    LinkName="pubmed_pmc_refs", id=pmid))

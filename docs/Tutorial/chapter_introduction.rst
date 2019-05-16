@@ -5,7 +5,7 @@ What is Biopython?
 ------------------
 
 The Biopython Project is an international association of developers of
-freely available Python (http://www.python.org) tools for computational
+freely available Python (https://www.python.org) tools for computational
 molecular biology. Python is an object oriented, interpreted, flexible
 language that is becoming increasingly popular for scientific computing.
 Python is easy to learn, has a very clear syntax and can easily be
@@ -249,7 +249,7 @@ Frequently Asked Questions (FAQ)
    If the version string ends with a plus like “``1.66+``”, you don’t
    have an official release, but an old snapshot of the in development
    code *after* that version was released. This naming was used until
-   June 2016 in the run-up to Biopython 1.68..
+   June 2016 in the run-up to Biopython 1.68.
 
    If the version string ends with “``.dev<number>``” like
    “``1.68.dev0``”, again you don’t have an official release, but
@@ -411,7 +411,7 @@ Frequently Asked Questions (FAQ)
      file.
 
 For more general questions, the Python FAQ pages
-http://www.python.org/doc/faq/ may be useful.
+https://docs.python.org/3/faq/index.html may be useful.
 
 .. |image| image:: images/biopython_logo.pdf
    :width: 6.00000cm

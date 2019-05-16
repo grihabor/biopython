@@ -34,7 +34,7 @@ Phenotype Microarray data: the
 software and \href{https://en.wikipedia.org/wiki/JSON}{JSON}
 files produced by analysis software, like
 \href{https://www.dsmz.de/research/microorganisms/projects/analysis-of-omnilog-phenotype-microarray-data.html}{opm}
-or \href{http://combogenomics.github.io/DuctApe/}{DuctApe}.
+or \href{https://combogenomics.github.io/DuctApe/}{DuctApe}.
 The parser will return one or a generator of PlateRecord objects, depending
 on whether the read or parse method is being used.
 You can test the parse function by using the \href{https://github.com/biopython/biopython/blob/master/Doc/examples/Plates.csv}{\texttt{Plates.csv}} file provided with the Biopython source code.
@@ -60,7 +60,7 @@ There are several ways to access WellRecord objects from a PlateRecord objects:
   \item[Well identifier]
     If you know the well identifier (row + column identifiers) you can access the desired well directly.
     \begin{verbatim}
-    >>> record['A02']
+    >>> record["A02"]
     \end{verbatim}
 
   \item[Well plate coordinates]
@@ -116,7 +116,7 @@ in the example below only the first ten time points are shown.
 \begin{verbatim}
 >>> from Bio import phenotype
 >>> record = list(phenotype.parse("Plates.csv", "pm-csv"))[-1]
->>> well = record['A02']  
+>>> well = record["A02"]
 \end{verbatim}
 %rest of code snippet output is truncated
 \begin{verbatim}
@@ -183,10 +183,10 @@ with the corrected data.
 
 %cont-doctest
 \begin{verbatim}
->>> corrected = record.subtract_control(control='A01')
->>> record['A01'][63]
+>>> corrected = record.subtract_control(control="A01")
+>>> record["A01"][63]
 336.0
->>> corrected['A01'][63]
+>>> corrected["A01"][63]
 0.0
 \end{verbatim}
 
@@ -211,7 +211,7 @@ The parameters that can be extracted from the curve are:
 \end{itemize}
 
 All the parameters (except \textbf{min}, \textbf{max} and \textbf{average\_height}) require the
-\href{http://www.scipy.org/}{scipy library} to be installed.
+\href{https://www.scipy.org/}{scipy library} to be installed.
 
 The fit function uses three sigmoid functions:
 
@@ -234,7 +234,7 @@ Where:
 
 \end{itemize}
 
-These functions have been derived from \href{http://www.ncbi.nlm.nih.gov/pubmed/16348228}{this publication}.
+These functions have been derived from \href{https://www.ncbi.nlm.nih.gov/pubmed/16348228}{this publication}.
 The fit method by default tries first to fit the gompertz function: if it fails it will then try to fit
 the logistic and then the richards function. The user can also specify one of the three functions to be applied.
 
@@ -242,7 +242,7 @@ the logistic and then the richards function. The user can also specify one of th
 \begin{verbatim}
 >>> from Bio import phenotype
 >>> record = list(phenotype.parse("Plates.csv", "pm-csv"))[-1]
->>> well = record['A02'] 
+>>> well = record["A02"]
 >>> well.fit()
 >>> print("Function fitted: %s" % well.model)
 Function fitted: gompertz
@@ -264,7 +264,7 @@ PlateRecord objects can be written to file in the form of
 \href{https://en.wikipedia.org/wiki/JSON}{JSON}
 files, a format compatible with other software packages such as
 \href{https://www.dsmz.de/research/microorganisms/projects/analysis-of-omnilog-phenotype-microarray-data.html}{opm}
-or \href{http://combogenomics.github.io/DuctApe/}{DuctApe}.
+or \href{https://combogenomics.github.io/DuctApe/}{DuctApe}.
 \begin{verbatim}
 >>> phenotype.write(record, "out.json", "pm-json")
 1

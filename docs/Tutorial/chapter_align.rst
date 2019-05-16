@@ -96,8 +96,8 @@ in the PFAM or Stockholm file format:
 
 This is the seed alignment for the Phage\_Coat\_Gp8 (PF05371) PFAM
 entry, downloaded from a now out of date release of PFAM from
-http://pfam.xfam.org/. We can load this file as follows (assuming it has
-been saved to disk as “PF05371\_seed.sth” in the current working
+https://pfam.xfam.org/. We can load this file as follows (assuming it
+has been saved to disk as “PF05371\_seed.sth” in the current working
 directory):
 
 ::
@@ -131,6 +131,7 @@ iterating over the rows as ``SeqRecord`` objects:
     Alignment length 52
     >>> for record in alignment:
     ...     print("%s - %s" % (record.seq, record.id))
+    ...
     AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA - COATB_BPIKE/30-81
     AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA - Q9T0Q8_BPIKE/1-52
     DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA - COATB_BPI22/32-83
@@ -152,6 +153,7 @@ secondary structure? Try this:
     >>> for record in alignment:
     ...     if record.dbxrefs:
     ...         print("%s %s" % (record.id, record.dbxrefs))
+    ...
     COATB_BPIKE/30-81 ['PDB; 1ifl ; 1-52;']
     COATB_BPM13/24-72 ['PDB; 2cpb ; 1-49;', 'PDB; 2cps ; 1-49;']
     Q9T0Q9_BPFD/1-49 ['PDB; 1nh4 A; 1-49;']
@@ -163,11 +165,12 @@ To have a look at all the sequence annotation, try this:
 
     >>> for record in alignment:
     ...     print(record)
+    ...
 
-Sanger provide a nice web interface at
-http://pfam.sanger.ac.uk/family?acc=PF05371 which will actually let you
-download this alignment in several other formats. This is what the file
-looks like in the FASTA file format:
+PFAM provide a nice web interface at
+` http://pfam.xfam.org/family/PF05371 < http://pfam.xfam.org/family/PF05371>`__
+which will actually let you download this alignment in several other
+formats. This is what the file looks like in the FASTA file format:
 
 ::
 
@@ -651,7 +654,7 @@ the original PHYLIP format is now quite widely used:
     AlignIO.convert("PF05371_seed.sth", "stockholm", "PF05371_seed.phy", "phylip-relaxed")
 
 This time the output looks like this, using a longer indentation to
-allow all the identifers to be given in full::
+allow all the identifers to be given in full:
 
 ::
 
@@ -781,6 +784,7 @@ hopefully the actions of ``len()`` (the number of rows) and iteration
     Number of rows: 7
     >>> for record in alignment:
     ...     print("%s - %s" % (record.seq, record.id))
+    ...
     AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIRLFKKFSSKA - COATB_BPIKE/30-81
     AEPNAATNYATEAMDSLKTQAIDLISQTWPVVTTVVVAGLVIKLFKKFVSRA - Q9T0Q8_BPIKE/1-52
     DGTSTATSYATEAMNSLKTQATDLIDQTWPVVTSVAVAGLAIRLFKKFSSKA - COATB_BPI22/32-83
@@ -964,10 +968,10 @@ There are *lots* of algorithms out there for aligning sequences, both
 pairwise alignments and multiple sequence alignments. These calculations
 are relatively slow, and you generally wouldn’t want to write such an
 algorithm in Python. For pairwise alignments Biopython contains the
-``Bio.pairwise2`` module (see Section [sec:pairwise2]), which is
-supplemented by functions written in C for speed enhancements. In
-addition, you can use Biopython to invoke a command line tool on your
-behalf. Normally you would:
+``Bio.pairwise2`` module , which is supplemented by functions written in
+C for speed enhancements and the new ``PairwiseAligner`` (see
+Section [sec:pairwise]). In addition, you can use Biopython to invoke a
+command line tool on your behalf. Normally you would:
 
 #. Prepare an input file of your unaligned sequences, typically this
    will be a FASTA file which you might create using ``Bio.SeqIO`` (see
@@ -1522,14 +1526,39 @@ and ``water``. One useful trick is that the second file can contain
 multiple sequences (say five), and then EMBOSS will do five pairwise
 alignments.
 
-Biopython’s pairwise2
-~~~~~~~~~~~~~~~~~~~~~
+Pairwise sequence alignment
+---------------------------
 
-Biopython has its own module to make local and global pairwise
-alignments, ``Bio.pairwise2``. This module contains essentially the same
-algorithms as ``water`` (local) and ``needle`` (global) from the
+Pairwise sequence alignment is the process of aligning two sequences to
+each other by optimizing the similarity score between them. Biopython
+includes two built-in pairwise aligners: the ’old’ ``Bio.pairwise2``
+module and the new ``PairwiseAligner`` class within the ``Bio.Align``
+module (since Biopython version 1.72). Both can perform global and local
+alignments and offer numerous options to change the alignment
+parameters. Although ``pairwise2`` has gained some speed and memory
+enhancements recently, the new ``PairwiseAligner`` is much faster; so if
+you need to make many alignments with larger sequences, the latter would
+be the tool to choose. ``pairwise2``, on the contrary, is also able to
+align lists, which can be useful if your sequences do not consist of
+single characters only.
+
+Given that the parameters and sequences are the same, both aligners will
+return the same alignments and alignment score (if the number of
+alignments is too high they may return different subsets of all valid
+alignments).
+
+pairwise2
+~~~~~~~~~
+
+``Bio.pairwise2`` contains essentially the same algorithms as ``water``
+(local) and ``needle`` (global) from the
 `EMBOSS <http://emboss.sourceforge.net/>`__ suite (see above) and should
-return the same results.
+return the same results. The ``pairwise2`` module has undergone some
+optimization regarding speed and memory consumption recently (Biopython
+versions >1.67) so that for short sequences (global alignments: ~2000
+residues, local alignments ~600 residues) it’s faster (or equally fast)
+to use ``pairwise2`` than calling EMBOSS’ ``water`` or ``needle`` via
+the command line tools.
 
 Suppose you want to do a global pairwise alignment between the same two
 hemoglobin sequences from above (``HBA_HUMAN``, ``HBB_HUMAN``) stored in
@@ -1583,7 +1612,7 @@ nicer printout:
 
     >>> print(pairwise2.format_alignment(*alignment[0]))
     MV-LSPADKTNV---K-A--A-WGKVGAHAG---EY-GA-EALE-RMFLSF----PTTK-TY--F...YR-
-    |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||...|||
+    || |     |     | |  | ||||        |  |  |||  |  |      |    |   |...|  
     MVHL-----T--PEEKSAVTALWGKV-----NVDE-VG-GEAL-GR--L--LVVYP---WT-QRF...Y-H
       Score=72
 
@@ -1609,7 +1638,7 @@ penalty of 10 and a gap extension penalty of 0.5 (using ``globalds``):
 
     >>> print(pairwise2.format_alignment(*alignments[0]))
     MV-LSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTY...KYR
-    ||||||||||||||||||||||||||||||||||||||||||||...|||
+    || |.|..|..|.|.|||| ......|............|.......||.
     MVHLTPEEKSAVTALWGKV-NVDEVGGEALGRLLVVYPWTQRFF...KYH
       Score=292.5
 
@@ -1626,24 +1655,44 @@ match and gap functions:
     >>> from Bio.SubsMat.MatrixInfo import blosum62
     >>> alignments = pairwise2.align.localds("LSPADKTNVKAA", "PEEKSAV", blosum62, -10, -1)
     >>> print(pairwise2.format_alignment(*alignments[0]))
-    LSPADKTNVKAA
+    3 PADKTNV
       |..|..|
-    --PEEKSAV---
+    1 PEEKSAV
+      Score=16
+    <BLANKLINE>
+
+Note that local alignments must, as defined by Smith & Waterman, have a
+positive score (>0). Thus, ``pairwise2`` may return no alignments if no
+score >0 has been obtained. Also, ``pairwise2`` will not report
+alignments which are the result of the addition of zero-scoring
+extensions on either site. In the next example, the pairs
+serin/aspartate (S/D) and lysin/asparagin (K/N) both have a match score
+of 0. As you see, the aligned part has not been extended:
+
+::
+
+    >>> from Bio import pairwise2
+    >>> from Bio.SubsMat.MatrixInfo import blosum62
+    >>> alignments = pairwise2.align.localds("LSSPADKTNVKKAA", "DDPEEKSAVNN", blosum62, -10, -1)
+    >>> print(pairwise2.format_alignment(*alignments[0]))
+    4 PADKTNV
+      |..|..|
+    3 PEEKSAV
       Score=16
     <BLANKLINE>
 
 Instead of supplying a complete match/mismatch matrix, the match code
 ``m`` allows for easy defining general match/mismatch values. The next
 example uses match/mismatch scores of 5/-4 and gap penalties
-(open/extend) of 2/0.5 using ``localms``):
+(open/extend) of 2/0.5 using ``localms``:
 
 ::
 
     >>> alignments = pairwise2.align.localms("AGAACT", "GAC", 5, -4, -2, -0.5)
     >>> print(pairwise2.format_alignment(*alignments[0]))
-    AGAACT
-     | ||
-    -G-AC-
+    2 GAAC
+      | ||
+    1 G-AC
       Score=13
     <BLANKLINE>
 
@@ -1651,6 +1700,8 @@ One useful keyword argument of the ``Bio.pairwise2.align`` functions is
 ``score_only``. When set to ``True`` it will only return the score of
 the best alignment(s), but in a significantly shorter time. It will also
 allow the alignment of longer sequences before a memory error is raised.
+Another useful keyword argument is ``one_alignment_only=True`` which
+will also result in some speed gain.
 
 Unfortunately, ``Bio.pairwise2`` does not work with Biopython’s multiple
 sequence alignment objects (yet). However, the module has some
@@ -1662,3 +1713,713 @@ encoded by more than one character), etc. These features are hard (if at
 all) to realize with other alignment tools. For more details see the
 modules documentation in `Biopython’s
 API <http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html>`__.
+
+PairwiseAligner
+~~~~~~~~~~~~~~~
+
+The new ``Bio.Align.PairwiseAligner`` implements the Needleman-Wunsch,
+Smith-Waterman, Gotoh (three-state), and Waterman-Smith-Beyer global and
+local pairwise alignment algorithms. We refer to Durbin *et al.*
+:raw-latex:`\cite{durbin1998}` for in-depth information on sequence
+alignment algorithms.
+
+Basic usage
+^^^^^^^^^^^
+
+To generate pairwise alignments, first create a ``PairwiseAligner``
+object:
+
+::
+
+    >>> from Bio import Align
+    >>> aligner = Align.PairwiseAligner()
+
+The ``PairwiseAligner`` object ``aligner`` (see
+Section [sec:pairwise-aligner]) stores the alignment parameters to be
+used for the pairwise alignments.
+
+Use the ``aligner.score`` method to calculate the alignment score
+between two sequences:
+
+::
+
+    >>> seq1 = "GAACT"
+    >>> seq2 = "GAT"
+    >>> score = aligner.score(seq1, seq2)
+    >>> score
+    3.0
+
+To see the actual alignments, use the ``aligner.align`` method and
+iterate over the ``PairwiseAlignment`` objects returned:
+
+::
+
+    >>> alignments = aligner.align(seq1, seq2)
+    >>> for alignment in alignments:
+    ...     print(alignment)
+    ... 
+    GAACT
+    ||--|
+    GA--T
+    <BLANKLINE>
+    GAACT
+    |-|-|
+    G-A-T
+    <BLANKLINE>
+
+By default, a global pairwise alignment is performed, which finds the
+optimal alignment over the whole length of ``seq1`` and ``seq2``.
+Instead, a local alignment will find the subsequence of ``seq1`` and
+``seq2`` with the highest alignment score. Local alignments can be
+generated by setting ``aligner.mode`` to ``"local"``:
+
+::
+
+    >>> aligner.mode = 'local'
+    >>> seq1 = "AGAACTC"
+    >>> seq2 = "GAACT"
+    >>> score = aligner.score(seq1, seq2)
+    >>> score
+    5.0
+    >>> alignments = aligner.align(seq1, seq2)
+    >>> for alignment in alignments:
+    ...     print(alignment)
+    ...
+    AGAACTC
+    .|||||.
+    .GAACT.
+    <BLANKLINE>
+
+Note that there is some ambiguity in the definition of the best local
+alignments if segments with a score 0 can be added to the alignment. We
+follow the suggestion by Waterman & Eggert
+:raw-latex:`\cite{waterman1987}` and disallow such extensions.
+
+The pairwise aligner object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``PairwiseAligner`` object stores all alignment parameters to be
+used for the pairwise alignments. To see an overview of the values for
+all parameters, use
+
+::
+
+    >>> print(aligner)
+    Pairwise sequence aligner with parameters
+      match_score: 1.000000
+      mismatch_score: 0.000000
+      target_open_gap_score: 0.000000
+      target_extend_gap_score: 0.000000
+      target_left_open_gap_score: 0.000000
+      target_left_extend_gap_score: 0.000000
+      target_right_open_gap_score: 0.000000
+      target_right_extend_gap_score: 0.000000
+      query_open_gap_score: 0.000000
+      query_extend_gap_score: 0.000000
+      query_left_open_gap_score: 0.000000
+      query_left_extend_gap_score: 0.000000
+      query_right_open_gap_score: 0.000000
+      query_right_extend_gap_score: 0.000000
+      mode: local
+    <BLANKLINE>
+
+See Sections [sec:pairwise-matchscores],
+[sec:pairwise-affine-gapscores], and [sec:pairwise-general-gapscores]
+below for the definition of these parameters. The attribute ``mode``
+(described above in Section [sec:pairwise-basic]) can be set equal to
+``"global"`` or ``"local"`` to specify global or local pairwise
+alignment, respectively.
+
+Depending on the gap scoring parameters (see
+Sections [sec:pairwise-affine-gapscores] and
+[sec:pairwise-general-gapscores]) and mode, a ``PairwiseAligner`` object
+automatically chooses the appropriate algorithm to use for pairwise
+sequence alignment. To verify the selected algorithm, use
+
+::
+
+    >>> aligner.algorithm
+    'Smith-Waterman'
+
+This attribute is read-only.
+
+A ``PairwiseAligner`` object also stores the precision :math:`\epsilon`
+to be used during alignment. The value of :math:`\epsilon` is stored in
+the attribute ``aligner.epsilon``, and by default is equal to
+:math:`10^{-6}`:
+
+::
+
+    >>> aligner.epsilon
+    1e-06
+
+Two scores will be considered equal to each other for the purpose of the
+alignment if the absolute difference between them is less than
+:math:`\epsilon`.
+
+Match and mismatch scores
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The match and mismatch scores are stored as attributes of an
+``PairwiseAligner`` object:
+
+::
+
+    >>> from Bio import Align
+    >>> aligner = Align.PairwiseAligner()
+    >>> aligner.match_score
+    1.0
+    >>> aligner.mismatch_score
+    0.0
+    >>> score = aligner.score("AAA","AAC")
+    >>> print(score)
+    2.0
+    >>> aligner.match_score = 2.0
+    >>> score = aligner.score("AAA","AAC")
+    >>> print(score)
+    4.0
+
+Alternatively, you can specify a substitution matrix as follows:
+
+::
+
+    >>> matrix = {('A','A'): 1.0, ('A','B'): -1.0, ('B','B'): 2.0}
+    >>> aligner.substitution_matrix = matrix
+
+The attributes ``aligner.match_score`` and ``aligner.mismatch_score``
+are ignored if ``aligner.substitution_matrix`` is specified. Likewise,
+after specifying ``aligner.match_score`` or ``aligner.mismatch_score``,
+``aligner.substitution_matrix`` will be ignored.
+
+Note that ``aligner.substitution_matrix`` will return a copy of the
+substitution matrix stored in the ``PairwiseAligner`` object. Therefore,
+modifying the substitution matrix directly has no effect:
+
+::
+
+    >>> aligner.substitution_matrix[('A','A')] = 5.0 # does nothing
+    >>> aligner.substitution_matrix[('A','A')]
+    1.0
+
+In all cases, the character ``X`` is used to denote unknown characters,
+which will always get a zero score in alignments, irrespective of the
+match or mismatch score.
+
+Affine gap scores
+^^^^^^^^^^^^^^^^^
+
+Affine gap scores are defined by a score to open a gap, and a score to
+extend an existing gap:
+
+:math:`\textrm{gap score} = \textrm{open gap score} + (n-1) \times \textrm{extend gap score}`,
+
+where :math:`n` is the length of the gap. Biopython’s pairwise sequence
+aligner allows fine-grained control over the gap scoring scheme by
+specifying the following twelve attributes of a ``PairwiseAligner``
+object:
+
++----------------------------------------+
+| ``query_left_open_gap_score``          |
++----------------------------------------+
+| ``query_left_extend_gap_score``        |
++----------------------------------------+
+| ``query_internal_open_gap_score``      |
++----------------------------------------+
+| ``query_internal_extend_gap_score``    |
++----------------------------------------+
+| ``query_right_open_gap_score``         |
++----------------------------------------+
+| ``query_right_extend_gap_score``       |
++----------------------------------------+
+| ``target_left_open_gap_score``         |
++----------------------------------------+
+| ``target_left_extend_gap_score``       |
++----------------------------------------+
+| ``target_internal_open_gap_score``     |
++----------------------------------------+
+| ``target_internal_extend_gap_score``   |
++----------------------------------------+
+| ``target_right_open_gap_score``        |
++----------------------------------------+
+| ``target_right_extend_gap_score``      |
++----------------------------------------+
+
+These attributes allow for different gap scores for internal gaps and on
+either end of the sequence, as shown in this example:
+
++-----------------------------------------------+----+----+
+| **target & **query & **score                  |    |    |
+| A & - & query left open gap score             |    |    |
+| C & - & query left extend gap score           |    |    |
+| C & - & query left extend gap score           |    |    |
+| G & G & match score                           |    |    |
+| G & T & mismatch score                        |    |    |
+| G & - & query internal open gap score         |    |    |
+| A & - & query internal extend gap score       |    |    |
+| A & - & query internal extend gap score       |    |    |
+| T & T & match score                           |    |    |
+| A & A & match score                           |    |    |
+| G & - & query internal open gap score         |    |    |
+| C & C & match score                           |    |    |
+| - & C & target internal open gap score        |    |    |
+| - & C & target internal extend gap score      |    |    |
+| C & C & match score                           |    |    |
+| T & G & mismatch score                        |    |    |
+| C & C & match score                           |    |    |
+| - & C & target internal open gap score        |    |    |
+| A & A & match score                           |    |    |
+| - & T & target right open gap score           |    |    |
+| - & A & target right extend gap score         |    |    |
+| - & A & target right extend gap score******   |    |    |
++-----------------------------------------------+----+----+
+
+For convenience, ``PairwiseAligner`` objects have additional attributes
+that refer to a number of these values collectively, as shown
+(hierarchically) in this table:
+
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``gap_score``                     | ``target_gap_score``, ``query_gap_score``                                                                   |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``open_gap_score``                | ``target_open_gap_score``, ``query_open_gap_score``                                                         |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``extend_gap_score``              | ``target_extend_gap_score``, ``query_extend_gap_score``                                                     |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``internal_gap_score``            | ``target_internal_gap_score``, ``query_internal_gap_score``                                                 |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``internal_open_gap_score``       | ``target_internal_open_gap_score``, ``query_internal_open_gap_score``                                       |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``internal_extend_gap_score``     | ``target_internal_extend_gap_score``, ``query_internal_extend_gap_score``                                   |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``end_gap_score``                 | ``target_end_gap_score``, ``query_end_gap_score``                                                           |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``end_open_gap_score``            | ``target_end_open_gap_score``, ``query_end_open_gap_score``                                                 |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``end_extend_gap_score``          | ``target_end_extend_gap_score``, ``query_end_extend_gap_score``                                             |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``left_gap_score``                | ``target_left_gap_score``, ``query_left_gap_score``                                                         |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``right_gap_score``               | ``target_right_gap_score``, ``query_right_gap_score``                                                       |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``left_open_gap_score``           | ``target_left_open_gap_score``, ``query_left_open_gap_score``                                               |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``left_extend_gap_score``         | ``target_left_extend_gap_score``, ``query_left_extend_gap_score``                                           |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``right_open_gap_score``          | ``target_right_open_gap_score``, ``query_right_open_gap_score``                                             |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``right_extend_gap_score``        | ``target_right_extend_gap_score``, ``query_right_extend_gap_score``                                         |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_open_gap_score``         | ``target_internal_open_gap_score``, ``target_left_open_gap_score``, ``target_right_open_gap_score``         |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_extend_gap_score``       | ``target_internal_extend_gap_score``, ``target_left_extend_gap_score``, ``target_right_extend_gap_score``   |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_gap_score``              | ``target_open_gap_score``, ``target_extend_gap_score``                                                      |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_open_gap_score``          | ``query_internal_open_gap_score``, ``query_left_open_gap_score``, ``query_right_open_gap_score``            |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_extend_gap_score``        | ``query_internal_extend_gap_score``, ``query_left_extend_gap_score``, ``query_right_extend_gap_score``      |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_gap_score``               | ``query_open_gap_score``, ``query_extend_gap_score``                                                        |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_internal_gap_score``     | ``target_internal_open_gap_score``, ``target_internal_extend_gap_score``                                    |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_end_gap_score``          | ``target_end_open_gap_score``, ``target_end_extend_gap_score``                                              |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_end_open_gap_score``     | ``target_left_open_gap_score``, ``target_right_open_gap_score``                                             |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_end_extend_gap_score``   | ``target_left_extend_gap_score``, ``target_right_extend_gap_score``                                         |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_left_gap_score``         | ``target_left_open_gap_score``, ``target_left_extend_gap_score``                                            |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``target_right_gap_score``        | ``target_right_open_gap_score``, ``target_right_extend_gap_score``                                          |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_end_gap_score``           | ``query_end_open_gap_score``, ``query_end_extend_gap_score``                                                |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_end_open_gap_score``      | ``query_left_open_gap_score``, ``query_right_open_gap_score``                                               |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_end_extend_gap_score``    | ``query_left_extend_gap_score``, ``query_right_extend_gap_score``                                           |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_internal_gap_score``      | ``query_internal_open_gap_score``, ``query_internal_extend_gap_score``                                      |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_left_gap_score``          | ``query_left_open_gap_score``, ``query_left_extend_gap_score``                                              |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ``query_right_gap_score``         | ``query_right_open_gap_score``, ``query_right_extend_gap_score``                                            |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------+
+
+General gap scores
+^^^^^^^^^^^^^^^^^^
+
+For even more fine-grained control over the gap scores, you can specify
+a gap scoring function. For example, the gap scoring function below
+disallows a gap after two nucleotides in the query sequence:
+
+::
+
+    >>> from Bio import Align
+    >>> aligner = Align.PairwiseAligner()
+    >>> def my_gap_score_function(start, length):
+    ...     if start==2:
+    ...         return -1000
+    ...     else:
+    ...         return -1 * length
+    ...
+    >>> aligner.query_gap_score = my_gap_score_function
+    >>> alignments = aligner.align("AACTT", "AATT")
+    >>> for alignment in alignments:
+    ...     print(alignment)
+    ... 
+    AACTT
+    -|X||
+    -AATT
+    <BLANKLINE>
+    AACTT
+    |-X||
+    A-ATT
+    <BLANKLINE>
+    AACTT
+    ||X-|
+    AAT-T
+    <BLANKLINE>
+    AACTT
+    ||X|-
+    AATT-
+    <BLANKLINE>
+
+Iterating over alignments
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``alignments`` returned by ``aligner.align`` are a kind of immutable
+iterable objects (similar to ``range``). While they appear similarto a
+``tuple`` or ``list`` of ``PairwiseAlignment`` objects, they are
+different in the sense that each ``PairwiseAlignment`` object is created
+dynamically when it is needed. This approach was chosen because the
+number of alignments can be extremely large, in particular for poor
+alignments (see Section [sec:pairwise-examples] for an example).
+
+You can perform the following operations on ``alignments``:
+
+-  ``len(alignments)`` returns the number of alignments stored. This
+   function returns quickly, even if the number of alignments is huge.
+   If the number of alignments is extremely large (typically, larger
+   than 9,223,372,036,854,775,807, which is the largest integer that can
+   be stored as a ``long int`` on 64 bit machines), ``len(alignments)``
+   will raise an ``OverflowError``. A large number of alignments
+   suggests that the alignment quality is low.
+
+   ::
+
+       >>> from Bio import Align
+       >>> aligner = Align.PairwiseAligner()
+       >>> alignments = aligner.align("AAA", "AA")
+       >>> len(alignments)
+       3
+
+-  You can extract a specific alignment by index:
+
+   ::
+
+       >>> from Bio import Align
+       >>> aligner = Align.PairwiseAligner()
+       >>> alignments = aligner.align("AAA", "AA")
+       >>> print(alignments[2])
+       AAA
+       -||
+       -AA
+       <BLANKLINE>
+       >>> print(alignments[0])
+       AAA
+       ||-
+       AA-
+       <BLANKLINE>
+
+-  You can iterate over alignments, for example as in
+
+   ::
+
+       >>> for alignment in alignments:
+       ...     print(alignment)
+       ...
+
+   Note that ``alignments`` can be reused, i.e. you can iterate over
+   alignments multiple times:
+
+   ::
+
+       >>> from Bio import Align
+       >>> aligner = Align.PairwiseAligner()
+       >>> alignments = aligner.align("AAA", "AA")
+       >>> for alignment in alignments:
+       ...     print(alignment)
+       ...
+       AAA
+       ||-
+       AA-
+       <BLANKLINE>
+       AAA
+       |-|
+       A-A
+       <BLANKLINE>
+       AAA
+       -||
+       -AA
+       <BLANKLINE>
+       >>> for alignment in alignments:
+       ...     print(alignment)
+       ...
+       AAA
+       ||-
+       AA-
+       <BLANKLINE>
+       AAA
+       |-|
+       A-A
+       <BLANKLINE>
+       AAA
+       -||
+       -AA
+       <BLANKLINE>
+
+   You can also convert the ``alignments`` iterator into a ``list`` or
+   ``tuple``:
+
+   ::
+
+       >>> alignments = list(alignments)
+
+   It is wise to check the number of alignments by calling
+   ``len(alignments)`` before attempting to call ``list(alignments)`` to
+   save all alignments as a list.
+
+-  The alignment score (which has the same value for each alignment in
+   ``alignments``), is stored as an attribute. This allows you to check
+   the alignment score before proceeding to extract individual
+   alignments:
+
+   ::
+
+       >>> print(alignments.score)
+       2.0
+
+Alignment objects
+^^^^^^^^^^^^^^^^^
+
+The ``aligner.align`` method returns ``PairwiseAlignment`` objects, each
+representing one alignment between the two sequences.
+
+::
+
+    >>> from Bio import Align
+    >>> aligner = Align.PairwiseAligner()
+    >>> seq1 = "GAACT"
+    >>> seq2 = "GAT"
+    >>> alignments = aligner.align(seq1, seq2)
+    >>> alignment = alignments[0]
+
+::
+
+    >>> alignment
+    <Bio.Align.PairwiseAlignment object at 0x10204d250>
+
+Each alignment stores the alignment score:
+
+::
+
+    >>> alignment.score
+    3.0
+
+as well as pointers to the sequences that were aligned:
+
+::
+
+    >>> alignment.target
+    'GAACT'
+    >>> alignment.query
+    'GAT'
+
+Print the ``PairwiseAlignment`` object to show the alignment explicitly:
+
+::
+
+    >>> print(alignment)
+    GAACT
+    ||--|
+    GA--T
+    <BLANKLINE>
+
+You can also represent the alignment as a string in PSL (Pattern Space
+Layout, as generated by BLAT :raw-latex:`\cite{kent2002}`) format:
+
+::
+
+    >>> format(alignment, 'psl')
+    '3\t0\t0\t0\t0\t0\t1\t2\t+\tquery\t3\t0\t3\ttarget\t5\t0\t5\t2\t2,1,\t0,2,\t0,4,\n'
+
+Use the ``aligned`` property to find the start and end indices of
+subsequences in the target and query sequence that were aligned to each
+other. Generally, if the alignment between target (t) and query (q)
+consists of N chunks, you get two tuples of length N:
+
+::
+
+    (((t_start1, t_end1), (t_start2, t_end2), ..., (t_startN, t_endN)),
+     ((q_start1, q_end1), (q_start2, q_end2), ..., (q_startN, q_endN)))
+
+In the current example, ‘alignment.aligned‘ returns two tuples of length
+2:
+
+::
+
+    >>> alignment.aligned
+    (((0, 2), (4, 5)), ((0, 2), (2, 3)))
+
+while for the alternative alignment, two tuples of length 3 are
+returned:
+
+::
+
+    >>> alignment = alignments[1]
+    >>> print(alignment)
+    GAACT
+    |-|-|
+    G-A-T
+    <BLANKLINE>
+    >>> alignment.aligned
+    (((0, 1), (2, 3), (4, 5)), ((0, 1), (1, 2), (2, 3)))
+
+Note that different alignments may have the same subsequences aligned to
+each other. In particular, this may occur if alignments differ from each
+other in terms of their gap placement only:
+
+::
+
+    >>> aligner.mismatch_score = -10
+    >>> alignments = aligner.align("AAACAAA", "AAAGAAA")
+    >>> len(alignments)
+    2
+    >>> print(alignments[0])
+    AAAC-AAA
+    |||--|||
+    AAA-GAAA
+    <BLANKLINE>
+    >>> alignments[0].aligned
+    (((0, 3), (4, 7)), ((0, 3), (4, 7)))
+    >>> print(alignments[1])
+    AAA-CAAA
+    |||--|||
+    AAAG-AAA
+    <BLANKLINE>
+    >>> alignments[1].aligned
+    (((0, 3), (4, 7)), ((0, 3), (4, 7)))
+
+The ``aligned`` property can be used to identify alignments that are
+identical to each other in terms of their aligned sequences.
+
+Example
+^^^^^^^
+
+Suppose you want to do a global pairwise alignment between the same two
+hemoglobin sequences from above (``HBA_HUMAN``, ``HBB_HUMAN``) stored in
+``alpha.faa`` and ``beta.faa``:
+
+::
+
+    >>> from Bio import Align
+    >>> from Bio import SeqIO
+    >>> seq1 = SeqIO.read("alpha.faa", "fasta")
+    >>> seq2 = SeqIO.read("beta.faa", "fasta")
+    >>> aligner = Align.PairwiseAligner()
+    >>> score = aligner.score(seq1.seq, seq2.seq)
+    >>> print(score)
+    72.0
+
+showing an alignment score of 72.0. To see the individual alignments, do
+
+::
+
+    >>> alignments = aligner.align(seq1.seq, seq2.seq)
+
+In this example, the total number of optimal alignments is huge (more
+than :math:`4 \times 10^{37}`), and calling ``len(alignments)`` will
+raise an ``OverflowError``:
+
+::
+
+    >>> len(alignments)
+    ...
+    OverflowError: number of optimal alignments is larger than 9223372036854775807
+
+Let’s have a look at the first alignment:
+
+::
+
+    >>> alignment = alignments[0]
+
+The alignment object stores the alignment score, as well as the
+alignment itself:
+
+::
+
+    >>> print(alignment.score)
+    72.0
+
+::
+
+    >>> print(alignment)
+    MV-LS-PAD--KTN--VK-AA-WGKV-----GAHAGEYGAEALE-RMFLSF----P-TTKTY--FPHF--...
+    ||-|--|----|----|--|--||||-----|---||--|--|--|--|------|-|------|--|--...
+    MVHL-TP--EEK--SAV-TA-LWGKVNVDEVG---GE--A--L-GR--L--LVVYPWT----QRF--FES...
+
+Better alignments are usually obtained by penalizing gaps: higher costs
+for opening a gap and lower costs for extending an existing gap. For
+amino acid sequences match scores are usually encoded in matrices like
+``PAM`` or ``BLOSUM``. Thus, a more meaningful alignment for our example
+can be obtained by using the BLOSUM62 matrix, together with a gap open
+penalty of 10 and a gap extension penalty of 0.5:
+
+::
+
+    >>> from Bio import Align
+    >>> from Bio import SeqIO
+    >>> from Bio.SubsMat.MatrixInfo import blosum62
+    >>> seq1 = SeqIO.read("alpha.faa", "fasta")
+    >>> seq2 = SeqIO.read("beta.faa", "fasta")
+    >>> aligner = Align.PairwiseAligner()
+    >>> aligner.open_gap_score = -10
+    >>> aligner.extend_gap_score = -0.5
+    >>> aligner.substitution_matrix = blosum62
+    >>> score = aligner.score(seq1.seq, seq2.seq)
+    >>> print(score)
+    292.5
+    >>> alignments = aligner.align(seq1.seq, seq2.seq)
+    >>> len(alignments)
+    2
+    >>> print(alignments[0].score)
+    292.5
+
+::
+
+    >>> print(alignments[0])
+    MV-LSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHF-DLS-----HGSAQVKGHGKKV...
+    ||-|X|XX|XX|X|X||||--XXX|X|X|||X|XXXXX|X|XXX|XX|-|||---- X|XXX||X|||||...
+    MVHLTPEEKSAVTALWGKV--NVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKV...
+
+This alignment has the same score that we obtained earlier with EMBOSS
+needle using the same sequences and the same parameters.
+
+To perform a local alignment, set ``aligner.mode`` to ``'local'``:
+
+::
+
+    >>> aligner.mode = 'local'
+    >>> aligner.open_gap_score = -10
+    >>> aligner.extend_gap_score = -1
+    >>> alignments = aligner.align("LSPADKTNVKAA", "PEEKSAV")
+    >>> print(len(alignments))
+    1
+    >>> alignment = alignments[0]
+    >>> print(alignment)
+    LSPADKTNVKAA
+    ..|XX|XX|...
+    ..PEEKSAV...
+    <BLANKLINE>
+    >>> print(alignment.score)
+    16.0
